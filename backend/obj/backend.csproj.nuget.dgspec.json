@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\repos\\portfolio-tracker\\myapp\\myapp.csproj": {}
+    "E:\\repos\\portfolio-tracker\\backend\\backend.csproj": {}
   },
   "projects": {
-    "E:\\repos\\portfolio-tracker\\myapp\\myapp.csproj": {
+    "E:\\repos\\portfolio-tracker\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\repos\\portfolio-tracker\\myapp\\myapp.csproj",
-        "projectName": "myapp",
-        "projectPath": "E:\\repos\\portfolio-tracker\\myapp\\myapp.csproj",
+        "projectUniqueName": "E:\\repos\\portfolio-tracker\\backend\\backend.csproj",
+        "projectName": "backend",
+        "projectPath": "E:\\repos\\portfolio-tracker\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\aznga\\.nuget\\packages\\",
-        "outputPath": "E:\\repos\\portfolio-tracker\\myapp\\obj\\",
+        "outputPath": "E:\\repos\\portfolio-tracker\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\aznga\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -37,6 +37,16 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[5.0.9, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[5.6.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -48,6 +58,9 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
