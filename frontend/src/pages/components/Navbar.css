@@ -1,0 +1,27 @@
+nav {
+  display: block;
+  width: 100%;
+  background-color: rgb(128, 135, 141);
+  height: 70px;
+}
+.b {
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;
+  background-color: rgb(250, 250, 250,0);
+  display: block;
+  text-decoration: none;
+  color: white;
+  border: 2px solid white;
+  font-size: 15px;
+  padding: 10px 20px;
+  transition: all 0.6s;
+  animation: fade 4s ease-in;
+}
+.b:hover{
+  color: white;
+  transition: all 0.5s;
+  background-color: rgb(20, 89, 145);
+  border: 2px solid rgb(20, 89, 145);
+  cursor: pointer;
+}
