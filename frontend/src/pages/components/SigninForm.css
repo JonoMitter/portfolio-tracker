@@ -1,0 +1,19 @@
+.Login {
+  margin: auto;
+  width: 400px;
+  height: 400px;
+  vertical-align: middle;
+  background-color: pink;
+}
+.Login form {
+  display: block;
+  text-align: left;
+  position: relative;
+}
+.inputLabel {
+  font-size: 20px;
+  margin-right: 20px;
+}
+.formGroup {
+  margin-top: 20px;
+}

@@ -1,27 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 nav {
-  display: block;
   width: 100%;
-  background-color: rgb(128, 135, 141);
-  height: 70px;
+  background-color: rgb(33,33,33);
+  height: 80px;
+  position:relative;
 }
-.b {
+.navbar-title{
+  margin-top: 0;
+  color:white;
+  text-decoration: none;
+}
+.b0,.b1 {
+  font-family: 'Staatliches';
   float: right;
   margin-right: 20px;
-  margin-top: 10px;
-  background-color: rgb(250, 250, 250,0);
+  margin-top: 20px;
   display: block;
+  width: 60px;
+  height: 20px;
   text-decoration: none;
-  color: white;
-  border: 2px solid white;
-  font-size: 15px;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  letter-spacing: 0.1em;
   padding: 10px 20px;
-  transition: all 0.6s;
-  animation: fade 4s ease-in;
+  transition: ease 0.4s;
+  border-radius: 2px;
+
 }
-.b:hover{
-  color: white;
+.b0{
+  background-color: rgb(218, 64, 151);
+}
+.b1{
+  background-color: rgb(36, 212, 207);
+}
+.b0:hover{
+  color: rgb(255, 255, 255);
   transition: all 0.5s;
-  background-color: rgb(20, 89, 145);
-  border: 2px solid rgb(20, 89, 145);
+  background-color: rgb(36, 212, 207);
+  cursor: pointer;
+}
+.b1:hover{
+  color: rgb(255, 255, 255);
+  transition: all 0.5s;
+  background-color: rgb(218, 64, 151);
   cursor: pointer;
 }

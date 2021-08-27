@@ -8,9 +8,9 @@ export default class Navbar extends React.Component {
   render() {
     return (
       <nav>
-        Portfolio tracker
-        <Link class ="b" to= '/signup'>Sign up</Link>
-        <Link class ="b" to= '/login'>Login</Link>
+        <Link class="navbar-title" to='/'>Portfolio tracker</Link>
+        <Link class ="b0" to= '/signup'>Sign up</Link>
+        <Link class ="b1" to= '/signin'>Sign in</Link>
       </nav>
     );
   }

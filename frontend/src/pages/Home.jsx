@@ -1,16 +1,14 @@
 import React from "react";
-import Navbar from './components/Navbar';
+import "./styles/Home.css";
 export default class home extends React.Component {
   constructor(props) {
-      super()
+    super();
   }
   render() {
     return (
-        <section>
-            <Navbar/>
-            <h1>Home page</h1>
-        </section>
-    )
-    
+      <section class="home">
+          <h1 class="home-title">Home page</h1>
+      </section>
+    );
   }
 }
