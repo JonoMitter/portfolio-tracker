@@ -1,25 +1,25 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using backend.Services;
+using System;
 using System.Collections.Generic;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class StockController : ControllerBase
     {
         [HttpGet]
-        public List<User> getUsers()
+        public List<Stock> GetStocks()
         {
-            return UserService.GetAll();
+            return StockService.GetAll();
         }
 
         [HttpGet("{id}")]
-        public User getUser(int id)
+        public Stock GetStock(int id)
         {
-            return UserService.Get(id);
+            return StockService.Get(id);
         }
     }
 }

@@ -18,9 +18,9 @@ namespace backend.Services
             };
         }
 
-        public static List<User> getAll() => Users;
+        public static List<User> GetAll() => Users;
 
-        public static User getUser(int id) => Users.FirstOrDefault(user => user.User_Id == id);
+        public static User Get(int id) => Users.FirstOrDefault(user => user.User_Id == id);
 
         public static void Add(User user)
         {
@@ -30,7 +30,7 @@ namespace backend.Services
 
         public static void Delete(int id)
         {
-            var user = getUser(id);
+            var user = Get(id);
             if (user is null)
                 return;
 
