@@ -1,0 +1,17 @@
+
+backend/bin/Debug/net5.0/backend.exe
+*.dll
+*.cache
+*.pdb
+*.cache
+*.cache
+backend/bin/Debug/net5.0/backend.runtimeconfig.dev.json
+backend/obj/backend.csproj.nuget.dgspec.json
+backend/obj/backend.csproj.nuget.g.props
+backend/obj/Debug/net5.0/apphost.exe
+backend/obj/Debug/net5.0/Backend.assets.cache
+*.cache
+backend/obj/Debug/net5.0/backend.csproj.AssemblyReference.cache
+*.CopyComplete
+backend/obj/Debug/net5.0/backend.csproj.FileListAbsolute.txt
+backend/obj/Debug/net5.0/backend.csproj.AssemblyReference.cache
