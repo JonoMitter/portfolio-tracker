@@ -1,0 +1,5 @@
+
+backend/obj/Debug/net5.0/backend.csproj.AssemblyReference.cache
+*.dll
+*.exe
+backend/bin/Debug/net5.0/backend.exe
