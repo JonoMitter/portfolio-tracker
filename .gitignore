@@ -16,3 +16,10 @@ backend/obj/Debug/net5.0/backend.csproj.AssemblyReference.cache
 backend/obj/Debug/net5.0/backend.csproj.FileListAbsolute.txt
 backend/obj/Debug/net5.0/backend.csproj.AssemblyReference.cache
 backend/bin/Debug/net5.0/backend.exe
+backend/bin/Debug/net5.0/backend.dll
+backend/bin/Debug/net5.0/ref/backend.dll
+backend/bin/Debug/net5.0/backend.runtimeconfig.dev.json
+backend/bin/Debug/net5.0/backend.pdb
+backend/bin/Debug/net5.0/backend.exe
+backend/bin/Debug/net5.0/backend.dll
+backend/obj/Debug/net5.0/project.razor.json
