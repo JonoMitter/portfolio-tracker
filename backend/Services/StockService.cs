@@ -13,8 +13,8 @@ namespace backend.Services
         {
             Stocks = new List<Stock>
             {
-                new Stock { Holding_Id = 1, User_Id = 1, Code = "NAB", Name = "National Australia Bank", Units = 10, Purchase_Price = (float) 25.30},
-                new Stock { Holding_Id = 2, User_Id = 2, Code = "CBA", Name = "Commonwealth Bank", Units = 5, Purchase_Price = (float) 30.20}
+                new Stock { Holding_Id = 1, User_Id = 1, Code = "NAB", Name = "National Australia Bank", Units = 10, Purchase_Price = (float) 25.30 },
+                new Stock { Holding_Id = 2, User_Id = 2, Code = "CBA", Name = "Commonwealth Bank", Units = 5, Purchase_Price = (float) 30.20 }
             };
         }
 
