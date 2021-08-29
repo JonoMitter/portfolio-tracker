@@ -15,3 +15,4 @@ backend/obj/Debug/net5.0/backend.csproj.AssemblyReference.cache
 *.CopyComplete
 backend/obj/Debug/net5.0/backend.csproj.FileListAbsolute.txt
 backend/obj/Debug/net5.0/backend.csproj.AssemblyReference.cache
+backend/bin/Debug/net5.0/backend.exe
