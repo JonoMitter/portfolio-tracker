@@ -13,8 +13,8 @@ namespace backend.Services
         {
             Users = new List<User>
             {
-                new User { User_Id = 1, FirstName = "Thomas", Password = "tomisfogg123" },
-                new User { User_Id = 2, FirstName = "Luke", Password = "ollyisround123" }
+                new User { User_Id = 1, FirstName = "Thomas", Password = "tomisfogg123", Email = "tomfogg@gmail.com"},
+                new User { User_Id = 2, FirstName = "Luke", Password = "ollyisround123", Email = "lukesapwell@gmail.com" }
             };
         }
 

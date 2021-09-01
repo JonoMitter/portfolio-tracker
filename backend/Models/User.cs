@@ -6,6 +6,7 @@ namespace backend.Models
     {
         // public Guid User_Id { get; set; }
         public int User_Id { get; set; }
+        public string Email { get; set; }
         public string FirstName { get; set; }
         public string Password { get; set; }
         
