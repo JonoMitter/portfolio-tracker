@@ -9,7 +9,6 @@ namespace backend.Services
     {
 
         static List<Stock> Stocks { get; }
-        // static int nextId = 3;
         static StockService()
         {
             Stocks = new List<Stock>

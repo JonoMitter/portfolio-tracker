@@ -10,9 +10,6 @@ namespace backend.Services
     {
 
         static List<User> Users { get; }
-        // static int nextId = 3;
-
-        // static Guid nextId = Guid.NewGuid();
         static UserService()
         {
             Users = new List<User>
