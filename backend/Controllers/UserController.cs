@@ -11,15 +11,54 @@ namespace backend.Controllers
     public class UserController : ControllerBase
     {
         [HttpGet]
-        public List<User> getUsers()
+        public List<User> GetAll()
         {
             return UserService.GetAll();
         }
 
-        [HttpGet("{id}")]
-        public User getUser(int id)
+        [HttpGet("{email}")]
+        public User Get(string email)
         {
-            return UserService.Get(id);
+            return UserService.Get(email);
+        }
+
+        [HttpPost]
+        public IActionResult Create(User user)
+        {
+            UserService.Add(user);
+            return CreatedAtAction(nameof(Create), new { id = user.User_Id }, user);
+        }
+
+        [HttpPut("{email}")]
+        public IActionResult Update(string email, User user)
+        {   
+            if( email != user.Email){
+                return BadRequest();
+            }
+
+            var existingUser = UserService.Get(email);
+
+            if(existingUser is null){
+                return NotFound();
+            }
+
+            UserService.Update(user);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{email}")]
+        public IActionResult Delete(string email)
+        {   
+            var user = UserService.Get(email);
+
+            if(user is null){
+                return NotFound();
+            }
+
+            UserService.Delete(email);
+
+            return NoContent();
         }
     }
 }

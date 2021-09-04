@@ -13,14 +13,14 @@ namespace backend.Services
         {
             Users = new List<User>
             {
-                new User { User_Id = 1, FirstName = "Thomas", Password = "tomisfogg123", Email = "tomfogg@gmail.com"},
+                new User { User_Id = 1, FirstName = "Thomas", Password = "tomisfogg123", Email = "tomfogg@gmail.com" },
                 new User { User_Id = 2, FirstName = "Luke", Password = "ollyisround123", Email = "lukesapwell@gmail.com" }
             };
         }
 
         public static List<User> GetAll() => Users;
 
-        public static User Get(int id) => Users.FirstOrDefault(user => user.User_Id == id);
+        public static User Get(string Email) => Users.FirstOrDefault(user => user.Email == Email);
 
         public static void Add(User user)
         {
@@ -28,9 +28,9 @@ namespace backend.Services
             Users.Add(user);
         }
 
-        public static void Delete(int id)
+        public static void Delete(string Email)
         {
-            var user = Get(id);
+            var user = Get(Email);
             if (user is null)
                 return;
 
@@ -39,7 +39,7 @@ namespace backend.Services
 
         public static void Update(User user)
         {
-            var index = Users.FindIndex(userIt => userIt.User_Id == user.User_Id);
+            var index = Users.FindIndex(userIt => userIt.Email == user.Email);
             if (index == -1)
                 return;
 
