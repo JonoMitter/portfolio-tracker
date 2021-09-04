@@ -16,10 +16,16 @@ namespace backend.Controllers
             return StockService.GetAll();
         }
 
-        [HttpGet("{id}")]
-        public Stock GetStock(int id)
+        // [HttpGet("{id}")]
+        // public Stock GetStock(Guid id)
+        // {
+        //     return StockService.Get(id);
+        // }
+
+        [HttpGet("{User_Id}")]
+        public List<Stock> GetStocks(Guid User_Id)
         {
-            return StockService.Get(id);
+            return StockService.GetHoldings(User_Id);
         }
     }
 }

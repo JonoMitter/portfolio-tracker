@@ -34,10 +34,13 @@ namespace backend
             // {
             //     c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
             // });
-            services.AddDbContext<DataContext>(opt => 
-            {
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+
+            services.AddDbContext<DataContext>(opt => {
+                opt.UseInMemoryDatabase("testingDB");
+                // opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")); 
             });
+            
+                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

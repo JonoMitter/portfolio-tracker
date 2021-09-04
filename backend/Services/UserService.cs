@@ -1,4 +1,6 @@
 using backend.Models;
+using backend.Persistence;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,13 +10,15 @@ namespace backend.Services
     {
 
         static List<User> Users { get; }
-        static int nextId = 3;
+        // static int nextId = 3;
+
+        // static Guid nextId = Guid.NewGuid();
         static UserService()
         {
             Users = new List<User>
             {
-                new User { User_Id = 1, FirstName = "Thomas", Password = "tomisfogg123", Email = "tomfogg@gmail.com" },
-                new User { User_Id = 2, FirstName = "Luke", Password = "ollyisround123", Email = "lukesapwell@gmail.com" }
+                new User { User_Id = new Guid("5C60F693-BEF5-E011-A485-80EE7300C695"), FirstName = "Thomas", Password = "tomisfogg123", Email = "tomfogg@gmail.com" },
+                new User { User_Id = new Guid("05c1487e-bac5-4855-8875-78ff81daa720"), FirstName = "Luke", Password = "ollyisround123", Email = "lukesapwell@gmail.com" }
             };
         }
 
@@ -24,8 +28,8 @@ namespace backend.Services
 
         public static void Add(User user)
         {
-            user.User_Id = nextId++;
-            Users.Add(user);
+            user.User_Id = Guid.NewGuid();
+            Users.Add(user);    
         }
 
         public static void Delete(string Email)

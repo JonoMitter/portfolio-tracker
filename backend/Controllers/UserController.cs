@@ -25,13 +25,27 @@ namespace backend.Controllers
         [HttpPost]
         public IActionResult Create(User user)
         {
-            UserService.Add(user);
+            if(user.Email != null & user.FirstName != null & user.Password !=null){
+                if(Get(user.Email) is null){
+                    UserService.Add(user);
+                }
+
+                else{
+                    return BadRequest("Email already in use");
+                }
+            }
+
+            else{
+                return BadRequest("Values for Email, FirstName, or Password missing");
+            }
+
             return CreatedAtAction(nameof(Create), new { id = user.User_Id }, user);
         }
 
         [HttpPut("{email}")]
         public IActionResult Update(string email, User user)
         {   
+
             if( email != user.Email){
                 return BadRequest();
             }
