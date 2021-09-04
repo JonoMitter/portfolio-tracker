@@ -87,7 +87,7 @@ namespace backend.Controllers
 
             UserService.Delete(email);
 
-            return NoContent();
+            return Ok();
         }
 
         public Boolean ValidateUserCreation(User user)

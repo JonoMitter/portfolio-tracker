@@ -40,9 +40,13 @@ namespace backend.Services
 
         }
 
-        public static void Delete(int id)
+        public static void Delete(Guid id)
         {
-
+            var stockId = Get(id);
+            if(stockId is null){
+                return;
+            }
+            Stocks.Remove(stockId);
         }
 
         public static void Update(Stock stock)

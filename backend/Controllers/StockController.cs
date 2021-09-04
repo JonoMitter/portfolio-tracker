@@ -27,5 +27,21 @@ namespace backend.Controllers
         {
             return StockService.GetHoldings(User_Id);
         }
+
+
+         [HttpDelete("{Holding_Id}")]
+        public IActionResult Delete(Guid Holding_Id)
+        {
+            var tmpStock = StockService.Get(Holding_Id);
+            
+            if (tmpStock is null)
+            {
+                return NotFound();
+            }
+
+            StockService.Delete(Holding_Id);
+
+            return Ok();
+        }
     }
 }
