@@ -26,7 +26,7 @@ namespace backend.Services
         public static void Add(User user)
         {
             user.User_Id = Guid.NewGuid();
-            Users.Add(user);    
+            Users.Add(user);
         }
 
         public static void Delete(string Email)
@@ -44,7 +44,9 @@ namespace backend.Services
             if (index == -1)
                 return;
 
+            user.User_Id = Users[index].User_Id;
             Users[index] = user;
+            
         }
     }
 }

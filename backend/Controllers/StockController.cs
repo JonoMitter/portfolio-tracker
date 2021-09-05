@@ -43,6 +43,18 @@ namespace backend.Controllers
 
             }
         }
+        [HttpPut("{Holding_Id}")]
+
+        public IActionResult update(Guid Holding_Id, Stock stock)
+        {
+            if (ValidateStock(stock) is true)
+            {
+                stock.Holding_Id = Holding_Id;
+                StockService.Update(stock);
+                return Ok();
+            }
+            return BadRequest();
+        }
         [HttpDelete("{Holding_Id}")]
         public IActionResult Delete(Guid Holding_Id)
         {

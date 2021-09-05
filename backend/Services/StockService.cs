@@ -52,7 +52,13 @@ namespace backend.Services
 
         public static void Update(Stock stock)
         {
-
+            var index = Stocks.FindIndex(stockIt => stockIt.Holding_Id == stock.Holding_Id);
+            if(index == -1){
+                return;
+            }
+            Console.WriteLine(stock.Holding_Id);
+            stock.Holding_Id = Stocks[index].Holding_Id;
+            Stocks[index] = stock;
         }
     }
 }

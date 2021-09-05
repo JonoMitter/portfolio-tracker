@@ -69,7 +69,6 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
-
             UserService.Update(user);
 
             return NoContent();
