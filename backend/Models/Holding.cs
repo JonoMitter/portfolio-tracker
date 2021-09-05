@@ -7,7 +7,9 @@ namespace backend.Models
     {
         [Key]
         public Guid Holding_Id { get; set; }
-        public Guid User_Id { get; set; }
+        // public Guid User_Id { get; set; }
+
+        public User User { get; set; }
 
     }
 }

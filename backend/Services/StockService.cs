@@ -14,10 +14,10 @@ namespace backend.Services
             Stocks = new List<Stock>
             {
                 //TODO
-                //assign User_Id to a valid
-                new Stock { Holding_Id = Guid.NewGuid(), User_Id = new Guid("5C60F693-BEF5-E011-A485-80EE7300C695"), Code = "NAB", Name = "National Australia Bank", Units = 10, Purchase_Price = (float) 25.30 },
-                new Stock { Holding_Id = Guid.NewGuid(), User_Id = new Guid("5C60F693-BEF5-E011-A485-80EE7300C695"), Code = "CBA", Name = "Commonwealth Bank", Units = 5, Purchase_Price = (float) 30.20 },
-                new Stock { Holding_Id = Guid.NewGuid(), User_Id = new Guid("05c1487e-bac5-4855-8875-78ff81daa720"), Code = "ANZ", Name = "ANZ Bank", Units = 2, Purchase_Price = (float) 22.81 }
+                //assign User_Id to an existing user
+                new Stock { Holding_Id = Guid.NewGuid(), Code = "NAB", Name = "National Australia Bank", Units = 10, Purchase_Price = (float) 25.30 },
+                new Stock { Holding_Id = Guid.NewGuid(), Code = "CBA", Name = "Commonwealth Bank", Units = 5, Purchase_Price = (float) 30.20 },
+                new Stock { Holding_Id = Guid.NewGuid(), Code = "ANZ", Name = "ANZ Bank", Units = 2, Purchase_Price = (float) 22.81 }
             };
         }
 
@@ -28,7 +28,7 @@ namespace backend.Services
         public static List<Stock> GetHoldings(Guid user_Id) {
             List<Stock> userHoldings = new List<Stock>();
             foreach(Stock stock in Stocks){
-                if(stock.User_Id == user_Id){
+                if(stock.User.User_Id == user_Id){
                     userHoldings.Add(stock);
                 }
             }

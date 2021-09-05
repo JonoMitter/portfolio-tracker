@@ -16,9 +16,6 @@ namespace backend.Persistence
         public DbSet<Stock> stock { get; set; }
         public DbSet<Super> super { get; set; }
 
-        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
-        //     optionsBuilder.UseInMemoryDatabase("testDB");
-        // }
     }
     
 }

@@ -12,7 +12,7 @@ namespace backend.Models
         public string FirstName { get; set; }
         public string Password { get; set; }
 
-        //User has 0 to Many holdings
+        //  User has Zero to Many holdings
         public ICollection<Holding> Holdings { get; set; }
         
     }
