@@ -105,7 +105,7 @@ namespace backend.Controllers
             {
                 return false;
             }
-            if(user.Password.Length < 4 || user.Password.Length < 4){
+            if(user.Password.Length < 4 || user.confirmPassword.Length < 4){
                 return false;
             }
             if(!(user.Password.Equals(user.confirmPassword))){
