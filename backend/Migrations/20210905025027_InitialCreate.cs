@@ -14,7 +14,8 @@ namespace backend.Migrations
                     User_Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
                     FirstName = table.Column<string>(type: "TEXT", nullable: true),
-                    Password = table.Column<string>(type: "TEXT", nullable: true)
+                    Password = table.Column<string>(type: "TEXT", nullable: true),
+                    ConfirmPassword = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

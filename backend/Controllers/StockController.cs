@@ -28,12 +28,26 @@ namespace backend.Controllers
             return StockService.GetHoldings(User_Id);
         }
 
+        [HttpPost]
+        public IActionResult AddStock(Stock stock)
+        {
 
-         [HttpDelete("{Holding_Id}")]
+            if (ValidateStock(stock) is true)
+            {
+                StockService.Add(stock);
+                return CreatedAtAction(nameof(AddStock), new { id = stock.Holding_Id }, stock);
+            }
+            else
+            {
+                return BadRequest("Values for code, name, units or purchase price is invalid.");
+
+            }
+        }
+        [HttpDelete("{Holding_Id}")]
         public IActionResult Delete(Guid Holding_Id)
         {
             var tmpStock = StockService.Get(Holding_Id);
-            
+
             if (tmpStock is null)
             {
                 return NotFound();
@@ -42,6 +56,18 @@ namespace backend.Controllers
             StockService.Delete(Holding_Id);
 
             return Ok();
+        }
+        public Boolean ValidateStock(Stock stock)
+        {
+            if (stock.Name.Length < 2 || stock.Units.Equals(null) || stock.Purchase_Price.Equals(null))
+            {
+                return false;
+            }
+            if (stock.Code.Length != 3 || stock.Units < 1 || stock.Purchase_Price < 0.01)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

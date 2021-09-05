@@ -93,7 +93,7 @@ namespace backend.Controllers
         public Boolean ValidateUserCreation(User user)
         {
             //checks for empty values
-            if (user.Email is null || user.Password is null || user.FirstName is null)
+            if (user.Email.Length < 1 || user.FirstName.Length < 2)
             {
                 return false;
             }
@@ -105,7 +105,10 @@ namespace backend.Controllers
             {
                 return false;
             }
-            if(user.Password.Length < 4){
+            if(user.Password.Length < 4 || user.Password.Length < 4){
+                return false;
+            }
+            if(!(user.Password.Equals(user.confirmPassword))){
                 return false;
             }
             return true;

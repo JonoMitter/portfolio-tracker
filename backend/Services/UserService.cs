@@ -14,8 +14,8 @@ namespace backend.Services
         {
             Users = new List<User>
             {
-                new User { User_Id = new Guid("5C60F693-BEF5-E011-A485-80EE7300C695"), FirstName = "Thomas", Password = "tomisfogg123", Email = "tomfogg@gmail.com" },
-                new User { User_Id = new Guid("05c1487e-bac5-4855-8875-78ff81daa720"), FirstName = "Luke", Password = "ollyisround123", Email = "lukesapwell@gmail.com" }
+                new User { User_Id = new Guid("5C60F693-BEF5-E011-A485-80EE7300C695"), FirstName = "Thomas", Password = "tomisfogg123", confirmPassword="tomisfogg123", Email = "tomfogg@gmail.com" },
+                new User { User_Id = new Guid("05c1487e-bac5-4855-8875-78ff81daa720"), FirstName = "Luke", Password = "ollyisround123", confirmPassword= "ollyisround123", Email = "lukesapwell@gmail.com" }
             };
         }
 

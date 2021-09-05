@@ -37,7 +37,8 @@ namespace backend.Services
 
         public static void Add(Stock stock)
         {
-
+            stock.Holding_Id = Guid.NewGuid();
+            Stocks.Add(stock);
         }
 
         public static void Delete(Guid id)
