@@ -104,12 +104,12 @@ namespace backend.Controllers
             {
                 return false;
             }
-            if(user.Password.Length < 4 || user.confirmPassword.Length < 4){
-                return false;
-            }
-            if(!(user.Password.Equals(user.confirmPassword))){
-                return false;
-            }
+            // if(user.Password.Length < 4 || user.confirmPassword.Length < 4){
+            //     return false;
+            // }
+            // if(!(user.Password.Equals(user.confirmPassword))){
+            //     return false;
+            // }
             return true;
         }
     }
