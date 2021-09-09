@@ -13,7 +13,7 @@ namespace backend.Models
         public string Password { get; set; }
 
         //  User has Zero to Many holdings
-        public ICollection<Holding> Holdings { get; set; }
+        // public ICollection<Holding> Holdings { get; set; }
         
     }
 }

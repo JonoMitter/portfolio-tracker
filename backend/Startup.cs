@@ -36,7 +36,6 @@ namespace backend
             // });
 
             services.AddDbContext<DataContext>(opt => {
-                // opt.UseInMemoryDatabase("testingDB");
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")); 
             });
             

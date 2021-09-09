@@ -28,7 +28,7 @@ namespace backend.Services
         public static List<Stock> GetHoldings(Guid user_Id) {
             List<Stock> userHoldings = new List<Stock>();
             foreach(Stock stock in Stocks){
-                if(stock.User.User_Id == user_Id){
+                if(stock.User_Id == user_Id){
                     userHoldings.Add(stock);
                 }
             }
