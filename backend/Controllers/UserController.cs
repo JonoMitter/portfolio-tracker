@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using backend.Services;
 using System.Collections.Generic;
+using backend.Persistence;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -10,20 +13,31 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly DataContext context;
 
-        
+        public UserController(DataContext dataContext)
+        {
+            this.context = dataContext;
+        }
 
         [HttpGet]
-        public List<User> GetAll()
+        public async Task<ActionResult<List<User>>> GetUsers()
         {
-            return UserService.GetAll();
+            return await context.user.ToListAsync();
+            // return UserService.GetAll();
         }
 
-        [HttpGet("{email}")]
-        public User Get(string email)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(Guid id)
         {
-            return UserService.Get(email);
+            return await context.user.FindAsync(id);
         }
+
+        // [HttpGet("{email}")]
+        // public User GetUser(string email)
+        // {
+        //     return UserService.Get(email);
+        // }
 
         [HttpPost]
         public IActionResult Create(User user)
@@ -100,10 +114,10 @@ namespace backend.Controllers
             {
                 return false;
             }
-            if (!(Get(user.Email) is null))
-            {
-                return false;
-            }
+            // if (!(GetUser(user.Email) is null))
+            // {
+            //     return false;
+            // }
             // if(user.Password.Length < 4 || user.confirmPassword.Length < 4){
             //     return false;
             // }
