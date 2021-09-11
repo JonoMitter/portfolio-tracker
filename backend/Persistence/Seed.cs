@@ -10,7 +10,7 @@ namespace backend.Persistence
     {
         public static async Task SeedData(DataContext context)
         {
-            if (!context.user.Any())
+            if (!context.User.Any())
             {
                 var users = new List<User>
                 {
@@ -36,10 +36,10 @@ namespace backend.Persistence
                         Email = "lukesapwell@gmail.com"
                     }
                 };
-                await context.user.AddRangeAsync(users);
+                await context.User.AddRangeAsync(users);
             }
 
-            if (!context.stock.Any())
+            if (!context.Stock.Any())
             {
                 var stocks = new List<Stock>{
                     new Stock{
@@ -59,7 +59,7 @@ namespace backend.Persistence
                         Purchase_Price = 5.61F
                     }
                 };
-                await context.stock.AddRangeAsync(stocks);
+                await context.Stock.AddRangeAsync(stocks);
 
             }      
 

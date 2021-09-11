@@ -20,25 +20,32 @@ namespace backend.Controllers
             this.context = dataContext;
         }
 
+
+        //  takes from database
         [HttpGet]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
-            return await context.user.ToListAsync();
+            return await context.User.ToListAsync();
             // return UserService.GetAll();
         }
 
+        //takes from database
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(Guid id)
         {
-            return await context.user.FindAsync(id);
+            return await context.User.FindAsync(id);
         }
 
+
+        //  from hard coded array
         // [HttpGet("{email}")]
         // public User GetUser(string email)
         // {
         //     return UserService.Get(email);
         // }
 
+
+        //  from hard coded array
         [HttpPost]
         public IActionResult Create(User user)
         {
@@ -68,6 +75,7 @@ namespace backend.Controllers
             }
         }
 
+        //  from hard coded array
         [HttpPut("{email}")]
         public IActionResult Update(string email, User user)
         {
@@ -88,6 +96,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
+        //  from hard coded array
         [HttpDelete("{email}")]
         public IActionResult Delete(string email)
         {
