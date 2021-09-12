@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using backend.Services;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+using backend.Helpers;
 using System.Threading.Tasks;
 
 namespace backend.Controllers
@@ -13,9 +13,11 @@ namespace backend.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService userService;
-        public UserController(UserService userService)
+        private readonly JwtService jwtService;
+        public UserController(UserService userService, JwtService jwtService)
         {
             this.userService = userService;
+            this.jwtService = jwtService;
         }
 
         [HttpGet]
@@ -25,7 +27,8 @@ namespace backend.Controllers
             return list;
         }
         [HttpGet("{id}")]
-        public IActionResult getUserById(Guid id){
+        public IActionResult getUserById(Guid id)
+        {
             User tmpUser = userService.getbyId(id);
             return Ok(tmpUser);
         }
@@ -42,17 +45,21 @@ namespace backend.Controllers
                 return BadRequest("Values for Email, Firstname, password are invalid");
             }
         }
-        [HttpPost(template:"login")]
-        public IActionResult Login(User user){
+        [HttpPost(template: "login")]
+        public IActionResult Login(User user)
+        {
             User tmpUser = userService.getbyEmail(user.Email);
-            if(tmpUser == null){
+            if (tmpUser == null)
+            {
                 return BadRequest("Invalid credentials");
             }
-            if(!BCrypt.Net.BCrypt.Verify(user.Password, tmpUser.Password)){
+            if (!BCrypt.Net.BCrypt.Verify(user.Password, tmpUser.Password))
+            {
                 return BadRequest("Invalid credentials");
             }
-            return Ok(tmpUser);
-            
+            var jwt = jwtService.Generate(user.User_Id);
+            return Ok(new {jwt});
+
         }
         //  from hard coded array
         // [HttpPut("{email}")]
@@ -76,9 +83,10 @@ namespace backend.Controllers
         // }
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
-        {   
+        {
             User tmpUser = userService.getbyId(id);
-            if(tmpUser is null){
+            if (tmpUser is null)
+            {
                 return BadRequest("User not found :(");
             }
             userService.deleteById(id);
