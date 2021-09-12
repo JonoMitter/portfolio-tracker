@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using backend.Services;
 using System.Collections.Generic;
-using backend.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -13,60 +12,29 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly DataContext context;
-
-        public UserController(DataContext dataContext)
+        private readonly UserService userService;
+        public UserController(UserService userService)
         {
-            this.context = dataContext;
+            this.userService = userService;
         }
 
-
-        //  takes from database
         [HttpGet]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
-            return await context.User.ToListAsync();
-            // return UserService.GetAll();
+            List<User> list = await Task.Run(() => userService.GetUsers());
+            return list;
         }
-
-        //takes from database
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(Guid id)
-        {
-            return await context.User.FindAsync(id);
+        public IActionResult getUserById(Guid id){
+            User tmpUser = userService.getbyId(id);
+            return Ok(tmpUser);
         }
-
-
-        //  from hard coded array
-        // [HttpGet("{email}")]
-        // public User GetUser(string email)
-        // {
-        //     return UserService.Get(email);
-        // }
-
-
-        //  from hard coded array
-        [HttpPost]
+        [HttpPost(template: "register")]
         public IActionResult Create(User user)
         {
-            // if(user.Email != null & user.FirstName != null & user.Password !=null){
-            //     if(Get(user.Email) is null){
-            //         UserService.Add(user);
-            //     }
-
-            //     else{
-            //         return BadRequest("Email already in use");
-            //     }
-            // }
-
-            // else{
-            //     return BadRequest("Values for Email, FirstName, or Password missing");
-            // }
             if (ValidateUserCreation(user) is true)
-            {   
-                //adds user to user Service
-                UserService.Add(user);
-                //returns a created status in postman (doesnt add to User service)
+            {
+                userService.Create(user);
                 return CreatedAtAction(nameof(Create), new { id = user.User_Id }, user);
             }
             else
@@ -74,44 +42,48 @@ namespace backend.Controllers
                 return BadRequest("Values for Email, Firstname, password are invalid");
             }
         }
-
-        //  from hard coded array
-        [HttpPut("{email}")]
-        public IActionResult Update(string email, User user)
-        {
-
-            if (email != user.Email)
-            {
-                return BadRequest();
+        [HttpPost(template:"login")]
+        public IActionResult Login(User user){
+            User tmpUser = userService.getbyEmail(user.Email);
+            if(tmpUser == null){
+                return BadRequest("Invalid credentials");
             }
-
-            var existingUser = UserService.Get(email);
-
-            if (existingUser is null)
-            {
-                return NotFound();
+            if(!BCrypt.Net.BCrypt.Verify(user.Password, tmpUser.Password)){
+                return BadRequest("Invalid credentials");
             }
-            UserService.Update(user);
-
-            return NoContent();
+            return Ok(tmpUser);
+            
         }
-
         //  from hard coded array
-        [HttpDelete("{email}")]
-        public IActionResult Delete(string email)
-        {
-            var user = UserService.Get(email);
+        // [HttpPut("{email}")]
+        // public IActionResult Update(string email, User user)
+        // {
 
-            if (user is null)
-            {
-                return NotFound();
+        //     if (email != user.Email)
+        //     {
+        //         return BadRequest();
+        //     }
+
+        //     var existingUser = UserService.Get(email);
+
+        //     if (existingUser is null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     UserService.Update(user);
+
+        //     return NoContent();
+        // }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
+        {   
+            User tmpUser = userService.getbyId(id);
+            if(tmpUser is null){
+                return BadRequest("User not found :(");
             }
-
-            UserService.Delete(email);
-
-            return Ok();
+            userService.deleteById(id);
+            return Ok(id + "has been Successfully deleted");
         }
-
         public Boolean ValidateUserCreation(User user)
         {
             //checks for empty values
@@ -123,16 +95,6 @@ namespace backend.Controllers
             {
                 return false;
             }
-            // if (!(GetUser(user.Email) is null))
-            // {
-            //     return false;
-            // }
-            // if(user.Password.Length < 4 || user.confirmPassword.Length < 4){
-            //     return false;
-            // }
-            // if(!(user.Password.Equals(user.confirmPassword))){
-            //     return false;
-            // }
             return true;
         }
     }
