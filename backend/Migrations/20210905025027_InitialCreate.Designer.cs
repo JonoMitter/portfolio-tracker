@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Persistence;
+using backend.Models;
 
 namespace backend.Migrations
 {
@@ -54,7 +55,6 @@ namespace backend.Migrations
 
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
-
                     b.HasKey("User_Id");
 
                     b.ToTable("user");
