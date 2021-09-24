@@ -5,7 +5,9 @@ using backend.Services;
 using System.Collections.Generic;
 using backend.Helpers;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace backend.Controllers
 {
     [ApiController]
@@ -21,6 +23,7 @@ namespace backend.Controllers
         }
 
         [HttpGet]
+        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
             List<User> list = await Task.Run(() => userService.GetUsers());
@@ -58,9 +61,41 @@ namespace backend.Controllers
                 return BadRequest("Invalid credentials");
             }
             var jwt = jwtService.Generate(user.User_Id);
-            return Ok(new {jwt});
 
+            Response.Cookies.Append(key: "jwt", value: jwt, new CookieOptions
+            {
+                HttpOnly = true
+            });
+            return Ok(new
+            {   
+                jwt,
+                message = "success"
+            });
         }
+
+        //gets user from Cookie validates it and searches for user by id
+        // [HttpGet(template: "oneuser")]
+        // public IActionResult UserCookie()
+        // {
+        //     try
+        //     {
+        //         var jwt = Request.Cookies["jwt"];
+        //         // Console.Write(jwt);
+        //         //getting correct JWT token but token not being set.
+        //         var token = jwtService.Verify(jwt);
+
+        //         Guid id = Guid.Parse(token.Issuer);
+
+        //         var user = userService.getbyId(id);
+
+        //         // Console.Write(id);
+        //         return Ok(user);
+        //     }
+        //     catch (Exception)
+        //     {
+        //         return Unauthorized();
+        //     }
+        // }
         //  from hard coded array
         // [HttpPut("{email}")]
         // public IActionResult Update(string email, User user)
