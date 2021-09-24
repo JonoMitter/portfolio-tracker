@@ -62,6 +62,7 @@ namespace backend
             services.AddCors();
             services.AddScoped<UserService>();
             services.AddScoped<JwtService>();
+            services.AddScoped<StockService>();
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));

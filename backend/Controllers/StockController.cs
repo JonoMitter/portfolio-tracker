@@ -3,6 +3,7 @@ using backend.Models;
 using backend.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -10,11 +11,19 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class StockController : ControllerBase
     {
+        private readonly StockService stockService;
+
+        public StockController(StockService stockService)
+        {
+            this.stockService = stockService;
+        }
+
         [HttpGet]
-        // public List<Stock> GetStocks()
-        // {
-        //     return StockService.GetAll();
-        // }
+        public async Task<ActionResult<List<Stock>>> GetStocks()
+        {
+            List<Stock> list = await Task.Run(() => stockService.GetStocks());
+            return list;
+        }
 
         // [HttpGet("{id}")]
         // public Stock GetStock(Guid id)
@@ -29,17 +38,18 @@ namespace backend.Controllers
         // }
 
         [HttpPost]
-        public IActionResult AddStock(Stock stock)
+        public IActionResult Create(Stock stock)
         {
+            stockService.Create(stock);
 
             // if (ValidateStock(stock) is true)
             // {
             //     StockService.Add(stock);
-            //     return CreatedAtAction(nameof(AddStock), new { id = stock.Id }, stock);
+            return CreatedAtAction(nameof(Create), new { id = stock.Id }, stock);
             // }
             // else
             // {
-                return BadRequest("Values for code, name, units or purchase price is invalid.");
+            // return BadRequest("Values for code, name, units or purchase price is invalid.");
 
             // }
         }

@@ -35,6 +35,7 @@ namespace backend.Controllers
             User tmpUser = userService.getbyId(id);
             return Ok(tmpUser);
         }
+
         [HttpPost(template: "register")]
         public IActionResult Create(User user)
         {
@@ -48,6 +49,7 @@ namespace backend.Controllers
                 return BadRequest("Values for Email, Firstname, password are invalid");
             }
         }
+        
         [HttpPost(template: "login")]
         public IActionResult Login(User user)
         {
