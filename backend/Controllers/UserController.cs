@@ -41,7 +41,7 @@ namespace backend.Controllers
             if (ValidateUserCreation(user) is true)
             {
                 userService.Create(user);
-                return CreatedAtAction(nameof(Create), new { id = user.User_Id }, user);
+                return CreatedAtAction(nameof(Create), new { id = user.Id }, user);
             }
             else
             {
@@ -60,7 +60,7 @@ namespace backend.Controllers
             {
                 return BadRequest("Invalid credentials");
             }
-            var jwt = jwtService.Generate(user.User_Id);
+            var jwt = jwtService.Generate(user.Id);
 
             Response.Cookies.Append(key: "jwt", value: jwt, new CookieOptions
             {

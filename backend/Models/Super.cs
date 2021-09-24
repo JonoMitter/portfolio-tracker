@@ -5,12 +5,11 @@ namespace backend.Models
 {
     public class Super
     {
-        [Key]
-        public Guid Holding_Id { get; set; }
-        public Guid User_Id { get; set; }
+        public Guid Id { get; set; }
         public string Type { get; set; }
         public float Value { get; set; }
 
-        // public User User { get; set; }
+        public Guid User_Id { get; set; }
+        public User User { get; set; }
     }
 }

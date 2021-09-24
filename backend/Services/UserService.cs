@@ -18,14 +18,14 @@ namespace backend.Services
         }
         public User Create(User user)
         {
-            user.User_Id = Guid.NewGuid();
+            user.Id = Guid.NewGuid();
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             context.User.Add(user);
             context.SaveChanges();
             return user;
         }
         public User getbyEmail(string email) => context.User.FirstOrDefault(user => user.Email == email);
-        public User getbyId(Guid id) => context.User.FirstOrDefault(user => user.User_Id == id);
+        public User getbyId(Guid id) => context.User.FirstOrDefault(user => user.Id == id);
         public async Task<List<User>> GetUsers()
         {
             return await context.User.ToListAsync();

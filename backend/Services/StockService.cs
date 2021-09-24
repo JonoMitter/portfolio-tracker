@@ -20,7 +20,7 @@ namespace backend.Services
             return stock;
         }
 
-        public Stock getById(Guid id) => context.Stock.FirstOrDefault(stock => stock.Holding_Id == id);
+        public Stock getById(Guid id) => context.Stock.FirstOrDefault(stock => stock.Id == id);
 
     //     public static List<Stock> GetHoldings(Guid user_Id) {
             

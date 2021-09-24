@@ -5,14 +5,13 @@ namespace backend.Models
 {
     public class Crypto
     {
-        [Key]
-        public Guid Holding_Id { get; set; }
-        public Guid User_Id { get; set; }
+        public Guid Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public float Units { get; set; }
         public float Purchase_Price { get; set; }
 
-        // public User User { get; set; }
+        public Guid User_Id { get; set; }
+        public User User { get; set; }
     }
 }

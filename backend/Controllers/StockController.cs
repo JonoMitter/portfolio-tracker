@@ -35,7 +35,7 @@ namespace backend.Controllers
             // if (ValidateStock(stock) is true)
             // {
             //     StockService.Add(stock);
-            //     return CreatedAtAction(nameof(AddStock), new { id = stock.Holding_Id }, stock);
+            //     return CreatedAtAction(nameof(AddStock), new { id = stock.Id }, stock);
             // }
             // else
             // {
@@ -45,11 +45,11 @@ namespace backend.Controllers
         }
         [HttpPut("{Holding_Id}")]
 
-        public IActionResult update(Guid Holding_Id, Stock stock)
+        public IActionResult update(Guid id, Stock stock)
         {
             // if (ValidateStock(stock) is true)
             // {
-            //     stock.Holding_Id = Holding_Id;
+            //     stock.Id = Id;
             //     StockService.Update(stock);
             //     return Ok();
             // }
