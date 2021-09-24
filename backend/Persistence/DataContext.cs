@@ -10,7 +10,6 @@ namespace backend.Persistence
         }
 
         public DbSet<User> User { get; set; }
-        // public DbSet<Holding> holding { get; set; }
         public DbSet<Cash> Cash { get; set; }
         public DbSet<Crypto> Crypto { get; set; }
         public DbSet<Stock> Stock { get; set; }

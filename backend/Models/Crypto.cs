@@ -11,7 +11,7 @@ namespace backend.Models
         public float Units { get; set; }
         public float Purchase_Price { get; set; }
 
-        public Guid User_Id { get; set; }
+        public Guid UserId { get; set; }
         public User User { get; set; }
     }
 }

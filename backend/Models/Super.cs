@@ -9,7 +9,7 @@ namespace backend.Models
         public string Type { get; set; }
         public float Value { get; set; }
 
-        public Guid User_Id { get; set; }
+        public Guid UserId { get; set; }
         public User User { get; set; }
     }
 }
