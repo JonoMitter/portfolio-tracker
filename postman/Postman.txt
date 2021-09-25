@@ -27,4 +27,5 @@ example:    https://localhost:5001/api/User/fa604489-a6a9-49bd-9457-75760a534ca5
 *notes on structure*
 Postman sends to Controller 
 controller talks to services 
-services talk to database
+services talk to db context
+db context talks to database

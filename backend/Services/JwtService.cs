@@ -9,13 +9,13 @@ namespace backend.Helpers
     public class JwtService
     {
 
-        private string secureKey = "this is my custom Secret key for authnetication";
+        private string secureKey = "this is my custom Secret key for authentication";
+
         /*Generates new JWT token string */
         public string Generate(Guid id)
         {
-
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            // var jwtTokenHandler = new JwtSecurityTokenHandler();
             var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
             var header = new JwtHeader(credentials);
 
@@ -42,21 +42,25 @@ namespace backend.Helpers
 
         }
 
-        // public JwtSecurityToken Verify(string jwt)
-        // {
-        //     var tokenHandler = new JwtSecurityTokenHandler();
-        //     var key = Encoding.ASCII.GetBytes(secureKey);
-        //     tokenHandler.ValidateToken(jwt, new TokenValidationParameters
-        //     {
-        //         IssuerSigningKey = new SymmetricSecurityKey(key),
-        //         ValidateIssuerSigningKey = true,
-        //         ValidateIssuer = false,
-        //         ValidateAudience = false,
-        //         ClockSkew = TimeSpan.FromMinutes(2),
-        //     }, out SecurityToken validatedToken);
-        //     Console.Write(validatedToken);
-        //     return (JwtSecurityToken) validatedToken;
-        // }
+        //TODO verify?
+        public JwtSecurityToken Verify(string jwt)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(secureKey);
+
+            tokenHandler.ValidateToken(jwt, new TokenValidationParameters
+            {
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.FromMinutes(2),
+            }, out SecurityToken validatedToken);
+
+            Console.Write(validatedToken);
+            
+            return (JwtSecurityToken) validatedToken;
+        }
 
     }
 }

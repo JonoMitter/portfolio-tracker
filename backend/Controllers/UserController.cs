@@ -54,50 +54,65 @@ namespace backend.Controllers
         public IActionResult Login(User user)
         {
             User tmpUser = userService.getbyEmail(user.Email);
+
             if (tmpUser == null)
             {
                 return BadRequest("Invalid credentials");
             }
+
             if (!BCrypt.Net.BCrypt.Verify(user.Password, tmpUser.Password))
             {
                 return BadRequest("Invalid credentials");
             }
-            var jwt = jwtService.Generate(user.Id);
+            
+            var jwt = jwtService.Generate(tmpUser.Id);
 
             Response.Cookies.Append(key: "jwt", value: jwt, new CookieOptions
             {
                 HttpOnly = true
             });
+
             return Ok(new
             {   
                 jwt,
-                message = "success"
+                message = tmpUser.FirstName + " with ID: " + tmpUser.Id + " Successfully logged in"
             });
         }
 
         //gets user from Cookie validates it and searches for user by id
-        // [HttpGet(template: "oneuser")]
-        // public IActionResult UserCookie()
-        // {
-        //     try
-        //     {
-        //         var jwt = Request.Cookies["jwt"];
-        //         // Console.Write(jwt);
-        //         //getting correct JWT token but token not being set.
-        //         var token = jwtService.Verify(jwt);
+        [HttpGet(template: "oneuser")]
+        public IActionResult UserCookie()
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+                // Console.Write(jwt);
+                //getting correct JWT token but token not being set.
+                var token = jwtService.Verify(jwt);
 
-        //         Guid id = Guid.Parse(token.Issuer);
+                Guid id = Guid.Parse(token.Issuer);
 
-        //         var user = userService.getbyId(id);
+                var user = userService.getbyId(id);
 
-        //         // Console.Write(id);
-        //         return Ok(user);
-        //     }
-        //     catch (Exception)
-        //     {
-        //         return Unauthorized();
-        //     }
-        // }
+                if (user == null)
+                {
+                    return Ok("User with Id: " + id + " does not exist\n" 
+                    + "JWT: " + jwt +"\n"
+                    + "token: " + token);
+                }
+
+                return Ok(user);
+            }
+            // catch (Exception e)
+            // {
+            //     return Content(e.StackTrace.ToString());
+            // }
+            catch (Exception e)
+            {
+                return Content(e.StackTrace.ToString());
+            }
+        }
+
         //  from hard coded array
         // [HttpPut("{email}")]
         // public IActionResult Update(string email, User user)
