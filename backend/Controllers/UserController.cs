@@ -75,7 +75,7 @@ namespace backend.Controllers
             return Ok(new
             {   
                 jwt,
-                message = tmpUser.FirstName + " with ID: " + tmpUser.Id + " Successfully logged in"
+                message = tmpUser.FirstName + " with ID: " + tmpUser.Id + " successfully logged in"
             });
         }
 
@@ -86,7 +86,7 @@ namespace backend.Controllers
             try
             {
                 var jwt = Request.Cookies["jwt"];
-                // Console.Write(jwt);
+                
                 //getting correct JWT token but token not being set.
                 var token = jwtService.Verify(jwt);
 
@@ -94,19 +94,16 @@ namespace backend.Controllers
 
                 var user = userService.getbyId(id);
 
+                // error checking
+                //TODO maybe change to a catch from exception thrown getById if no user found?
                 if (user == null)
                 {
-                    return Ok("User with Id: " + id + " does not exist\n" 
-                    + "JWT: " + jwt +"\n"
-                    + "token: " + token);
+                    return Unauthorized("User with Id: " + id + " could not be found\n" 
+                    + "JWT: " + jwt);
                 }
 
                 return Ok(user);
             }
-            // catch (Exception e)
-            // {
-            //     return Content(e.StackTrace.ToString());
-            // }
             catch (Exception e)
             {
                 return Content(e.StackTrace.ToString());
