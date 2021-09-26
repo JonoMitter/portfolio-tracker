@@ -42,7 +42,6 @@ namespace backend.Helpers
 
         }
 
-        //TODO verify?
         public JwtSecurityToken Verify(string jwt)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -57,7 +56,7 @@ namespace backend.Helpers
                 ClockSkew = TimeSpan.FromMinutes(2),
             }, out SecurityToken validatedToken);
 
-            Console.Write(validatedToken);
+            // Console.Write(validatedToken);
             
             return (JwtSecurityToken) validatedToken;
         }

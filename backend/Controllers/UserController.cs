@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using backend.DTOs;
+
 namespace backend.Controllers
 {
     [ApiController]
@@ -36,12 +38,18 @@ namespace backend.Controllers
             return Ok(tmpUser);
         }
 
-        [HttpPost(template: "register")]
-        public IActionResult Create(User user)
+        [HttpPost("register")]
+        public IActionResult Create(CreateUserDTO userDTO)
         {
-            if (ValidateUserCreation(user) is true)
+            if (ValidateUserCreation(userDTO) is true)
             {
+                // copy POST body values to new user object
+                User user = new User();
+                user.FirstName = userDTO.FirstName;
+                user.Email = userDTO.Email;
+                user.Password = userDTO.Password;
                 userService.Create(user);
+
                 return CreatedAtAction(nameof(Create), new { id = user.Id }, user);
             }
             else
@@ -49,23 +57,23 @@ namespace backend.Controllers
                 return BadRequest("Values for Email, Firstname, password are invalid");
             }
         }
-        
-        [HttpPost(template: "login")]
-        public IActionResult Login(User user)
+
+        [HttpPost("login")]
+        public IActionResult Login(LoginDTO loginDTO)
         {
-            User tmpUser = userService.getbyEmail(user.Email);
+            User user = userService.getbyEmail(loginDTO.Email);
 
-            if (tmpUser == null)
+            if (user == null)
             {
                 return BadRequest("Invalid credentials");
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(user.Password, tmpUser.Password))
+            if (!BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password))
             {
                 return BadRequest("Invalid credentials");
             }
-            
-            var jwt = jwtService.Generate(tmpUser.Id);
+
+            var jwt = jwtService.Generate(user.Id);
 
             Response.Cookies.Append(key: "jwt", value: jwt, new CookieOptions
             {
@@ -73,20 +81,20 @@ namespace backend.Controllers
             });
 
             return Ok(new
-            {   
+            {
                 jwt,
-                message = tmpUser.FirstName + " with ID: " + tmpUser.Id + " successfully logged in"
+                message = "User: " + user.FirstName + " with ID: " + user.Id + " successfully logged in"
             });
         }
 
         //gets user from Cookie validates it and searches for user by id
-        [HttpGet(template: "oneuser")]
+        [HttpGet("oneuser")]
         public IActionResult UserCookie()
         {
             try
             {
                 var jwt = Request.Cookies["jwt"];
-                
+
                 //getting correct JWT token but token not being set.
                 var token = jwtService.Verify(jwt);
 
@@ -98,7 +106,7 @@ namespace backend.Controllers
                 //TODO maybe change to a catch from exception thrown getById if no user found?
                 if (user == null)
                 {
-                    return Unauthorized("User with Id: " + id + " could not be found\n" 
+                    return Unauthorized("User with Id: " + id + " could not be found\n"
                     + "JWT: " + jwt);
                 }
 
@@ -108,6 +116,17 @@ namespace backend.Controllers
             {
                 return Content(e.StackTrace.ToString());
             }
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt");
+
+            return Ok(new
+            {
+                message = "Logout success (deleted JWT)"
+            });
         }
 
         //  from hard coded array
@@ -141,7 +160,7 @@ namespace backend.Controllers
             userService.deleteById(id);
             return Ok(id + "has been Successfully deleted");
         }
-        public Boolean ValidateUserCreation(User user)
+        public Boolean ValidateUserCreation(CreateUserDTO user)
         {
             //checks for empty values
             if (user.Email.Length < 1 || user.FirstName.Length < 2)
