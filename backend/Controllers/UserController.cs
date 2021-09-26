@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using backend.Services;
 using System.Collections.Generic;
-using backend.Persistence;
-using Microsoft.EntityFrameworkCore;
+using backend.Helpers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using backend.DTOs;
 
 namespace backend.Controllers
 {
@@ -13,61 +16,41 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly DataContext context;
-
-        public UserController(DataContext dataContext)
+        private readonly UserService userService;
+        private readonly JwtService jwtService;
+        public UserController(UserService userService, JwtService jwtService)
         {
-            this.context = dataContext;
+            this.userService = userService;
+            this.jwtService = jwtService;
         }
 
-
-        //  takes from database
         [HttpGet]
+        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
-            return await context.User.ToListAsync();
-            // return UserService.GetAll();
+            List<User> list = await Task.Run(() => userService.GetUsers());
+            return list;
         }
-
-        //takes from database
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(Guid id)
+        public IActionResult getUserById(Guid id)
         {
-            return await context.User.FindAsync(id);
+            User tmpUser = userService.getbyId(id);
+            return Ok(tmpUser);
         }
 
-
-        //  from hard coded array
-        // [HttpGet("{email}")]
-        // public User GetUser(string email)
-        // {
-        //     return UserService.Get(email);
-        // }
-
-
-        //  from hard coded array
-        [HttpPost]
-        public IActionResult Create(User user)
+        [HttpPost("register")]
+        public IActionResult Create(CreateUserDTO userDTO)
         {
-            // if(user.Email != null & user.FirstName != null & user.Password !=null){
-            //     if(Get(user.Email) is null){
-            //         UserService.Add(user);
-            //     }
+            if (ValidateUserCreation(userDTO) is true)
+            {
+                // copy POST body values to new user object
+                User user = new User();
+                user.FirstName = userDTO.FirstName;
+                user.Email = userDTO.Email;
+                user.Password = userDTO.Password;
+                userService.Create(user);
 
-            //     else{
-            //         return BadRequest("Email already in use");
-            //     }
-            // }
-
-            // else{
-            //     return BadRequest("Values for Email, FirstName, or Password missing");
-            // }
-            if (ValidateUserCreation(user) is true)
-            {   
-                //adds user to user Service
-                UserService.Add(user);
-                //returns a created status in postman (doesnt add to User service)
-                return CreatedAtAction(nameof(Create), new { id = user.User_Id }, user);
+                return CreatedAtAction(nameof(Create), new { id = user.Id }, user);
             }
             else
             {
@@ -75,44 +58,109 @@ namespace backend.Controllers
             }
         }
 
-        //  from hard coded array
-        [HttpPut("{email}")]
-        public IActionResult Update(string email, User user)
+        [HttpPost("login")]
+        public IActionResult Login(LoginDTO loginDTO)
         {
+            User user = userService.getbyEmail(loginDTO.Email);
 
-            if (email != user.Email)
+            if (user == null)
             {
-                return BadRequest();
+                return BadRequest("Invalid credentials");
             }
 
-            var existingUser = UserService.Get(email);
-
-            if (existingUser is null)
+            if (!BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password))
             {
-                return NotFound();
+                return BadRequest("Invalid credentials");
             }
-            UserService.Update(user);
 
-            return NoContent();
+            var jwt = jwtService.Generate(user.Id);
+
+            Response.Cookies.Append(key: "jwt", value: jwt, new CookieOptions
+            {
+                HttpOnly = true
+            });
+
+            return Ok(new
+            {
+                jwt,
+                message = "User: " + user.FirstName + " with ID: " + user.Id + " successfully logged in"
+            });
+        }
+
+        //gets user from Cookie validates it and searches for user by id
+        [HttpGet("oneuser")]
+        public IActionResult UserCookie()
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                //getting correct JWT token but token not being set.
+                var token = jwtService.Verify(jwt);
+
+                Guid id = Guid.Parse(token.Issuer);
+
+                var user = userService.getbyId(id);
+
+                // error checking
+                //TODO maybe change to a catch from exception thrown getById if no user found?
+                if (user == null)
+                {
+                    return Unauthorized("User with Id: " + id + " could not be found\n"
+                    + "JWT: " + jwt);
+                }
+
+                return Ok(user);
+            }
+            catch (Exception e)
+            {
+                return Content(e.StackTrace.ToString());
+            }
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt");
+
+            return Ok(new
+            {
+                message = "Logout success (deleted JWT)"
+            });
         }
 
         //  from hard coded array
-        [HttpDelete("{email}")]
-        public IActionResult Delete(string email)
+        // [HttpPut("{email}")]
+        // public IActionResult Update(string email, User user)
+        // {
+
+        //     if (email != user.Email)
+        //     {
+        //         return BadRequest();
+        //     }
+
+        //     var existingUser = UserService.Get(email);
+
+        //     if (existingUser is null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     UserService.Update(user);
+
+        //     return NoContent();
+        // }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
         {
-            var user = UserService.Get(email);
-
-            if (user is null)
+            User tmpUser = userService.getbyId(id);
+            if (tmpUser is null)
             {
-                return NotFound();
+                return BadRequest("User not found :(");
             }
-
-            UserService.Delete(email);
-
-            return Ok();
+            userService.deleteById(id);
+            return Ok(id + "has been Successfully deleted");
         }
-
-        public Boolean ValidateUserCreation(User user)
+        public Boolean ValidateUserCreation(CreateUserDTO user)
         {
             //checks for empty values
             if (user.Email.Length < 1 || user.FirstName.Length < 2)
@@ -123,16 +171,6 @@ namespace backend.Controllers
             {
                 return false;
             }
-            // if (!(GetUser(user.Email) is null))
-            // {
-            //     return false;
-            // }
-            // if(user.Password.Length < 4 || user.confirmPassword.Length < 4){
-            //     return false;
-            // }
-            // if(!(user.Password.Equals(user.confirmPassword))){
-            //     return false;
-            // }
             return true;
         }
     }

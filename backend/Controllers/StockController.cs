@@ -3,6 +3,7 @@ using backend.Models;
 using backend.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
@@ -10,10 +11,18 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class StockController : ControllerBase
     {
-        [HttpGet]
-        public List<Stock> GetStocks()
+        private readonly StockService stockService;
+
+        public StockController(StockService stockService)
         {
-            return StockService.GetAll();
+            this.stockService = stockService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<Stock>>> GetStocks()
+        {
+            List<Stock> list = await Task.Run(() => stockService.GetStocks());
+            return list;
         }
 
         // [HttpGet("{id}")]
@@ -22,50 +31,51 @@ namespace backend.Controllers
         //     return StockService.Get(id);
         // }
 
-        [HttpGet("{User_Id}")]
-        public List<Stock> GetStocks(Guid User_Id)
-        {
-            return StockService.GetHoldings(User_Id);
-        }
+        // [HttpGet("{User_Id}")]
+        // public List<Stock> GetStocks(Guid stock_Id)
+        // {
+        //     // return StockService.GetHoldings(User_Id);
+        // }
 
         [HttpPost]
-        public IActionResult AddStock(Stock stock)
+        public IActionResult Create(Stock stock)
         {
+            stockService.Create(stock);
 
-            if (ValidateStock(stock) is true)
-            {
-                StockService.Add(stock);
-                return CreatedAtAction(nameof(AddStock), new { id = stock.Holding_Id }, stock);
-            }
-            else
-            {
-                return BadRequest("Values for code, name, units or purchase price is invalid.");
+            // if (ValidateStock(stock) is true)
+            // {
+            //     StockService.Add(stock);
+            return CreatedAtAction(nameof(Create), new { id = stock.Id }, stock);
+            // }
+            // else
+            // {
+            // return BadRequest("Values for code, name, units or purchase price is invalid.");
 
-            }
+            // }
         }
         [HttpPut("{Holding_Id}")]
 
-        public IActionResult update(Guid Holding_Id, Stock stock)
+        public IActionResult update(Guid id, Stock stock)
         {
-            if (ValidateStock(stock) is true)
-            {
-                stock.Holding_Id = Holding_Id;
-                StockService.Update(stock);
-                return Ok();
-            }
+            // if (ValidateStock(stock) is true)
+            // {
+            //     stock.Id = Id;
+            //     StockService.Update(stock);
+            //     return Ok();
+            // }
             return BadRequest();
         }
         [HttpDelete("{Holding_Id}")]
         public IActionResult Delete(Guid Holding_Id)
         {
-            var tmpStock = StockService.Get(Holding_Id);
+            // var tmpStock = StockService.Get(Holding_Id);
 
-            if (tmpStock is null)
-            {
-                return NotFound();
-            }
+            // if (tmpStock is null)
+            // {
+            //     return NotFound();
+            // }
 
-            StockService.Delete(Holding_Id);
+            // StockService.Delete(Holding_Id);
 
             return Ok();
         }

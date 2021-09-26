@@ -9,8 +9,8 @@ using backend.Persistence;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210909070428_MoreTables3")]
-    partial class MoreTables3
+    [Migration("20210924113344_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,11 +20,14 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Cash", b =>
                 {
-                    b.Property<Guid>("Holding_Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("User_Id")
@@ -33,14 +36,16 @@ namespace backend.Migrations
                     b.Property<float>("Value")
                         .HasColumnType("REAL");
 
-                    b.HasKey("Holding_Id");
+                    b.HasKey("Id");
 
-                    b.ToTable("cash");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Cash");
                 });
 
             modelBuilder.Entity("backend.Models.Crypto", b =>
                 {
-                    b.Property<Guid>("Holding_Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -56,17 +61,22 @@ namespace backend.Migrations
                     b.Property<float>("Units")
                         .HasColumnType("REAL");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("User_Id")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Holding_Id");
+                    b.HasKey("Id");
 
-                    b.ToTable("crypto");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Crypto");
                 });
 
             modelBuilder.Entity("backend.Models.Stock", b =>
                 {
-                    b.Property<Guid>("Holding_Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -82,21 +92,29 @@ namespace backend.Migrations
                     b.Property<int>("Units")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("User_Id")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Holding_Id");
+                    b.HasKey("Id");
 
-                    b.ToTable("stock");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Stock");
                 });
 
             modelBuilder.Entity("backend.Models.Super", b =>
                 {
-                    b.Property<Guid>("Holding_Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("User_Id")
@@ -105,14 +123,16 @@ namespace backend.Migrations
                     b.Property<float>("Value")
                         .HasColumnType("REAL");
 
-                    b.HasKey("Holding_Id");
+                    b.HasKey("Id");
 
-                    b.ToTable("super");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Super");
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
                 {
-                    b.Property<Guid>("User_Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -125,9 +145,56 @@ namespace backend.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("User_Id");
+                    b.HasKey("Id");
 
-                    b.ToTable("user");
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("backend.Models.Cash", b =>
+                {
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("Cash")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.Crypto", b =>
+                {
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("Crypto")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.Stock", b =>
+                {
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("Stock")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.Super", b =>
+                {
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("Super")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.User", b =>
+                {
+                    b.Navigation("Cash");
+
+                    b.Navigation("Crypto");
+
+                    b.Navigation("Stock");
+
+                    b.Navigation("Super");
                 });
 #pragma warning restore 612, 618
         }
