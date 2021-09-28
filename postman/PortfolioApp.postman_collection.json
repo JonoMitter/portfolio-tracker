@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "fdeaf508-70fa-40ca-86a8-cbef1101de5a",
+		"name": "PortfolioApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getUsers()",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/User",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"User"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser([User_Id])",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/User/tomfogg@gmail.com",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"User",
+						"tomfogg@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Cooper\",\r\n    \"Email\": \"cooper.jones@gmail.com\",\r\n    \"Password\": \"debtless\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/User",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"User"
+					],
+					"query": [
+						{
+							"key": "User_Id",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "FirstName",
+							"value": "Cooper",
+							"disabled": true
+						},
+						{
+							"key": "Password",
+							"value": "debtless",
+							"disabled": true
+						},
+						{
+							"key": "Email",
+							"value": "cooper.jones@gmail.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateUser",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Cooper\",\r\n    \"Email\": \"cooper.jones@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/User/cooper.jones@gmail.com",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"User",
+						"cooper.jones@gmail.com"
+					],
+					"query": [
+						{
+							"key": "User_Id",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "FirstName",
+							"value": "Cooper",
+							"disabled": true
+						},
+						{
+							"key": "Password",
+							"value": "debtless",
+							"disabled": true
+						},
+						{
+							"key": "Email",
+							"value": "cooper.jones@gmail.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteUser([Email])",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/User/cooper.jones@gmail.com",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"User",
+						"cooper.jones@gmail.com"
+					],
+					"query": [
+						{
+							"key": "User_Id",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "FirstName",
+							"value": "Cooper",
+							"disabled": true
+						},
+						{
+							"key": "Password",
+							"value": "debtless",
+							"disabled": true
+						},
+						{
+							"key": "Email",
+							"value": "cooper.jones@gmail.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getStocks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/Stock",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getStock([Holding_Id])",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/Stock/05c1487e-bac5-4855-8875-78ff81daa720",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Stock",
+						"05c1487e-bac5-4855-8875-78ff81daa720"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,31 @@
+*Create user* POST
+https://localhost:5001/api/User/register
+{
+    "firstName":"Richard",
+    "Email":"Richard.Gao@hotmail.com",
+    "Password":"1234"
+}
+
+*Login (no JWT yet)* POST 
+https://localhost:5001/api/User/login
+{
+    "Email":"Richard.Gao@hotmail.com",
+    "Password":"1234"
+}
+
+*get all users* GET
+https://localhost:5001/api/User
+
+*delete user by id DEL 
+https://localhost:5001/api/User/{add the id of user}
+example:    https://localhost:5001/api/User/51fbebef-0b32-4b42-880b-c0af8b13cf78
+
+*get user by id * GET
+https://localhost:5001/api/User/{add the id of user}
+example:    https://localhost:5001/api/User/fa604489-a6a9-49bd-9457-75760a534ca5
+
+*notes on structure*
+Postman sends to Controller 
+controller talks to services 
+services talk to db context
+db context talks to database
