@@ -38,7 +38,18 @@ namespace backend.Services
         {
             return await context.Stock.ToListAsync();
         }
-        
+
+        public Stock[] getStocksForJWT(Guid userId)
+        {
+            //TODO
+            //change to dto to only get: code, name, units, purchase_price
+            Stock[] stocks = context.Stock
+                .Where(stock => stock.UserId == userId)
+                .ToArray();
+
+            return stocks;
+        }
+
         public Stock getById(Guid id) => context.Stock.FirstOrDefault(stock => stock.Id == id);
 
         //     public static List<Stock> GetHoldings(Guid user_Id) {

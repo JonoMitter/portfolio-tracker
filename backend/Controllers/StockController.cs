@@ -4,6 +4,7 @@ using backend.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using backend.DTOs;
 
 namespace backend.Controllers
 {
@@ -12,10 +13,14 @@ namespace backend.Controllers
     public class StockController : ControllerBase
     {
         private readonly StockService stockService;
+        private readonly JwtService jwtService;
+        private readonly UserService userService;
 
-        public StockController(StockService stockService)
+        public StockController(StockService stockService, JwtService jwtService, UserService userService)
         {
             this.stockService = stockService;
+            this.jwtService = jwtService;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -53,6 +58,78 @@ namespace backend.Controllers
 
             // }
         }
+
+        [HttpPost("assignStock")]
+        public IActionResult AssignStockByJWT(StockDTO stockIn)
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                //getting correct JWT token but token not being set.
+                var token = jwtService.Verify(jwt);
+
+                Guid id = Guid.Parse(token.Issuer);
+
+                var user = userService.getbyId(id);
+
+                // check whether valid userId
+                if (user == null)
+                {
+                    return Unauthorized("Logged in user with Id: " + id + " could not be found in database\n"
+                    + "JWT: " + jwt);
+                }
+
+                //Create stock object based on POST body
+                Stock stock = new Stock();
+                stock.Code = stockIn.Code;
+                stock.Name = stockIn.Name;
+                stock.Units = stockIn.Units;
+                stock.Purchase_Price = stockIn.Purchase_Price;
+                stock.UserId = id;
+                stock.User = user;
+
+                Stock createdStock = stockService.Create(stock);
+
+                return Ok(createdStock);
+            }
+            catch (Exception e)
+            {
+                return Content(e.StackTrace.ToString());
+            }
+        }
+
+        [HttpGet("getStocks")]
+        public IActionResult GetStocksByJWT()
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                //getting correct JWT token but token not being set.
+                var token = jwtService.Verify(jwt);
+
+                Guid id = Guid.Parse(token.Issuer);
+
+                var user = userService.getbyId(id);
+
+                // check whether valid userId
+                if (user == null)
+                {
+                    return Unauthorized("Logged in user with Id: " + id + " could not be found in database\n"
+                    + "JWT: " + jwt);
+                }
+
+                Stock[] stocks = stockService.getStocksForJWT(id);
+
+                return Ok(stocks);
+            }
+            catch (Exception e)
+            {
+                return Content(e.StackTrace.ToString());
+            }
+        }
+
         [HttpPut("{Holding_Id}")]
 
         public IActionResult update(Guid id, Stock stock)
