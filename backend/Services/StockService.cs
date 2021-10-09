@@ -43,6 +43,7 @@ namespace backend.Services
         {
             //TODO
             //change to dto to only get: code, name, units, purchase_price
+            //i.e. dont send id, userId, user
             Stock[] stocks = context.Stock
                 .Where(stock => stock.UserId == userId)
                 .ToArray();
