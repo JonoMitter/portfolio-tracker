@@ -1,3 +1,4 @@
+using backend.DTOs;
 using backend.Models;
 using backend.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -39,16 +40,36 @@ namespace backend.Services
             return await context.Stock.ToListAsync();
         }
 
+        //returns all stock data including user name and email 
         public Stock[] getStocksForJWT(Guid userId)
         {
-            //TODO
-            //change to dto to only get: code, name, units, purchase_price
-            //i.e. dont send id, userId, user
             Stock[] stocks = context.Stock
                 .Where(stock => stock.UserId == userId)
                 .ToArray();
 
             return stocks;
+        }
+
+        //only returns relelvant stock info, no user info
+        public StockDTO[] getStocksDTOForJWT(Guid userId)
+        {
+            Stock[] stocks = context.Stock
+                .Where(stock => stock.UserId == userId)
+                .ToArray();
+
+            //TODO
+            //there must be a better way to only retrieve dto values meh
+            List<StockDTO> stockDTOList = new List<StockDTO>();
+
+            foreach(Stock stock in stocks){
+                StockDTO stockDTO = new StockDTO();
+                stockDTO.Name = stock.Name;
+                stockDTO.Code = stock.Code;
+                stockDTO.Units = stock.Units;
+                stockDTO.Purchase_Price = stock.Purchase_Price;   
+            }
+
+            return stockDTOList.ToArray();
         }
 
         public Stock getById(Guid id) => context.Stock.FirstOrDefault(stock => stock.Id == id);

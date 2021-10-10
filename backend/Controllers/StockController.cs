@@ -95,7 +95,8 @@ namespace backend.Controllers
             }
             catch (Exception e)
             {
-                return Content(e.StackTrace.ToString());
+                // return Content(e.StackTrace.ToString());
+                return BadRequest("[Error] " + e.GetType() + " could not find JWT");
             }
         }
 
@@ -120,13 +121,13 @@ namespace backend.Controllers
                     + "JWT: " + jwt);
                 }
 
-                Stock[] stocks = stockService.getStocksForJWT(id);
+                StockDTO[] stocks = stockService.getStocksDTOForJWT(id);
 
                 return Ok(stocks);
             }
             catch (Exception e)
             {
-                return Content(e.StackTrace.ToString());
+                return BadRequest("[Error] " + e.GetType() + "Trace: " + e.StackTrace + " could not find JWT");
             }
         }
 
