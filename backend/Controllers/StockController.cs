@@ -91,7 +91,7 @@ namespace backend.Controllers
 
                 Stock createdStock = stockService.Create(stock);
 
-                return Ok(createdStock);
+                return Ok(stockIn);
             }
             catch (Exception e)
             {

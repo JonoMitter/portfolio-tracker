@@ -50,26 +50,20 @@ namespace backend.Services
             return stocks;
         }
 
-        //only returns relelvant stock info, no user info
+        //only returns relevant stock info, no user info
         public StockDTO[] getStocksDTOForJWT(Guid userId)
         {
-            Stock[] stocks = context.Stock
+            IQueryable<StockDTO> stocksDTO = from stock in context.Stock
                 .Where(stock => stock.UserId == userId)
-                .ToArray();
+                select new StockDTO(){
+                    Name = stock.Name,
+                    Code = stock.Code,
+                    Units = stock.Units,
+                    Purchase_Price = stock.Purchase_Price  
+                };
+            stocksDTO.ToArray();
 
-            //TODO
-            //there must be a better way to only retrieve dto values meh
-            List<StockDTO> stockDTOList = new List<StockDTO>();
-
-            foreach(Stock stock in stocks){
-                StockDTO stockDTO = new StockDTO();
-                stockDTO.Name = stock.Name;
-                stockDTO.Code = stock.Code;
-                stockDTO.Units = stock.Units;
-                stockDTO.Purchase_Price = stock.Purchase_Price;   
-            }
-
-            return stockDTOList.ToArray();
+            return stocksDTO.ToArray();
         }
 
         public Stock getById(Guid id) => context.Stock.FirstOrDefault(stock => stock.Id == id);
