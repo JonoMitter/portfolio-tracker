@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace backend.Models
 {
@@ -12,6 +13,6 @@ namespace backend.Models
         public float Purchase_Price { get; set; }
 
         public Guid UserId { get; set; }
-        public User User { get; set; }
+        [JsonIgnore] public User User { get; set; }
     }
 }
