@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using backend.DTOs;
+using System.IdentityModel.Tokens.Jwt;
+using backend.Exceptions;
 
 namespace backend.Controllers
 {
@@ -62,24 +64,11 @@ namespace backend.Controllers
         [HttpPost("assignStock")]
         public IActionResult AssignStockByJWT(StockDTO stockIn)
         {
-            if(ValidateStock(stockIn)){
+            if (ValidateStock(stockIn))
+            {
                 try
                 {
-                    var jwt = Request.Cookies["jwt"];
-
-                    //getting correct JWT token but token not being set.
-                    var token = jwtService.Verify(jwt);
-
-                    Guid id = Guid.Parse(token.Issuer);
-
-                    var user = userService.getbyId(id);
-
-                    // check whether valid userId
-                    if (user == null)
-                    {
-                        return Unauthorized("Logged in user with Id: " + id + " could not be found in database\n"
-                        + "JWT: " + jwt);
-                    }
+                    User user = getUserFromJWT();
 
                     //Create stock object based on POST body (StockDTO)
                     Stock stock = new Stock();
@@ -87,19 +76,24 @@ namespace backend.Controllers
                     stock.Name = stockIn.Name;
                     stock.Units = stockIn.Units;
                     stock.Purchase_Price = stockIn.Purchase_Price;
-                    stock.UserId = id;
-                    stock.User = user;
+                    stock.UserId = user.Id;
+                    // stock.User = user;
 
-                    Stock createdStock = stockService.Create(stock);
+                    stockService.Create(stock);
 
                     return CreatedAtAction(nameof(AssignStockByJWT), stockIn);
-                } catch (Exception e)
+                }
+                catch (UserNotFoundException e)
                 {
-                    // return Content(e.StackTrace.ToString());
-                    return BadRequest("[Error] " + e.GetType() + " could not find JWT");
+                    return BadRequest("[ERROR] " + e.GetType() + " could not find signed in user");
+                }
+                catch (Exception e)
+                {
+                    return BadRequest("[Error] " + e.GetType());
                 }
             }
-            else{
+            else
+            {
                 return BadRequest("[Invalid Stock] '" + stockIn.Code + "' - '" + stockIn.Name + "' is not valid");
             }
         }
@@ -109,25 +103,15 @@ namespace backend.Controllers
         {
             try
             {
-                var jwt = Request.Cookies["jwt"];
+                User user = getUserFromJWT();
 
-                //getting correct JWT token but token not being set.
-                var token = jwtService.Verify(jwt);
-
-                Guid id = Guid.Parse(token.Issuer);
-
-                var user = userService.getbyId(id);
-
-                // check whether valid userId
-                if (user == null)
-                {
-                    return Unauthorized("Logged in user with Id: " + id + " could not be found in database\n"
-                    + "JWT: " + jwt);
-                }
-
-                StockDTO[] stocks = stockService.getStocksDTOForJWT(id);
+                StockDTO[] stocks = stockService.getStocksDTOForJWT(user.Id);
 
                 return Ok(stocks);
+            }
+            catch (UserNotFoundException e)
+            {
+                return BadRequest("[ERROR] " + e.GetType() + " could not find signed in user");
             }
             catch (Exception e)
             {
@@ -172,6 +156,24 @@ namespace backend.Controllers
                 return false;
             }
             return true;
+        }
+
+        public User getUserFromJWT()
+        {
+            //search for jwt in user's cookies
+            String jwt = Request.Cookies["jwt"];
+            JwtSecurityToken token = jwtService.Verify(jwt);
+
+            Guid id = Guid.Parse(token.Issuer);
+            User user = userService.getbyId(id);
+
+            // check whether valid userId
+            if (user == null)
+            {
+                throw new UserNotFoundException("Logged in user with Id: " + id + " could not be found in database JWT: " + jwt);
+            }
+
+            return user;
         }
     }
 }
