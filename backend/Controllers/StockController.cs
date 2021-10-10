@@ -62,41 +62,45 @@ namespace backend.Controllers
         [HttpPost("assignStock")]
         public IActionResult AssignStockByJWT(StockDTO stockIn)
         {
-            try
-            {
-                var jwt = Request.Cookies["jwt"];
-
-                //getting correct JWT token but token not being set.
-                var token = jwtService.Verify(jwt);
-
-                Guid id = Guid.Parse(token.Issuer);
-
-                var user = userService.getbyId(id);
-
-                // check whether valid userId
-                if (user == null)
+            if(ValidateStock(stockIn)){
+                try
                 {
-                    return Unauthorized("Logged in user with Id: " + id + " could not be found in database\n"
-                    + "JWT: " + jwt);
+                    var jwt = Request.Cookies["jwt"];
+
+                    //getting correct JWT token but token not being set.
+                    var token = jwtService.Verify(jwt);
+
+                    Guid id = Guid.Parse(token.Issuer);
+
+                    var user = userService.getbyId(id);
+
+                    // check whether valid userId
+                    if (user == null)
+                    {
+                        return Unauthorized("Logged in user with Id: " + id + " could not be found in database\n"
+                        + "JWT: " + jwt);
+                    }
+
+                    //Create stock object based on POST body (StockDTO)
+                    Stock stock = new Stock();
+                    stock.Code = stockIn.Code;
+                    stock.Name = stockIn.Name;
+                    stock.Units = stockIn.Units;
+                    stock.Purchase_Price = stockIn.Purchase_Price;
+                    stock.UserId = id;
+                    stock.User = user;
+
+                    Stock createdStock = stockService.Create(stock);
+
+                    return CreatedAtAction(nameof(AssignStockByJWT), stockIn);
+                } catch (Exception e)
+                {
+                    // return Content(e.StackTrace.ToString());
+                    return BadRequest("[Error] " + e.GetType() + " could not find JWT");
                 }
-
-                //Create stock object based on POST body
-                Stock stock = new Stock();
-                stock.Code = stockIn.Code;
-                stock.Name = stockIn.Name;
-                stock.Units = stockIn.Units;
-                stock.Purchase_Price = stockIn.Purchase_Price;
-                stock.UserId = id;
-                stock.User = user;
-
-                Stock createdStock = stockService.Create(stock);
-
-                return Ok(stockIn);
             }
-            catch (Exception e)
-            {
-                // return Content(e.StackTrace.ToString());
-                return BadRequest("[Error] " + e.GetType() + " could not find JWT");
+            else{
+                return BadRequest("[Invalid Stock] '" + stockIn.Code + "' - '" + stockIn.Name + "' is not valid");
             }
         }
 
@@ -157,7 +161,7 @@ namespace backend.Controllers
 
             return Ok();
         }
-        public Boolean ValidateStock(Stock stock)
+        public Boolean ValidateStock(StockDTO stock)
         {
             if (stock.Name.Length < 2 || stock.Units.Equals(null) || stock.Purchase_Price.Equals(null))
             {
