@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using backend.DTOs;
+using backend.Exceptions;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace backend.Controllers
 {
@@ -23,13 +25,15 @@ namespace backend.Controllers
             this.jwtService = jwtService;
         }
 
+        //ONLY FOR TESTING
         [HttpGet]
-        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
             List<User> list = await Task.Run(() => userService.GetUsers());
             return list;
         }
+
+        //ONLY FOR TESTING
         [HttpGet("{id}")]
         public IActionResult getUserById(Guid id)
         {
@@ -40,7 +44,7 @@ namespace backend.Controllers
         [HttpPost("register")]
         public IActionResult Create(CreateUserDTO userDTO)
         {
-            if (ValidateUserCreation(userDTO) is true)
+            if (ValidUser(userDTO))
             {
                 // copy POST body values to new user object
                 User user = new User();
@@ -53,7 +57,7 @@ namespace backend.Controllers
             }
             else
             {
-                return BadRequest("Values for Email, Firstname, password are invalid");
+                return BadRequest("[Invalid Login] Values for Email, Firstname, Password are invalid");
             }
         }
 
@@ -92,28 +96,13 @@ namespace backend.Controllers
         {
             try
             {
-                var jwt = Request.Cookies["jwt"];
-
-                //getting correct JWT token but token not being set.
-                var token = jwtService.Verify(jwt);
-
-                Guid id = Guid.Parse(token.Issuer);
-
-                var user = userService.getbyId(id);
-
-                // error checking
-                //TODO maybe change to a catch from exception thrown getById if no user found?
-                if (user == null)
-                {
-                    return Unauthorized("User with Id: " + id + " could not be found\n"
-                    + "JWT: " + jwt);
-                }
+                User user = GetUserFromJWT();
 
                 return Ok(user);
             }
             catch (Exception e)
             {
-                return Content(e.StackTrace.ToString());
+                return BadRequest("[" + e.GetType() + "] " + e.Message);
             }
         }
 
@@ -148,6 +137,7 @@ namespace backend.Controllers
 
         //     return NoContent();
         // }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
@@ -159,7 +149,7 @@ namespace backend.Controllers
             userService.deleteById(id);
             return Ok(id + "has been Successfully deleted");
         }
-        public Boolean ValidateUserCreation(CreateUserDTO user)
+        public Boolean ValidUser(CreateUserDTO user)
         {
             //checks for empty values
             if (user.Email.Length < 1 || user.FirstName.Length < 2)
@@ -171,6 +161,30 @@ namespace backend.Controllers
                 return false;
             }
             return true;
+        }
+
+        public User GetUserFromJWT()
+        {
+            try
+            {
+                //search for jwt in user's cookies
+                String jwt = Request.Cookies["jwt"];
+                JwtSecurityToken token = jwtService.Verify(jwt);
+
+                Guid id = Guid.Parse(token.Issuer);
+                User user = userService.getbyId(id);
+
+                // check whether valid userId
+                if (user == null)
+                {
+                    throw new UserNotFoundException("User stored in cookies with Id: " + id + " could not be found in database");
+                }
+                return user;
+            }
+            catch (ArgumentNullException)
+            {
+                throw new JwtNotFoundException("Cannot find JWT in Cookies");
+            }
         }
     }
 }

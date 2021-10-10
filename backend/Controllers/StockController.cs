@@ -25,7 +25,7 @@ namespace backend.Controllers
             this.userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<ActionResult<List<Stock>>> GetStocks()
         {
             List<Stock> list = await Task.Run(() => stockService.GetStocks());
@@ -44,31 +44,14 @@ namespace backend.Controllers
         //     // return StockService.GetHoldings(User_Id);
         // }
 
-        [HttpPost]
-        public IActionResult Create(Stock stock)
-        {
-            stockService.Create(stock);
-
-            // if (ValidateStock(stock) is true)
-            // {
-            //     StockService.Add(stock);
-            return CreatedAtAction(nameof(Create), new { id = stock.Id }, stock);
-            // }
-            // else
-            // {
-            // return BadRequest("Values for code, name, units or purchase price is invalid.");
-
-            // }
-        }
-
-        [HttpPost("assignStock")]
+        [HttpPost("create")]
         public IActionResult AssignStockByJWT(StockDTO stockIn)
         {
             if (ValidateStock(stockIn))
             {
                 try
                 {
-                    User user = getUserFromJWT();
+                    User user = GetUserFromJWT();
 
                     //Create stock object based on POST body (StockDTO)
                     Stock stock = new Stock();
@@ -83,13 +66,9 @@ namespace backend.Controllers
 
                     return CreatedAtAction(nameof(AssignStockByJWT), stockIn);
                 }
-                catch (UserNotFoundException e)
-                {
-                    return BadRequest("[ERROR] " + e.GetType() + " could not find signed in user");
-                }
                 catch (Exception e)
                 {
-                    return BadRequest("[Error] " + e.GetType());
+                    return BadRequest("[" + e.GetType() + "] " + e.Message);
                 }
             }
             else
@@ -98,27 +77,24 @@ namespace backend.Controllers
             }
         }
 
-        [HttpGet("getStocks")]
+        [HttpGet]
         public IActionResult GetStocksByJWT()
         {
             try
             {
-                User user = getUserFromJWT();
+                User user = GetUserFromJWT();
 
                 StockDTO[] stocks = stockService.getStocksDTOForJWT(user.Id);
 
                 return Ok(stocks);
             }
-            catch (UserNotFoundException e)
-            {
-                return BadRequest("[ERROR] " + e.GetType() + " could not find signed in user");
-            }
             catch (Exception e)
             {
-                return BadRequest("[Error] " + e.GetType() + "Trace: " + e.StackTrace + " could not find JWT");
+                return BadRequest("[" + e.GetType() + "] " + e.Message);
             }
         }
 
+        //TODO
         [HttpPut("{Holding_Id}")]
 
         public IActionResult update(Guid id, Stock stock)
@@ -131,6 +107,8 @@ namespace backend.Controllers
             // }
             return BadRequest();
         }
+
+        //TODO
         [HttpDelete("{Holding_Id}")]
         public IActionResult Delete(Guid Holding_Id)
         {
@@ -145,6 +123,7 @@ namespace backend.Controllers
 
             return Ok();
         }
+
         public Boolean ValidateStock(StockDTO stock)
         {
             if (stock.Name.Length < 2 || stock.Units.Equals(null) || stock.Purchase_Price.Equals(null))
@@ -158,22 +137,28 @@ namespace backend.Controllers
             return true;
         }
 
-        public User getUserFromJWT()
+        public User GetUserFromJWT()
         {
-            //search for jwt in user's cookies
-            String jwt = Request.Cookies["jwt"];
-            JwtSecurityToken token = jwtService.Verify(jwt);
-
-            Guid id = Guid.Parse(token.Issuer);
-            User user = userService.getbyId(id);
-
-            // check whether valid userId
-            if (user == null)
+            try
             {
-                throw new UserNotFoundException("Logged in user with Id: " + id + " could not be found in database JWT: " + jwt);
-            }
+                //search for jwt in user's cookies
+                String jwt = Request.Cookies["jwt"];
+                JwtSecurityToken token = jwtService.Verify(jwt);
 
-            return user;
+                Guid id = Guid.Parse(token.Issuer);
+                User user = userService.getbyId(id);
+
+                // check whether valid userId
+                if (user == null)
+                {
+                    throw new UserNotFoundException("User stored in cookies with Id: " + id + " could not be found in database");
+                }
+                return user;
+            }
+            catch (ArgumentNullException)
+            {
+                throw new JwtNotFoundException("Cannot find JWT in Cookies");
+            }
         }
     }
 }
