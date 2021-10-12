@@ -51,19 +51,13 @@ namespace backend.Services
         }
 
         //only returns relevant stock info, no user info
-        public StockDTO[] getStocksDTOForJWT(Guid userId)
+        public Stock[] getStocksDTOForJWT(Guid userId)
         {
-            IQueryable<StockDTO> stocksDTO = from stock in context.Stock
+            Stock[] stocks = context.Stock
                 .Where(stock => stock.UserId == userId)
-                select new StockDTO(){
-                    Name = stock.Name,
-                    Code = stock.Code,
-                    Units = stock.Units,
-                    Purchase_Price = stock.Purchase_Price  
-                };
-            stocksDTO.ToArray();
+                .ToArray();
 
-            return stocksDTO.ToArray();
+            return stocks;
         }
 
         public Stock getById(Guid id) => context.Stock.FirstOrDefault(stock => stock.Id == id);
@@ -94,15 +88,34 @@ namespace backend.Services
         //         Stocks.Remove(stockId);
         //     }
 
-        //     public static void Update(Stock stock)
-        //     {
-        //         var index = Stocks.FindIndex(stockIt => stockIt.Holding_Id == stock.Holding_Id);
-        //         if(index == -1){
-        //             return;
-        //         }
-        //         Console.WriteLine(stock.Holding_Id);
-        //         stock.Holding_Id = Stocks[index].Holding_Id;
-        //         Stocks[index] = stock;
-        //     }
+        public void Update(Stock stock)
+        {
+            Stock dbStock = context.Stock.FirstOrDefault(dbStock => dbStock.Id == stock.Id);
+            if (stock.Code != null)
+            {
+                dbStock.Code = stock.Code;
+            }
+            if (stock.Name != null)
+            {
+                dbStock.Name = stock.Name;
+            }
+            if (stock.Units > 0)
+            {
+                dbStock.Units = stock.Units;
+            }
+            if (stock.Purchase_Price > 0)
+            {
+                dbStock.Units = stock.Units;
+            }
+
+            context.Stock.Update(dbStock);
+            context.SaveChanges();
+        }
+
+        public void Delete(Guid stockId)
+        {
+            Stock dbStock = context.Stock.FirstOrDefault(dbStock => dbStock.Id == stockId);
+            context.Stock.Remove(dbStock);
+        }
     }
 }

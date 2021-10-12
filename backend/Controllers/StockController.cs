@@ -84,7 +84,7 @@ namespace backend.Controllers
             {
                 User user = GetUserFromJWT();
 
-                StockDTO[] stocks = stockService.getStocksDTOForJWT(user.Id);
+                Stock[] stocks = stockService.getStocksDTOForJWT(user.Id);
 
                 return Ok(stocks);
             }
@@ -95,17 +95,23 @@ namespace backend.Controllers
         }
 
         //TODO
-        [HttpPut("{Holding_Id}")]
+        [HttpPut("update")]
 
-        public IActionResult update(Guid id, Stock stock)
+        public IActionResult Update(Stock stock)
         {
-            // if (ValidateStock(stock) is true)
-            // {
-            //     stock.Id = Id;
-            //     StockService.Update(stock);
-            //     return Ok();
-            // }
-            return BadRequest();
+            try
+            {
+                if (ValidateStock(stock))
+                {
+                    stockService.Update(stock);
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest("[" + e.GetType() + "] " + e.Message);
+            }
+            return Ok();
         }
 
         //TODO
@@ -125,6 +131,19 @@ namespace backend.Controllers
         }
 
         public Boolean ValidateStock(StockDTO stock)
+        {
+            if (stock.Name.Length < 2 || stock.Units.Equals(null) || stock.Purchase_Price.Equals(null))
+            {
+                return false;
+            }
+            if (stock.Code.Length != 3 || stock.Units < 1 || stock.Purchase_Price < 0.01)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public Boolean ValidateStock(Stock stock)
         {
             if (stock.Name.Length < 2 || stock.Units.Equals(null) || stock.Purchase_Price.Equals(null))
             {

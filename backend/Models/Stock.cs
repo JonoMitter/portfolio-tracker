@@ -12,7 +12,7 @@ namespace backend.Models
         public int Units { get; set; }
         public float Purchase_Price { get; set; }
 
-        public Guid UserId { get; set; }
+        [JsonIgnore] public Guid UserId { get; set; }
         [JsonIgnore] public User User { get; set; }
     }
 }
