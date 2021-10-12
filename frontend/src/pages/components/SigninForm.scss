@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+// $primary: #11998e;
+// $secondary: #38ef7d;
+// $white: #fff;
+// $gray: #9b9b9b;
+.Login {
+  margin: auto;
+  width: 40%;
+  background-color: rgb(53, 52, 52);
+  padding: 60px;
+}
+h1.signin-title {
+  text-align: center;
+  color: white;
+  margin: 0;
+}
+.input {
+  width: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  background-color: rgb(43, 42, 42);
+  color: white;
+
+}
+.group {
+  margin-top: 30px;
+}
+.group2{
+  margin: auto;
+  width: 40%;
+}
+// .label {
+//   color: #999;
+//   font-size: 18px;
+//   font-weight: normal;
+//   position: absolute;
+//   pointer-events: none;
+//   left: 5px;
+//   top: 10px;
+//   transition: 0.2s ease all;
+//   -moz-transition: 0.2s ease all;
+//   -webkit-transition: 0.2s ease all;
+// }
+// .input:focus ~ label,
+// .input:valid ~ label {
+//   top: -20px;
+//   font-size: 14px;
+//   color: rgb(36, 212, 207);
+//   border-radius: 0%;
+// }
+// .bar {
+//   position: relative;
+//   display: block;
+//   width: 300px;
+// }
+// .bar:before,
+// .bar:after {
+//   content: "";
+//   height: 2px;
+//   width: 0;
+//   bottom: 1px;
+//   position: absolute;
+//   background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(36,212,207,1) 0%, rgba(255,0,241,1) 100%);
+//   transition: 0.2s ease all;
+//   -moz-transition: 0.2s ease all;
+//   -webkit-transition: 0.2s ease all;
+// }
+
+// /* active state */
+// .input:focus ~ .bar:before,
+// .input:focus ~ .bar:after {
+//   width: 105%;
+
+// }
+.passforget{
+  float: right;
+  color: rgb(17, 123, 245);
+}
+
+.signinbutton {
+  font-family: "Staatliches";
+  display: block;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  width: 102%;
+  border: none;
+  outline: none;
+  padding: 13px;
+  margin-top: 30px;
+  border-radius: 2px;
+}
+.signinbutton:hover {
+
+}
+.signinText{
+  text-align: center;
+  color: rgb(155, 155, 155);
+}
+.signupnow{
+  text-decoration: none;
+  color: rgb(5, 84, 255);
+  display: block;
+  text-align: center;
+}
