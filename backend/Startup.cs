@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Persistence;
 using backend.Services;
-using backend.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

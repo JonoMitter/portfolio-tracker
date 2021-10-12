@@ -1,3 +1,4 @@
+using backend.DTOs;
 using backend.Models;
 using backend.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +39,27 @@ namespace backend.Services
         {
             return await context.Stock.ToListAsync();
         }
-        
+
+        //returns all stock data including user name and email 
+        public Stock[] getStocksForJWT(Guid userId)
+        {
+            Stock[] stocks = context.Stock
+                .Where(stock => stock.UserId == userId)
+                .ToArray();
+
+            return stocks;
+        }
+
+        //only returns relevant stock info, no user info
+        public Stock[] getStocksDTOForJWT(Guid userId)
+        {
+            Stock[] stocks = context.Stock
+                .Where(stock => stock.UserId == userId)
+                .ToArray();
+
+            return stocks;
+        }
+
         public Stock getById(Guid id) => context.Stock.FirstOrDefault(stock => stock.Id == id);
 
         //     public static List<Stock> GetHoldings(Guid user_Id) {
@@ -67,15 +88,34 @@ namespace backend.Services
         //         Stocks.Remove(stockId);
         //     }
 
-        //     public static void Update(Stock stock)
-        //     {
-        //         var index = Stocks.FindIndex(stockIt => stockIt.Holding_Id == stock.Holding_Id);
-        //         if(index == -1){
-        //             return;
-        //         }
-        //         Console.WriteLine(stock.Holding_Id);
-        //         stock.Holding_Id = Stocks[index].Holding_Id;
-        //         Stocks[index] = stock;
-        //     }
+        public void Update(Stock stock)
+        {
+            Stock dbStock = context.Stock.FirstOrDefault(dbStock => dbStock.Id == stock.Id);
+            if (stock.Code != null)
+            {
+                dbStock.Code = stock.Code;
+            }
+            if (stock.Name != null)
+            {
+                dbStock.Name = stock.Name;
+            }
+            if (stock.Units > 0)
+            {
+                dbStock.Units = stock.Units;
+            }
+            if (stock.Purchase_Price > 0)
+            {
+                dbStock.Units = stock.Units;
+            }
+
+            context.Stock.Update(dbStock);
+            context.SaveChanges();
+        }
+
+        public void Delete(Guid stockId)
+        {
+            Stock dbStock = context.Stock.FirstOrDefault(dbStock => dbStock.Id == stockId);
+            context.Stock.Remove(dbStock);
+        }
     }
 }
