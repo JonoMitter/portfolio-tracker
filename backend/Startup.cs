@@ -74,8 +74,6 @@ namespace backend
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                // app.UseSwagger();
-                // app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "backend v1"));
             }
 
             app.UseHttpsRedirection();
@@ -84,12 +82,14 @@ namespace backend
 
             //routing for front end access to backend, local urls (frontend?)
             app.UseCors(options => options
-                .WithOrigins(new[] { "http://localhost:3000", "http://localhost:5000", "https://localhost:5001" })
+                .WithOrigins(new []{"http://localhost:3000"})
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials()
             );
+
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

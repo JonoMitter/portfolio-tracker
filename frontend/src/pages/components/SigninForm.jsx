@@ -1,11 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import "./SigninForm.scss";
+
 export default class SigninForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value: "" };
+    this.state.redirect = false;
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,40 +21,30 @@ export default class SigninForm extends React.Component {
 
   //POST method into DB for login (axios method)
   handleSubmit(event) {
-    console.log("submit pressed");
+    event.preventDefault();
+
+    console.log("SUBMIT PRESSED");
 
     console.log("Email: " + this.state.email + ", Password: " + this.state.password);
 
-    //encrypt password
-
-    const user = {
-      email: this.state.email,
-      password: this.state.password
-    };
-
-    console.log("User Object: { email: '" + user.email + "', password: '" + user.password + "'");
-    // axios.post('https://localhost:5001/api/User/login',
-    //   {
-    //     email: user.email,
-    //     password: user.password
-    //   })
-
     axios({
       method: "post",
-      headers: {"content-type": "application/json"},
-      url: "https://localhost:5001/api/User/login",
+      headers: {"Content-Type": "application/json"},
       withCredentials: true,
+      url: "http://localhost:5000/api/user/login",
       data: {
-        email: user.email,
-        password: user.password
+        email: this.state.email,
+        password: this.state.password
       }
-    })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
+    });
 
-    event.preventDefault();
+    // this.setState({
+    //   redirect: true
+    // });
+
+    // if(redirect){
+      // return <Redirect to="/"/>
+    // }
   }
 
   render() {
