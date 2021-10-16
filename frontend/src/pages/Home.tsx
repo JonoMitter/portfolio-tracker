@@ -5,11 +5,12 @@ import "./styles/Home.scss";
 const Home = () => {
 
   const [name, setName] = useState('');
+  
+  setName("temp name");
 
-  useEffect(() => {
+  useEffect( () => {
 
     axios.get("http://localhost:5000/api/User/oneuser");
-    //then assign data.name to name setName()
   });
 
   return (

@@ -1,35 +1,54 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./SigninForm.scss";
 
-export default class SigninForm extends React.Component {
-  constructor(props) {
+type Props = {
+  // handleChange: (event: React.SyntheticEvent) => void;
+}
+
+type State = {
+  email: string
+  password: string
+  [key: string]: string;
+}
+
+export default class SigninForm extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
-    this.state = { value: "" };
-    this.state.redirect = false;
+
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    this.state = {
+      email: "",
+      password: ""
+    }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = (event: any) => {
+    const { name, value } = event.target;
+
     this.setState({
-      [event.target.name]: event.target.value
+      [name]: value
     });
+
+    console.log("INPUT CHANGED");
+    console.log(`setState( name: ${name}, value: ${value}) `);
   }
 
   //POST method into DB for login (axios method)
-  handleSubmit(event) {
+  handleSubmit(event: any) {
     event.preventDefault();
 
     console.log("SUBMIT PRESSED");
-
-    console.log("Email: " + this.state.email + ", Password: " + this.state.password);
+    console.log(`Email: ${this.state.email}, Password: ${this.state.password}`);
 
     axios({
       method: "post",
-      headers: {"Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       withCredentials: true,
       url: "http://localhost:5000/api/user/login",
       data: {
@@ -43,7 +62,7 @@ export default class SigninForm extends React.Component {
     // });
 
     // if(redirect){
-      // return <Redirect to="/"/>
+    // return <Redirect to="/"/>
     // }
   }
 
@@ -58,7 +77,7 @@ export default class SigninForm extends React.Component {
               type="email"
               name="email"
               placeholder="Email"
-              // value={this.state.value}
+              value={this.state.email}
               onChange={this.handleChange}
             />
             <span className="highlight"></span>
@@ -72,7 +91,7 @@ export default class SigninForm extends React.Component {
               type="password"
               name="password"
               placeholder="Password"
-              // value={this.state.value}
+              value={this.state.password}
               onChange={this.handleChange}
             />
             <span className="highlight"></span>
