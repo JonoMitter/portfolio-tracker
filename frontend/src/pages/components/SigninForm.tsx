@@ -35,8 +35,7 @@ export default class SigninForm extends React.Component<Props, State> {
       [name]: value
     });
 
-    console.log("INPUT CHANGED");
-    console.log(`setState( name: ${name}, value: ${value}) `);
+    console.log(`${name}: ${value}`);
   }
 
   //POST method into DB for login (axios method)

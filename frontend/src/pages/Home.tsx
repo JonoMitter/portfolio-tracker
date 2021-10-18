@@ -6,7 +6,7 @@ const Home = () => {
 
   const [name, setName] = useState('');
   
-  setName("temp name");
+  // setName("temp name");
 
   useEffect( () => {
 
