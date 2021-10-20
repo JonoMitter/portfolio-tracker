@@ -5,12 +5,24 @@ import "./styles/Home.scss";
 const Home = () => {
 
   const [name, setName] = useState('');
-  
-  // setName("temp name");
 
   useEffect( () => {
 
-    axios.get("http://localhost:5000/api/User/oneuser");
+    //get name from response
+    /*
+     * "id": "3180efe0-7186-4031-87bb-df318617b9a9",
+     * "email": "joelstav@outlook.com",
+     * "firstName": "Joel"
+     */
+    axios({
+      method: "get",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+      url: "http://localhost:5000/api/User/oneuser",
+    }).then(response => console.log(response.data));
+      // .then(res => setState)
+
+    setName("NON DYNAMIC NAME");
   });
 
   return (
