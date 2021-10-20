@@ -17,8 +17,6 @@ export default class SigninForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
     this.state = {
       email: "",
       password: "",
@@ -35,8 +33,6 @@ export default class SigninForm extends React.Component<Props, State> {
     this.setState({
       [name]: value
     });
-
-    // console.log(`${name}: ${value}`);
   }
 
   //POST method into DB for login (axios method)
