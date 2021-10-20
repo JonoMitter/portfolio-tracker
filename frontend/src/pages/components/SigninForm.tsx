@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 import "./SigninForm.scss";
 
@@ -10,7 +10,7 @@ type Props = {
 type State = {
   email: string
   password: string
-  [key: string]: string;
+  [key: string]: any
 }
 
 export default class SigninForm extends React.Component<Props, State> {
@@ -21,7 +21,8 @@ export default class SigninForm extends React.Component<Props, State> {
     // const [password, setPassword] = useState("");
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      redirect: false
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -35,14 +36,13 @@ export default class SigninForm extends React.Component<Props, State> {
       [name]: value
     });
 
-    console.log(`${name}: ${value}`);
+    // console.log(`${name}: ${value}`);
   }
 
   //POST method into DB for login (axios method)
   handleSubmit(event: any) {
     event.preventDefault();
 
-    console.log("SUBMIT PRESSED");
     console.log(`Email: ${this.state.email}, Password: ${this.state.password}`);
 
     axios({
@@ -56,16 +56,17 @@ export default class SigninForm extends React.Component<Props, State> {
       }
     });
 
-    // this.setState({
-    //   redirect: true
-    // });
-
-    // if(redirect){
-    // return <Redirect to="/"/>
-    // }
+    // Add condition here
+    //if(non-400 response) or (jwt exists)
+    this.setState({
+      redirect: true
+    });
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/" />
+    }
     return (
       <div className="Login">
         <h1 className="signin-title">Signin page</h1>
