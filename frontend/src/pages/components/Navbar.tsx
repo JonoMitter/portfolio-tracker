@@ -1,9 +1,14 @@
 import React from "react";
 import "./Navbar.scss";
 import {Link} from 'react-router-dom';
-export default class Navbar extends React.Component {
-  constructor(props) {
-    super();
+
+type Props = {
+  
+}
+
+export default class Navbar extends React.Component<Props> {
+  constructor(props: Props) {
+    super(props);
   }
   render() {
     return (
