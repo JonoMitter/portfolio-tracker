@@ -54,7 +54,6 @@ export default class SigninForm extends React.Component<Props, State> {
       this.setState({
         redirect: true
       });
-
     }).catch(() => {
       console.log("Incorrect username/password")
     })
