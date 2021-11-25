@@ -19,7 +19,10 @@ const Home = () => {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
       url: "http://localhost:5000/api/User/oneuser",
-    }).then(response => console.log(response.data));
+    }).then(response => 
+      console.log(response.data)
+      // this.setState({ nameData: response.data})
+    );
       // .then(res => setState)
 
     setName("NON DYNAMIC NAME");
