@@ -50,13 +50,14 @@ export default class SigninForm extends React.Component<Props, State> {
         email: this.state.email,
         password: this.state.password
       }
-    });
+    }).then(() => {
+      this.setState({
+        redirect: true
+      });
 
-    // Add condition here
-    //if(non-400 response) or (jwt exists)
-    this.setState({
-      redirect: true
-    });
+    }).catch(() => {
+      console.log("Incorrect username/password")
+    })
   }
 
   render() {
