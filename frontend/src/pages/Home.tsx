@@ -6,9 +6,7 @@ const Home = (props: {user: GetUserResponse, setUser: (user: GetUserResponse) =>
   return (
     <section className="home">
       <h1 className="home-title">Home</h1>
-
       <div>{props.user.firstName !== "" ? "Welcome " + props.user.firstName : "You are not logged in"}</div>
-
     </section>
   );
 

@@ -8,7 +8,7 @@ import { ReactComponent as UserIcon } from "../../assets/user.svg";
 
 const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse) => void }) => {
 
-  const logout = () => {
+  function logout() {
     axios({
       method: "post",
       headers: { "Content-Type": "application/json" },

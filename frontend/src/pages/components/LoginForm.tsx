@@ -11,7 +11,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
 
   const [redirect, setRedirect] = useState(false);
 
-  const submit = async (e: SyntheticEvent) => {
+  function submitForm(e: SyntheticEvent) {
     e.preventDefault();
 
     axios({
@@ -25,10 +25,8 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
       }
     }).then((res) => {
       console.log(res.data)
-      let userResponse: GetUserResponse = res.data;
       setRedirect(true);
-      props.setUser(userResponse)
-      
+      props.setUser(res.data)
     }).catch(() => {
       console.log("User already exists/error with server")
     })
@@ -39,9 +37,9 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
   }
 
   return (
-    <div className="Login">
+    <div className="login">
       <h1 className="signin-title">Login</h1>
-      <form className="Login" onSubmit={submit}>
+      <form className="login" onSubmit={submitForm}>
         <div className="group">
           <input
             className="input"

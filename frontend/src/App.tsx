@@ -14,37 +14,38 @@ function App() {
   const [user, setUser] = useState(new GetUserResponse());
 
   useEffect(() => {
-    (
-      async () => {
-        /* 
-         * Expected Response Body
-         * "id": "3180efe0-7186-4031-87bb-df318617b9a9",
-         * "email": "joelstav@outlook.com",
-         * "firstName": "Joel"
-         */
-        await axios({
-          method: "get",
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-          url: "http://localhost:5000/api/User/oneuser",
-
-        }).then(res => {
-          setUser(res.data);
-          console.log("[RESPONSE] " + res.data);
-
-        }).catch(function (error) {
-          console.log("No user login found");
-        })
-      }
-    )()
+    getUserData();
   }, [user.id, user.firstName, user.email]);
+
+
+  function getUserData() {
+    /* 
+     * Expected Response Body
+     * "id": "3180efe0-7186-4031-87bb-df318617b9a9",
+     * "email": "joelstav@outlook.com",
+     * "firstName": "Joel"
+     */
+    axios({
+      method: "get",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+      url: "http://localhost:5000/api/User/oneuser",
+
+    }).then(res => {
+      setUser(res.data);
+      console.log("[RESPONSE] " + res.data);
+
+    }).catch(function (error) {
+      console.log("No user login found");
+    })
+  }
 
   return (
     <BrowserRouter>
-      <Navbar user={user} setUser={setUser}/>
-      
+      <Navbar user={user} setUser={setUser} />
+
       <Route path="/" exact component={() => <Home user={user} setUser={setUser} />} />
-      <Route path="/login" component={() => <SignIn setUser={setUser}/>} />
+      <Route path="/login" component={() => <SignIn setUser={setUser} />} />
       <Route path="/signup" component={SignUp} />
     </BrowserRouter>
   );
