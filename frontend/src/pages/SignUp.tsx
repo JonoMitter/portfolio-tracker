@@ -38,7 +38,7 @@ const SignUp = () => {
   }
 
   if (redirect) {
-    return <Redirect to="/signin" />
+    return <Redirect to="/login" />
   }
 
   return (

@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useState } from "react";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
-import "./SigninForm.scss";
+import "./LoginForm.scss";
 import GetUserResponse from "../../responses/GetUserResponse";
 
 const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
@@ -40,7 +40,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
 
   return (
     <div className="Login">
-      <h1 className="signin-title">Signin page</h1>
+      <h1 className="signin-title">Login</h1>
       <form className="Login" onSubmit={submit}>
         <div className="group">
           <input

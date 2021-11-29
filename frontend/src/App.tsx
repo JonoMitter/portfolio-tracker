@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 // import Home from "./pages/Home";
 import Home from "./pages/Home";
-import SignIn from "./pages/SignIn";
+import SignIn from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Navbar from "./pages/components/Navbar";
 import GetUserResponse from "./responses/GetUserResponse"
@@ -44,7 +44,7 @@ function App() {
       <Navbar user={user} setUser={setUser}/>
       
       <Route path="/" exact component={() => <Home user={user} setUser={setUser} />} />
-      <Route path="/signin" component={() => <SignIn setUser={setUser}/>} />
+      <Route path="/login" component={() => <SignIn setUser={setUser}/>} />
       <Route path="/signup" component={SignUp} />
     </BrowserRouter>
   );

@@ -28,32 +28,32 @@ const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse)
 
   if (props.user.firstName === "") {
     menu = (
-      <ul>
-        <li><Link className="b0" to='/signup'>Sign up</Link></li>
-        <li><Link className="b1" to='/signin'>Sign in</Link></li>
+      <ul className="nav-right">
+        <li><Link className="nav-item cyan inline" to='/login'>Login</Link></li>
+        <li><Link className="nav-item nav-item-right pink inline" to='/signup'>Sign up</Link></li>
       </ul>
     )
   } else {
     menu = (
-      <ul>
-        {/* redirect to login page when you signout */}
-        {/* <li><Link className="b1" to='/signin' onClick={logout}>Logout</Link></li> */}
+      <div className="nav-right">
+        <ul >
+          {/* redirect to login page when you signout */}
+          {/* <li><Link className="b1" to='/signin' onClick={logout}>Logout</Link></li> */}
 
-        {/* redirect to home page when you sign out */}
-        <li><Link className="b1" to='/' onClick={logout}>Logout</Link></li>
-        
-        {/* <li><LogoutButton /></li> */}
-      </ul>
+          <li><div className="nav-item nav-name">Welcome {props.user.firstName}</div></li>
+          {/* redirect to home page when you sign out */}
+          <li><Link className="nav-item nav-item-right pink" to='/' onClick={logout}>Logout</Link></li>
+
+          {/* <li><LogoutButton /></li> */}
+        </ul>
+      </div>
     )
   }
 
   return (
     <nav>
-      <div>
+      <div className="nav-content">
         <Link className="navbar-title" to='/'>Portfolio Tracker</Link>
-      </div>
-
-      <div>
         {menu}
       </div>
     </nav>
