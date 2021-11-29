@@ -3,6 +3,7 @@ import "./Navbar.scss";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import GetUserResponse from "../../responses/GetUserResponse";
+import { ReactComponent as UserIcon } from "../../assets/user.svg";
 // import LogoutButton from "./LogoutButton";
 
 const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse) => void }) => {
@@ -40,7 +41,7 @@ const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse)
           {/* redirect to login page when you signout */}
           {/* <li><Link className="b1" to='/signin' onClick={logout}>Logout</Link></li> */}
 
-          <li><div className="nav-item nav-name">Welcome {props.user.firstName}</div></li>
+          <li><div className="nav-item nav-name"> <UserIcon className="white-svg"/> Welcome {props.user.firstName}</div></li>
           {/* redirect to home page when you sign out */}
           <li><Link className="nav-item nav-item-right pink" to='/' onClick={logout}>Logout</Link></li>
 
