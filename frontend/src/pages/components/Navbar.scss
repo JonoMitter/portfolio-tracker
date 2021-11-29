@@ -2,8 +2,8 @@
 nav {
   width: 100%;
   background-color: rgb(33,33,33);
-  height: 80px;
   position:relative;
+  display:inline-block;
 }
 
 ul{
@@ -15,18 +15,28 @@ ul{
 li{
   display: inline;
 }
+
+.nav-content{
+  padding: 20px 10% 20px 10%;
+}
+
 .navbar-title{
-  margin-top: 0;
   color:white;
   text-decoration: none;
   font-size: 40px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
 }
-.b0,.b1 {
-  font-family: 'Staatliches';
+
+.nav-right{
   float: right;
-  margin-right: 20px;
-  margin-top: 20px;
-  display: block;
+}
+
+.nav-item{
+  font-family: 'Staatliches';
+  margin-right: 10px;
+  margin-top: 10px;
+  display: inline;
   width: 60px;
   height: 20px;
   text-decoration: none;
@@ -37,23 +47,44 @@ li{
   padding: 10px 20px;
   transition: ease 0.4s;
   border-radius: 2px;
+}
 
+.nav-item-right{
+  margin-right: 0;
 }
-.b0{
+
+.nav-name{
+  color: white;
+  font-family:'Times New Roman', Times, serif
+}
+
+.pink{
   background-color: rgb(218, 64, 151);
 }
-.b1{
+.cyan{
   background-color: rgb(36, 212, 207);
 }
-.b0:hover{
+.pink:hover{
   color: rgb(255, 255, 255);
   transition: all 0.5s;
   background-color: rgb(36, 212, 207);
   cursor: pointer;
 }
-.b1:hover{
+.cyan:hover{
   color: rgb(255, 255, 255);
   transition: all 0.5s;
   background-color: rgb(218, 64, 151);
   cursor: pointer;
+}
+
+.white-text{
+  color: white;
+}
+
+.inline{
+  display: inline;
+}
+
+.inline-block{
+  display: inline-block;
 }
