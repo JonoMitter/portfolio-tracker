@@ -14,6 +14,10 @@ const SignUp = () => {
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
+    //TODO
+    //Frontend input validation
+    //compare password and confirm
+
     axios({
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -41,17 +45,17 @@ const SignUp = () => {
     <form onSubmit={submit}>
       <h1>Please Register</h1>
 
-      <input className="" placeholder="FirstName" required
-        onChange={e => setName(e.target.value)} />
+      <input className="" placeholder="First Name" required
+        onChange={e => setName(e.target.value)} /><br/>
 
       <input type="email" className="" placeholder="Email Address" required
-        onChange={e => setEmail(e.target.value)} />
+        onChange={e => setEmail(e.target.value)} /><br/>
 
       <input type="password" className="" placeholder="Password" required
-        onChange={e => setPassword(e.target.value)} />
+        onChange={e => setPassword(e.target.value)} /><br/>
 
       <input type="password" className="" placeholder="Confirm Password" required
-        onChange={e => setPasswordConfirm(e.target.value)} />
+        onChange={e => setPasswordConfirm(e.target.value)} /><br/>
 
       <button type="submit" className="" placeholder="Sign in">Submit</button>
     </form>
