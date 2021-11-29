@@ -67,7 +67,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
         </div>
 
         <p className="passforget">Forgot password?</p>
-        <input type="submit" value="Sign in" className="signinbutton" />
+        <input type="submit" value="Login" className="signinbutton" />
       </form>
 
       <div className="group2">
