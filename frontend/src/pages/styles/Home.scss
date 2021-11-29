@@ -1,9 +1,19 @@
+html, body{
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+}
+
 section.home {
   background-color: rgb(33, 33, 33);
   height: 900px;
+  color: white;
 }
 h1.home-title {
-  background-color: rgb(33, 33, 33);
-  color: white;
   margin-top: 0px;
+}
+
+section.home{
+  padding: 10px;
 }

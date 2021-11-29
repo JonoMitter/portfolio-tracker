@@ -5,10 +5,21 @@ nav {
   height: 80px;
   position:relative;
 }
+
+ul{
+  list-style-type: 0;
+  margin: 0;
+  padding: 0;
+}
+
+li{
+  display: inline;
+}
 .navbar-title{
   margin-top: 0;
   color:white;
   text-decoration: none;
+  font-size: 40px;
 }
 .b0,.b1 {
   font-family: 'Staatliches';

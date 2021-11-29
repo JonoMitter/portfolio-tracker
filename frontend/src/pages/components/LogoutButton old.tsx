@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default class LogoutButton extends Component {
   logout = () => {
@@ -20,9 +21,9 @@ export default class LogoutButton extends Component {
 
   render() {
     return (
-      <button onClick={this.logout}>
+      <Link className="b1" to='/signin' onClick={this.logout}>
         LOGOUT
-      </button>
+      </Link>
     );
   }
 }

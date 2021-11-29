@@ -4,21 +4,17 @@ class GetUserResponse {
     firstName: string;
     email: string;
 
-    constructor(id: string, firstName: string, email: string){
-        this.id = id;
-        this.firstName = firstName;
-        this.email = email;
+    constructor(){
+        this.id = "";
+        this.firstName = "";
+        this.email = "";
     }
 
-    public get getId(){
-        return this.id;
-    }
-    public get getFirstName(){
-        return this.firstName;
-    }
-    public get getEmail(){
-        return this.email;
-    }
+    // constructor(id: string, firstName: string, email: string){
+    //     this.id = id;
+    //     this.firstName = firstName;
+    //     this.email = email;
+    // }
 }
 
 export default GetUserResponse;

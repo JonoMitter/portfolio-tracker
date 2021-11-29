@@ -50,7 +50,7 @@ export default class SigninForm extends React.Component<Props, State> {
         email: this.state.email,
         password: this.state.password
       }
-    }).then(() => {
+    }).then((res) => {
       this.setState({
         redirect: true
       });
