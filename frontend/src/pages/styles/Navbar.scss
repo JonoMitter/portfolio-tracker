@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+
+nav {
+  width: 100%;
+  background-color: rgb(33,33,33);
+  position:relative;
+  display:inline-block;
+}
+
+ul{
+  list-style-type: none;
+}
+
+li{
+  display: inline;
+}
+
+.nav-content{
+  padding: 20px 10% 20px 10%;
+}
+
+.navbar-title{
+  color:white;
+  text-decoration: none;
+  font-size: 40px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+}
+
+.nav-right{
+  float: right;
+}
+
+.nav-item{
+  font-family: 'Staatliches';
+  margin-right: 10px;
+  margin-top: 10px;
+  display: inline;
+  width: 60px;
+  height: 20px;
+  text-decoration: none;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  padding: 10px 20px;
+  transition: ease 0.4s;
+  border-radius: 2px;
+}
+
+.nav-item-right{
+  margin-right: 0;
+}
+
+.nav-name{
+  color: white;
+  font-family:'Times New Roman', Times, serif
+}
+
+.white-svg{
+  stroke: white;
+  height: 14px;
+  width: auto;
+}
+
+.pink{
+  background-color: rgb(218, 64, 151);
+  color: black;
+}
+
+.pink:hover{
+  color: white;
+  transition: all 0.5s;
+  background-color: rgb(37, 216, 210);
+  cursor: pointer;
+}
+
+.cyan{
+  background-color: rgb(36, 212, 207);
+  color: black;
+}
+
+.cyan:hover{
+  color: rgb(255, 255, 255);
+  transition: all 0.5s;
+  background-color: rgb(218, 64, 151);
+  cursor: pointer;
+}
+
+.logout-button{
+  background-color: rgba(218, 64, 151, 0);
+  color: white;
+  border: 1.5px solid white;
+}
+
+.logout-button:hover{
+  color: rgb(255, 255, 255);
+  transition: all 0.5s;
+  background-color: rgb(14, 152, 243);
+  cursor: pointer;
+}

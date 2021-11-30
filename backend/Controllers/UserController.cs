@@ -150,7 +150,12 @@ namespace backend.Controllers
             return Ok(id + "has been Successfully deleted");
         }
         public Boolean ValidUser(CreateUserDTO user)
-        {
+        {   
+            if (ExistingUser(user.Email))
+            {
+                return false;
+            }
+
             //checks for empty values
             if (user.Email.Length < 1 || user.FirstName.Length < 2)
             {
@@ -161,6 +166,20 @@ namespace backend.Controllers
                 return false;
             }
             return true;
+        }
+
+        public Boolean ExistingUser(string email)
+        {   
+            Boolean userExists = false;
+
+            var existingUser = userService.getbyEmail(email);
+
+            if (existingUser != null)
+            {
+               userExists = true;
+            }
+
+            return userExists;
         }
 
         public User GetUserFromJWT()

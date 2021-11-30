@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+// $primary: #11998e;
+// $secondary: #38ef7d;
+// $white: #fff;
+// $gray: #9b9b9b;
+
+.form {
+  margin: auto;
+  width: 50%;
+  background-color: rgb(53, 52, 52);
+  padding: 35px 60px;
+}
+
+h1.form-title {
+  text-align: center;
+  color: white;
+  margin: 0;
+}
+
+.input {
+  width: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  background-color: rgb(43, 42, 42);
+  color: white;
+  margin-top: 20px;
+}
+
+.group {
+  margin-top: 30px;
+}
+
+.group2{
+  margin: auto;
+  width: 40%;
+}
+
+.passforget{
+  float: right;
+  color: rgb(17, 123, 245);
+}
+
+.form-button {
+  font-family: "Staatliches";
+  display: block;
+  text-decoration: none;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  width: 102%;
+  border: none;
+  outline: none;
+  padding: 13px;
+  margin-top: 30px;
+  border-radius: 2px;
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
+
+.form-button:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(226, 226, 226);
+}
+
+.form-text{
+  text-align: center;
+  color: rgb(155, 155, 155);
+}
+
+.form-link{
+  text-decoration: none;
+  color: rgb(5, 84, 255);
+  display: block;
+  text-align: center;
+}
+
+.form-outer{
+  padding: 60px;
+  width: 45%;
+  margin:auto;
+  background-color: #353434;
+}
+
+.form-forgot{
+  float: right;
+  color: rgb(17, 123, 245);
+}

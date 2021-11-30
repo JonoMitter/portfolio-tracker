@@ -1,0 +1,294 @@
+{
+	"info": {
+		"_postman_id": "2813fecd-fa0b-4f47-b93d-31d893209666",
+		"name": "Portfolio Web App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Jono\",\r\n    \"Email\": \"jonomitter@outlook.com\",\r\n    \"Password\": \"Password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/User/register",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"User",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/User",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"User"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Stock",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Code\": \"NAB\",\r\n    \"Name\": \"National Australia Bank\",\r\n    \"Units\": \"10\",\r\n    \"Purchase_Price\": \"15.05\",\r\n    \"UserId\": \"ff23cc17-82fb-416f-835b-f0eab8673eb1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/Stock",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"Stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Stocks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/Stock",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"Stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout JWT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/User/logout",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"User",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"jonomitter@outlook.com\",\r\n    \"password\": \"Password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/user/login",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User by JWT",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/User/oneuser",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"User",
+						"oneuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateStock with JWT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Code\": \"RLE\",\r\n    \"Name\": \"Real Estate Ltd\",\r\n    \"Units\": \"420\",\r\n    \"Purchase_Price\": \"69.00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/Stock/Create",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"Stock",
+						"Create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetStocks by JWT",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/Stock",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"Stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateStock",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"d5d034e5-b15d-4e37-aed7-2f12a8dc7bdf\",\r\n    \"code\": \"REA\",\r\n    \"name\": \"Real Estate Ltd\",\r\n    \"units\": 410,\r\n    \"purchase_Price\": 69\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/Stock/update",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"Stock",
+						"update"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localhost",
+			"value": "http://localhost:5000"
+		},
+		{
+			"key": "localhost HTTPS",
+			"value": "https://localhost:5001"
+		}
+	]
+}
