@@ -1,5 +1,5 @@
 import React from "react";
-import "./Navbar.scss";
+import "../styles/Navbar.scss";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import GetUserResponse from "../../responses/GetUserResponse";
@@ -38,12 +38,8 @@ const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse)
     menu = (
       <div className="nav-right">
         <ul >
-          {/* redirect to login page when you signout */}
-          {/* <li><Link className="b1" to='/signin' onClick={logout}>Logout</Link></li> */}
-
           <li><div className="nav-item nav-name"> <UserIcon className="white-svg"/> {props.user.firstName}</div></li>
-          {/* redirect to home page when you sign out */}
-          <li><Link className="nav-item nav-item-right pink" to='/' onClick={logout}>Logout</Link></li>
+          <li><Link className="nav-item nav-item-right logout-button" to='/' onClick={logout}>Logout</Link></li>
 
           {/* <li><LogoutButton /></li> */}
         </ul>

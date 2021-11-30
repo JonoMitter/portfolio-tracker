@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useState } from "react";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
-import "./LoginForm.scss";
+import "../styles/Form.scss";
 import GetUserResponse from "../../responses/GetUserResponse";
 
 const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
@@ -37,10 +37,10 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
   }
 
   return (
-    <div className="login">
-      <h1 className="signin-title">Login</h1>
-      <form className="login" onSubmit={submitForm}>
-        <div className="group">
+    <div className="form-outer">
+      <h1 className="form-title">Login</h1>
+      <form className="form" onSubmit={submitForm}>
+        
           <input
             className="input"
             type="email"
@@ -50,9 +50,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           />
           <span className="highlight"></span>
           <span className="bar"></span>
-        </div>
-
-        <div className="group">
+        
           <input
             className="input"
             type="password"
@@ -62,15 +60,14 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           />
           <span className="highlight"></span>
           <span className="bar"></span>
-        </div>
 
-        <p className="passforget">Forgot password?</p>
-        <input type="submit" value="Login" className="signinbutton" />
+        <p className="form-forgot">Forgot password?</p>
+        <input type="submit" value="Login" className="form-button" />
       </form>
 
       <div className="group2">
-        <p className="signinText">Dont have an account?</p>
-        <Link className="signupnow" to="/signup">
+        <p className="form-text">Dont have an account?</p>
+        <Link className="form-link" to="/signup">
           SIGN UP NOW
         </Link>
       </div>

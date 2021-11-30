@@ -3,15 +3,16 @@ import "./App.css";
 import { BrowserRouter, Route } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 
-// import Home from "./pages/Home";
 import Home from "./pages/Home";
-import SignIn from "./pages/Login";
+import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Navbar from "./pages/components/Navbar";
 import GetUserResponse from "./responses/GetUserResponse"
 
 function App() {
   const [user, setUser] = useState(new GetUserResponse());
+
+  document.title = "Portfolio Tracker";
 
   useEffect(() => {
     getUserData();
@@ -45,7 +46,7 @@ function App() {
       <Navbar user={user} setUser={setUser} />
 
       <Route path="/" exact component={() => <Home user={user} setUser={setUser} />} />
-      <Route path="/login" component={() => <SignIn setUser={setUser} />} />
+      <Route path="/login" component={() => <Login setUser={setUser} />} />
       <Route path="/signup" component={SignUp} />
     </BrowserRouter>
   );

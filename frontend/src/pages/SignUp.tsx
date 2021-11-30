@@ -1,6 +1,7 @@
 import React, { SyntheticEvent, useState } from "react";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import "./styles/Form.scss";
 
 const SignUp = () => {
 
@@ -42,23 +43,32 @@ const SignUp = () => {
   }
 
   return (
-    <form onSubmit={submit}>
-      <h1>Please Register</h1>
+    <section>
+      <div className="form-outer">
+        <h1 className="form-title">Sign Up</h1>
+        <form className="form" onSubmit={submit}>
 
-      <input className="" placeholder="First Name" required
-        onChange={e => setName(e.target.value)} /><br/>
+          <input className="input" placeholder="First Name" required
+            onChange={e => setName(e.target.value)} /><br />
 
-      <input type="email" className="" placeholder="Email Address" required
-        onChange={e => setEmail(e.target.value)} /><br/>
+          <input type="email" className="input" placeholder="Email Address" required
+            onChange={e => setEmail(e.target.value)} /><br />
 
-      <input type="password" className="" placeholder="Password" required
-        onChange={e => setPassword(e.target.value)} /><br/>
+          <input type="password" className="input" placeholder="Password" required
+            onChange={e => setPassword(e.target.value)} /><br />
 
-      <input type="password" className="" placeholder="Confirm Password" required
-        onChange={e => setPasswordConfirm(e.target.value)} /><br/>
+          <input type="password" className="input" placeholder="Confirm Password" required
+            onChange={e => setPasswordConfirm(e.target.value)} /><br />
 
-      <button type="submit" className="" placeholder="Sign in">Submit</button>
-    </form>
+          <button type="submit" className="form-button" placeholder="Sign in">Submit</button>
+        </form>
+
+        <p className="form-text">Already have an account?</p>
+        <Link className="form-link" to="/login">
+          LOGIN
+        </Link>
+      </div>
+    </section>
   );
 }
 

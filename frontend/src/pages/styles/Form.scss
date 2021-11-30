@@ -1,16 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
 // $primary: #11998e;
 // $secondary: #38ef7d;
 // $white: #fff;
 // $gray: #9b9b9b;
-.login {
+
+.form {
   margin: auto;
   width: 50%;
   background-color: rgb(53, 52, 52);
-  padding: 60px;
+  padding: 35px 60px;
 }
 
-h1.signin-title {
+h1.form-title {
   text-align: center;
   color: white;
   margin: 0;
@@ -25,6 +27,7 @@ h1.signin-title {
   font-family: inherit;
   background-color: rgb(43, 42, 42);
   color: white;
+  margin-top: 20px;
 }
 
 .group {
@@ -41,11 +44,10 @@ h1.signin-title {
   color: rgb(17, 123, 245);
 }
 
-.signinbutton {
+.form-button {
   font-family: "Staatliches";
   display: block;
   text-decoration: none;
-  color: rgb(0, 0, 0);
   font-size: 16px;
   letter-spacing: 0.1em;
   width: 102%;
@@ -54,19 +56,36 @@ h1.signin-title {
   padding: 13px;
   margin-top: 30px;
   border-radius: 2px;
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
 }
-.signinbutton:hover {
 
+.form-button:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(226, 226, 226);
 }
 
-.signinText{
+.form-text{
   text-align: center;
   color: rgb(155, 155, 155);
 }
 
-.signupnow{
+.form-link{
   text-decoration: none;
   color: rgb(5, 84, 255);
   display: block;
   text-align: center;
+}
+
+.form-outer{
+  padding: 60px;
+  width: 45%;
+  margin:auto;
+  background-color: #353434;
+}
+
+.form-forgot{
+  float: right;
+  color: rgb(17, 123, 245);
 }
