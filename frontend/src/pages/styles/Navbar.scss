@@ -63,28 +63,30 @@ li{
   width: auto;
 }
 
-.pink{
-  background-color: rgb(218, 64, 151);
+.login{
+  background-color: white;
   color: black;
+  border: 2px solid white;
 }
 
-.pink:hover{
-  color: white;
-  transition: all 0.5s;
-  background-color: rgb(37, 216, 210);
-  cursor: pointer;
-}
-
-.cyan{
-  background-color: rgb(36, 212, 207);
-  color: black;
-}
-
-.cyan:hover{
+.login:hover{
+  background-color: rgb(37, 37, 37);
   color: rgb(255, 255, 255);
+  border: 2px solid rgb(37, 37, 37);
   transition: all 0.5s;
-  background-color: rgb(218, 64, 151);
-  cursor: pointer;
+}
+
+.signup{
+  background :none;
+  color: white;
+  border: 2px solid white;
+}
+
+.signup:hover{
+  background-color: rgb(206, 206, 206);
+  color: black;
+  border: 2px solid rgb(206, 206, 206);
+  transition: all 0.5s;
 }
 
 .logout-button{
