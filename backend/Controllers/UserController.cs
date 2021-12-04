@@ -165,6 +165,12 @@ namespace backend.Controllers
             {
                 return false;
             }
+
+            //check that password are equal
+            if (!user.Password.Equals(user.ConfirmPassword)){
+                return false;
+            }
+            
             return true;
         }
 

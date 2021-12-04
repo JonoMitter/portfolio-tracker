@@ -47,6 +47,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
             name="email"
             placeholder="Email"
             onChange={e => setEmail(e.target.value)}
+            required
           />
           <span className="highlight"></span>
           <span className="bar"></span>
@@ -57,6 +58,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
             name="password"
             placeholder="Password"
             onChange={e => setPassword(e.target.value)}
+            required
           />
           <span className="highlight"></span>
           <span className="bar"></span>

@@ -15,27 +15,28 @@ const SignUp = () => {
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    //TODO
-    //Frontend input validation
-    //compare password and confirm
-
-    axios({
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      url: "http://localhost:5000/api/user/register",
-      data: {
-        firstName: name,
-        email: email,
-        password: password
-        // TODO
-        // include PasswordConfirm and verify passwordConfirm==password in backend
-      }
-    }).then((res) => {
-      console.log(res.data)
-      setRedirect(true);
-    }).catch(() => {
-      console.log("User already exists/error with server")
-    })
+    if (password == passwordConfirm){
+      axios({
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        url: "http://localhost:5000/api/user/register",
+        data: {
+          firstName: name,
+          email: email,
+          password: password
+          // TODO
+          // include PasswordConfirm and verify passwordConfirm==password in backend
+        }
+      }).then((res) => {
+        console.log(res.data)
+        setRedirect(true);
+      }).catch(() => {
+        console.log("User already exists/error with server")
+      })
+    } else {
+      //alert that password and passwork confirm do not match
+      console.log("passwords do not match")
+    }
   }
 
   if (redirect) {
