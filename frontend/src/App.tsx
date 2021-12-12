@@ -30,7 +30,7 @@ function App() {
       method: "get",
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
-      url: "http://localhost:5000/api/User/oneuser",
+      url: "http://localhost:5000/api/User",
 
     }).then(res => {
       setUser(res.data);

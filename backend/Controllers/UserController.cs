@@ -26,7 +26,7 @@ namespace backend.Controllers
         }
 
         //ONLY FOR TESTING
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
             List<User> list = await Task.Run(() => userService.GetUsers());
@@ -44,7 +44,8 @@ namespace backend.Controllers
         [HttpPost("register")]
         public IActionResult Create(CreateUserDTO userDTO)
         {
-            if (ValidUser(userDTO))
+            ValidationErrors errors = CreateUserErrors(userDTO);
+            if (errors.Size() == 0)
             {
                 // copy POST body values to new user object
                 User user = new User();
@@ -57,7 +58,7 @@ namespace backend.Controllers
             }
             else
             {
-                return BadRequest("[Invalid Login] Values for Email, Firstname, Password are invalid");
+                return BadRequest(errors);
             }
         }
 
@@ -66,38 +67,46 @@ namespace backend.Controllers
         {
             User user = userService.getbyEmail(loginDTO.Email);
 
+            ValidationErrors errors = new ValidationErrors();
+
             if (user == null)
             {
-                return BadRequest("Invalid credentials");
+                errors.Add(new ValidationError("Email", "Cannot find user with email '" + loginDTO.Email + "'"));
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password))
+            else if (!BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password))
             {
-                return BadRequest("Invalid credentials");
+                errors.Add(new ValidationError("Password", "Incorrect password"));
             }
 
-            var jwt = jwtService.Generate(user.Id);
-
-            Response.Cookies.Append(key: "jwt", value: jwt, new CookieOptions
+            if (errors.Size() == 0)
             {
-                HttpOnly = true
-            });
+                var jwt = jwtService.Generate(user.Id);
 
-            return Ok(new
+                Response.Cookies.Append(key: "jwt", value: jwt, new CookieOptions
+                {
+                    HttpOnly = true
+                });
+
+                return Ok(new
+                {
+                    jwt,
+                    message = "User: " + user.FirstName + " with ID: " + user.Id + " successfully logged in"
+                });
+            }
+            else
             {
-                jwt,
-                message = "User: " + user.FirstName + " with ID: " + user.Id + " successfully logged in"
-            });
+                return BadRequest(errors);
+            }
         }
 
         //gets user from Cookie validates it and searches for user by id
-        [HttpGet("oneuser")]
+        [HttpGet]
         public IActionResult UserCookie()
         {
             try
             {
                 User user = GetUserFromJWT();
-
                 return Ok(user);
             }
             catch (Exception e)
@@ -149,40 +158,54 @@ namespace backend.Controllers
             userService.deleteById(id);
             return Ok(id + "has been Successfully deleted");
         }
-        public Boolean ValidUser(CreateUserDTO user)
-        {   
+
+        public ValidationErrors CreateUserErrors(CreateUserDTO user)
+        {
+            ValidationErrors errors = new ValidationErrors();
+
             if (ExistingUser(user.Email))
             {
-                return false;
+                errors.Add(new ValidationError("Email", "User with email '" + user.Email + "' already exists"));
             }
 
-            //checks for empty values
-            if (user.Email.Length < 1 || user.FirstName.Length < 2)
+            //check that email meets minimum size requirements "a@a.com"
+            if (user.Email.Length < 7)
             {
-                return false;
+                errors.Add(new ValidationError("Email", "Email must be at least 7 characters"));
             }
-            if (!user.Email.Contains("@") & !user.Email.Contains(".com"))
+
+            if (!user.Email.Contains("@"))
             {
-                return false;
+                errors.Add(new ValidationError("Email", "Email must contain '@'"));
+            }
+
+            if (!user.Email.Contains(".com"))
+            {
+                errors.Add(new ValidationError("Email", "Email must contain '.com'"));
+            }
+
+            if (user.FirstName.Length < 2)
+            {
+                errors.Add(new ValidationError("FirstName", "FirstName must be at least 2 characters"));
             }
 
             //check that password are equal
-            if (!user.Password.Equals(user.ConfirmPassword)){
-                return false;
+            if (!user.Password.Equals(user.ConfirmPassword))
+            {
+                errors.Add(new ValidationError("Password", "Passwords must match"));
             }
-            
-            return true;
+            return errors;
         }
 
         public Boolean ExistingUser(string email)
-        {   
+        {
             Boolean userExists = false;
 
             var existingUser = userService.getbyEmail(email);
 
             if (existingUser != null)
             {
-               userExists = true;
+                userExists = true;
             }
 
             return userExists;
