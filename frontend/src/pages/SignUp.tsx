@@ -15,7 +15,7 @@ const SignUp = () => {
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    if (password == passwordConfirm){
+    if (password === passwordConfirm) {
       axios({
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -23,9 +23,8 @@ const SignUp = () => {
         data: {
           firstName: name,
           email: email,
-          password: password
-          // TODO
-          // include PasswordConfirm and verify passwordConfirm==password in backend
+          password: password,
+          passwordConfirm: passwordConfirm
         }
       }).then((res) => {
         console.log(res.data)
@@ -34,7 +33,7 @@ const SignUp = () => {
         console.log("User already exists/error with server")
       })
     } else {
-      //alert that password and passwork confirm do not match
+      //TODO alert that password and passwork confirm do not match
       console.log("passwords do not match")
     }
   }

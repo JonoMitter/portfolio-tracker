@@ -30,20 +30,18 @@ const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse)
   if (props.user.firstName === "") {
     menu = (
       <ul className="nav-right">
-        <li><Link className="nav-item login inline" to='/login'>Login</Link></li>
-        <li><Link className="nav-item nav-item-right signup inline" to='/signup'>Sign up</Link></li>
+        <li><Link className="nav-item login inline scale-hover" to='/login'>Login</Link></li>
+        <li><Link className="nav-item signup inline scale-hover" to='/signup'>Sign up</Link></li>
       </ul>
     )
   } else {
     menu = (
-      <div className="nav-right">
-        <ul >
-          <li><div className="nav-item nav-name"> <UserIcon className="white-svg"/> {props.user.firstName}</div></li>
-          <li><Link className="nav-item nav-item-right logout-button" to='/' onClick={logout}>Logout</Link></li>
+      <ul className="nav-right">
+        <li><div className="nav-item nav-name"> <UserIcon className="white-svg" /> {props.user.firstName}</div></li>
+        <li><Link className="nav-item logout-button scale-hover" to='/' onClick={logout}>Logout</Link></li>
 
-          {/* <li><LogoutButton /></li> */}
-        </ul>
-      </div>
+        {/* <li><LogoutButton /></li> */}
+      </ul>
     )
   }
 

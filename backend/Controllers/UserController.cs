@@ -190,10 +190,19 @@ namespace backend.Controllers
             }
 
             //check that password are equal
-            if (!user.Password.Equals(user.ConfirmPassword))
+            if (!user.Password.Equals(user.PasswordConfirm))
             {
-                errors.Add(new ValidationError("Password", "Passwords must match"));
+                errors.Add(new ValidationError("Password", "Passwords must match: " + user.Password + ", " + user.PasswordConfirm));
             }
+
+            //[TESTING]
+            //print all errors to console
+            foreach (ValidationError error in errors.errors)
+            {
+                Console.WriteLine("Field: " + error.Field);
+                Console.WriteLine("Message: " + error.Message);
+            }
+
             return errors;
         }
 

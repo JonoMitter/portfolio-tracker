@@ -62,7 +62,6 @@ li{
 
 .login{
   cursor: pointer;
-  // background-color: black;
   border: 3px solid white;
   color: white;
   transition: all 0.5s;
@@ -72,7 +71,7 @@ li{
 }
 
 .login:hover{
-  transform: scale(1.1);
+  
 }
 
 .signup{
@@ -85,6 +84,10 @@ li{
 }
 
 .signup:hover{
+
+}
+
+.scale-hover:hover{
   transform: scale(1.1);
 }
 
@@ -92,11 +95,12 @@ li{
   background-color: rgba(218, 64, 151, 0);
   color: white;
   border: 1.5px solid white;
+  transition: all 0.5s;
+  border-radius: 10px;
 }
 
 .logout-button:hover{
   color: rgb(255, 255, 255);
   transition: all 0.5s;
   background-color: rgb(14, 152, 243);
-  cursor: pointer;
 }
