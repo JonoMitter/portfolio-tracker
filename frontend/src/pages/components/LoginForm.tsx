@@ -38,36 +38,39 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
 
   return (
     <div className="form-outer">
-      <h1 className="form-title">Login</h1>
+      <h1 className="form-heading">Login</h1>
+      <h2 className="form-subheading">Please login to access your Portfolio</h2>
+      <br></br>
       <form className="form" onSubmit={submitForm}>
-        
-          <input
-            className="input"
-            type="email"
-            name="email"
-            placeholder="Email"
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-          <span className="highlight"></span>
-          <span className="bar"></span>
-        
-          <input
-            className="input"
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-          <span className="highlight"></span>
-          <span className="bar"></span>
+        <label htmlFor="email">EMAIL</label>
+        <input
+          className="input"
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={e => setEmail(e.target.value)}
+          required
+        />
+        <p className="form-error email-error">Cannot find user with this email</p>
 
-        <p className="form-forgot">Forgot password?</p>
+        <label htmlFor="password">PASSWORD</label>
+        <input
+          className="input  input-password"
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+        <div className="grid-two-cols">
+          <p className="form-error">Incorrect password</p>
+          <p className="form-forgot password-error">Forgot password?</p>
+        </div>
+
         <input type="submit" value="Login" className="form-button" />
       </form>
 
-      <div className="group2">
+      <div>
         <p className="form-text">Dont have an account?</p>
         <Link className="form-link" to="/signup">
           SIGN UP NOW

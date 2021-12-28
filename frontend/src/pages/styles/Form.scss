@@ -7,58 +7,53 @@
 
 .form {
   margin: auto;
-  width: 50%;
-  background-color: rgb(53, 52, 52);
-  padding: 35px 60px;
+  width: 80%;
 }
 
-h1.form-title {
+.form-heading {
   text-align: center;
   color: white;
   margin: 0;
+  font-size: 2em;
+}
+
+.form-subheading {
+  text-align: center;
+  color: white;
+  margin: 0;
+  font-weight: 400;
+  font-size: 1.2em;
 }
 
 .input {
   width: 100%;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border-radius: 2px;
+  padding: 12px;
+  border-radius: 5px;
   border: 1px solid #ccc;
   font-family: inherit;
   background-color: rgb(43, 42, 42);
   color: white;
-  margin-top: 20px;
-}
-
-.group {
-  margin-top: 30px;
-}
-
-.group2{
-  margin: auto;
-  width: 40%;
-}
-
-.passforget{
-  float: right;
-  color: rgb(17, 123, 245);
+  font-size: 1.2em;
+  box-sizing: border-box;
+  min-height: 56px;
 }
 
 .form-button {
   font-family: "Staatliches";
   display: block;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 1.2em;
   letter-spacing: 0.1em;
-  width: 102%;
+  width: 100%;
   border: none;
   outline: none;
   padding: 13px;
-  margin-top: 30px;
-  border-radius: 2px;
+  margin-top: 1em;
+  border-radius: 5px;
   cursor: pointer;
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
+  min-height: 56px;
 }
 
 .form-button:hover {
@@ -82,11 +77,30 @@ h1.form-title {
   padding: 60px;
   width: 45%;
   margin:auto;
-  background-color: #353434;
+  background-color: rgba(0, 0, 0, 0.40);
   border-radius: 18px;
 }
 
 .form-forgot{
   float: right;
   color: rgb(17, 123, 245);
+  margin: 0 0 1em 0;
+  text-align: right;
+}
+
+.form-error{
+  margin: 0 0 1em 0;
+  min-height: 1em;
+  color: #DE1A0E;
+  font-style: italic;
+}
+
+.grid-two-cols{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.input-password{
+  letter-spacing: 0.125em;
+  font-size: 1.4em;
 }
