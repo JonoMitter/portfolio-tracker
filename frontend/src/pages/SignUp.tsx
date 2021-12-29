@@ -45,22 +45,31 @@ const SignUp = () => {
   return (
     <section>
       <div className="form-outer">
-        <h1 className="form-title">Sign Up</h1>
+        <h1 className="form-heading">Sign Up</h1>
+        <br></br>
+
         <form className="form" onSubmit={submit}>
+          <label htmlFor="">FIRSTNAME</label>
+          <input className="input" name="name" required
+            onChange={e => setName(e.target.value)} />
+          <p className="form-error"></p>
 
-          <input className="input" placeholder="First Name" required
-            onChange={e => setName(e.target.value)} /><br />
+          <label htmlFor="email">EMAIL</label>
+          <input type="email" className="input" name="email" required
+            onChange={e => setEmail(e.target.value)} />
+          <p className="form-error"></p>
 
-          <input type="email" className="input" placeholder="Email Address" required
-            onChange={e => setEmail(e.target.value)} /><br />
+          <label htmlFor="password">PASSWORD</label>
+          <input type="password" className="input input-password" name="password" required
+            onChange={e => setPassword(e.target.value)} />
+          <p className="form-error"></p>
 
-          <input type="password" className="input" placeholder="Password" required
-            onChange={e => setPassword(e.target.value)} /><br />
+          <label htmlFor="passwordConfirm">CONFIRM PASSWORD</label>
+          <input type="password" className="input input-password" name="passwordConfirm" required
+            onChange={e => setPasswordConfirm(e.target.value)} />
+          <p className="form-error"></p>
 
-          <input type="password" className="input" placeholder="Confirm Password" required
-            onChange={e => setPasswordConfirm(e.target.value)} /><br />
-
-          <button type="submit" className="form-button" placeholder="Sign in">Submit</button>
+          <button type="submit" className="form-button">SIGN UP</button>
         </form>
 
         <p className="form-text">Already have an account?</p>

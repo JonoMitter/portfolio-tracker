@@ -1,9 +1,21 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans&display=swap');
 
 // $primary: #11998e;
 // $secondary: #38ef7d;
 // $white: #fff;
 // $gray: #9b9b9b;
+
+section{
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.form-outer {
+  padding: 60px;
+  width: 45%;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 18px;
+}
 
 .form {
   margin: auto;
@@ -13,7 +25,7 @@
 .form-heading {
   text-align: center;
   color: white;
-  margin: 0;
+  margin: 0 0 0.2em 0;
   font-size: 2em;
 }
 
@@ -22,38 +34,46 @@
   color: white;
   margin: 0;
   font-weight: 400;
-  font-size: 1.2em;
+  font-size: 1.1em;
+  
 }
 
 .input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-family: inherit;
-  background-color: rgb(43, 42, 42);
-  color: white;
-  font-size: 1.2em;
   box-sizing: border-box;
+  width: 100%;
   min-height: 56px;
+  margin-top: 0.1em;
+  padding: 12px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1.2em;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+}
+
+.input:focus {
+  background-color: #63a1ff0a;
+  border: 2px solid #63a1ff;
+  outline: none;
 }
 
 .form-button {
-  font-family: "Staatliches";
   display: block;
   text-decoration: none;
   font-size: 1.2em;
+  font-family: 'IBM Plex Mono', monospace;
   letter-spacing: 0.1em;
   width: 100%;
   border: none;
   outline: none;
   padding: 13px;
-  margin-top: 1em;
+  margin-top: 0.8em;
   border-radius: 5px;
   cursor: pointer;
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
   min-height: 56px;
+  font-weight: bold;
 }
 
 .form-button:hover {
@@ -61,46 +81,47 @@
   background-color: rgb(226, 226, 226);
 }
 
-.form-text{
+.form-text {
   text-align: center;
   color: rgb(155, 155, 155);
+  margin-bottom: 0.3em;
 }
 
-.form-link{
+.form-link {
   text-decoration: none;
   color: rgb(5, 84, 255);
   display: block;
   text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
 }
 
-.form-outer{
-  padding: 60px;
-  width: 45%;
-  margin:auto;
-  background-color: rgba(0, 0, 0, 0.40);
-  border-radius: 18px;
-}
-
-.form-forgot{
+.form-forgot {
   float: right;
   color: rgb(17, 123, 245);
   margin: 0 0 1em 0;
   text-align: right;
 }
 
-.form-error{
-  margin: 0 0 1em 0;
-  min-height: 1em;
-  color: #DE1A0E;
+.form-error {
+  margin: 0 0 0.8em 0;
+  // min-height: 1em;
+  color: #de1a0e;
   font-style: italic;
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
-.grid-two-cols{
+.grid-two-cols {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
 }
 
-.input-password{
+.input-password {
   letter-spacing: 0.125em;
   font-size: 1.4em;
+}
+
+.input-error {
+  border: solid 2px red;
+  background-color: rgba(255, 0, 0, 0.05);
 }

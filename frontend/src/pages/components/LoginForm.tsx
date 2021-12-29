@@ -42,32 +42,34 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
       <h2 className="form-subheading">Please login to access your Portfolio</h2>
       <br></br>
       <form className="form" onSubmit={submitForm}>
+
+        {/* add input-containers around label and input */}
+        {/* move margin from form-error class */}
         <label htmlFor="email">EMAIL</label>
         <input
-          className="input"
+          className="input input-error"
           type="email"
           name="email"
-          placeholder="Email"
           onChange={e => setEmail(e.target.value)}
           required
         />
-        <p className="form-error email-error">Cannot find user with this email</p>
+        <p id="email-error" className="form-error">Cannot find a user with this email</p>
 
         <label htmlFor="password">PASSWORD</label>
         <input
-          className="input  input-password"
+          className="input input-password"
           type="password"
           name="password"
-          placeholder="Password"
           onChange={e => setPassword(e.target.value)}
           required
         />
         <div className="grid-two-cols">
-          <p className="form-error">Incorrect password</p>
-          <p className="form-forgot password-error">Forgot password?</p>
+          <p id="password-error" className="form-error">Incorrect password</p>
+          {/* TODO */}
+          {/* <a className="form-forgot password-error">Forgot password?</a> */}
         </div>
 
-        <input type="submit" value="Login" className="form-button" />
+        <input type="submit" value="LOGIN" className="form-button" />
       </form>
 
       <div>
