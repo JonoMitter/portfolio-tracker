@@ -67,18 +67,34 @@ section{
   border: none;
   outline: none;
   padding: 13px;
-  margin-top: 0.8em;
-  border-radius: 5px;
+  margin-top: 1.5em;
+  border-radius: 30px;
   cursor: pointer;
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
   min-height: 56px;
   font-weight: bold;
+  transition: all 0.3s;
 }
 
 .form-button:hover {
+  color: white;
+  background-color: rgb(46, 46, 46);
+  border: 2px solid white;
+}
+
+.login-button{
+  color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0);
+  border: 3px solid rgb(255, 255, 255);
+}
+
+// TODO
+// cool button hover animation
+.login-button:hover{
   color: rgb(0, 0, 0);
-  background-color: rgb(226, 226, 226);
+  background-color: rgb(255, 255, 255);
+  border: 3px solid rgb(255, 255, 255);
 }
 
 .form-text {
@@ -105,7 +121,6 @@ section{
 
 .form-error {
   margin: 0;
-  // min-height: 1em;
   color: #de1a0e;
   font-style: italic;
   font-family: 'IBM Plex Sans', sans-serif;
