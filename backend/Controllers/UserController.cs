@@ -71,7 +71,7 @@ namespace backend.Controllers
 
             if (user == null)
             {
-                errors.Add(new ValidationError("Email", "Cannot find user with email '" + loginDTO.Email + "'"));
+                errors.Add(new ValidationError("Email", "Cannot find a user with this email"));
             }
 
             else if (!BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password))
@@ -192,7 +192,7 @@ namespace backend.Controllers
             //check that password are equal
             if (!user.Password.Equals(user.PasswordConfirm))
             {
-                errors.Add(new ValidationError("Password", "Passwords must match: " + user.Password + ", " + user.PasswordConfirm));
+                errors.Add(new ValidationError("Password", "Passwords must match"));
             }
 
             //[TESTING]
