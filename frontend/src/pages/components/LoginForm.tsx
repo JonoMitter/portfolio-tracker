@@ -13,6 +13,12 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
   const [loginErrors, setLoginError] = useState(new LoginErrorResponse());
   const [redirect, setRedirect] = useState(false);
 
+  let emailError = document.getElementById("email-error");
+  let passwordError = document.getElementById("password-error");
+
+  let emailInput = document.getElementById("email-input");
+  let passwordInput = document.getElementById("password-input");
+
   useEffect(() => {
     if (loginErrors.errors.length > 0) {
       for (let i = 0; i < loginErrors.errors.length; i++) {
@@ -24,12 +30,30 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           errorField.innerHTML = loginErrors.errors[i].message;
         }
         let formInput = document.getElementById(`${loginErrors.errors[i].field.toLocaleLowerCase()}-input`);
-        if (formInput != null) {
-          formInput.className += " input-error"
+        if (formInput != null && !formInput.classList.contains("input-error")) {
+          formInput.classList.add("input-error");
         }
       }
     }
   }, [loginErrors]);
+
+
+  //TODO
+  //call to remove red input field border and error messages upon input update
+  function resetFormInput(errorField: HTMLElement, formInput: HTMLElement) {
+    if (emailError != null && emailError.innerHTML != "") {
+      emailError.innerHTML = "";
+    }
+    if (passwordError != null && passwordError.innerHTML != "") {
+      passwordError.innerHTML = "";
+    }
+    if (emailInput != null) {
+      emailInput.classList.remove("input-error");
+    }
+    if (passwordInput != null) {
+      passwordInput.classList.remove("input-error");
+    }
+  }
 
   function submitForm(e: SyntheticEvent) {
     e.preventDefault();
@@ -99,7 +123,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           </div>
         </div>
 
-        <input type="submit" value="LOGIN" className="form-button" />
+        <input type="submit" value="LOGIN" className="form-button login-button" />
       </form>
 
       <div>
