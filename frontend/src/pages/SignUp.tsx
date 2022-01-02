@@ -49,25 +49,33 @@ const SignUp = () => {
         <br></br>
 
         <form className="form" onSubmit={submit}>
-          <label htmlFor="">FIRSTNAME</label>
-          <input className="input" name="name" required
-            onChange={e => setName(e.target.value)} />
-          <p className="form-error"></p>
+          <div className="input-container">
+            <label htmlFor="">FIRSTNAME</label>
+            <input className="input" name="name" required
+              onChange={e => setName(e.target.value)} />
+            <p className="form-error"></p>
+          </div>
 
-          <label htmlFor="email">EMAIL</label>
-          <input type="email" className="input" name="email" required
-            onChange={e => setEmail(e.target.value)} />
-          <p className="form-error"></p>
+          <div className="input-container">
+            <label htmlFor="email">EMAIL</label>
+            <input type="email" className="input" name="email" required
+              onChange={e => setEmail(e.target.value)} />
+            <p className="form-error"></p>
+          </div>
 
-          <label htmlFor="password">PASSWORD</label>
-          <input type="password" className="input input-password" name="password" required
-            onChange={e => setPassword(e.target.value)} />
-          <p className="form-error"></p>
+          <div className="input-container">
+            <label htmlFor="password">PASSWORD</label>
+            <input type="password" className="input input-password" name="password" required
+              onChange={e => setPassword(e.target.value)} />
+            <p className="form-error"></p>
+          </div>
 
-          <label htmlFor="passwordConfirm">CONFIRM PASSWORD</label>
-          <input type="password" className="input input-password" name="passwordConfirm" required
-            onChange={e => setPasswordConfirm(e.target.value)} />
-          <p className="form-error"></p>
+          <div className="input-container">
+            <label htmlFor="passwordConfirm">CONFIRM PASSWORD</label>
+            <input type="password" className="input input-password" name="passwordConfirm" required
+              onChange={e => setPasswordConfirm(e.target.value)} />
+            <p className="form-error"></p>
+          </div>
 
           <button type="submit" className="form-button">SIGN UP</button>
         </form>

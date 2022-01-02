@@ -1,15 +1,35 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useState, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/Form.scss";
 import GetUserResponse from "../../responses/GetUserResponse";
+import LoginErrorResponse from "../../responses/LoginErrorResponse";
 
 const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [loginErrors, setLoginError] = useState(new LoginErrorResponse());
   const [redirect, setRedirect] = useState(false);
+
+  useEffect(() => {
+    if (loginErrors.errors.length > 0) {
+      for (let i = 0; i < loginErrors.errors.length; i++) {
+        console.log(`${loginErrors.errors[i].field.toLocaleLowerCase()}-error`);
+        console.log(loginErrors.errors[i].message);
+
+        let errorField = document.getElementById(`${loginErrors.errors[i].field.toLocaleLowerCase()}-error`);
+        if (errorField != null) {
+          errorField.innerHTML = loginErrors.errors[i].message;
+        }
+        let formInput = document.getElementById(`${loginErrors.errors[i].field.toLocaleLowerCase()}-input`);
+        if (formInput != null) {
+          formInput.className += " input-error"
+        }
+      }
+    }
+  }, [loginErrors]);
 
   function submitForm(e: SyntheticEvent) {
     e.preventDefault();
@@ -27,8 +47,14 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
       console.log(res.data)
       setRedirect(true);
       props.setUser(res.data)
-    }).catch(() => {
-      console.log("User already exists/error with server")
+    }).catch((error) => {
+      if (error.response.data) {
+        setLoginError(error.response.data);
+      }
+      else {
+        console.log(`Unknown Error:\n
+          ${error.response}`);
+      }
     })
   }
 
@@ -43,30 +69,34 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
       <br></br>
       <form className="form" onSubmit={submitForm}>
 
-        {/* add input-containers around label and input */}
-        {/* move margin from form-error class */}
-        <label htmlFor="email">EMAIL</label>
-        <input
-          className="input input-error"
-          type="email"
-          name="email"
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <p id="email-error" className="form-error">Cannot find a user with this email</p>
+        <div className="input-container">
+          <label htmlFor="email">EMAIL</label>
+          <input
+            id="email-input"
+            className="input"
+            type="email"
+            name="email"
+            onChange={e => setEmail(e.target.value)}
+            required
+          />
+          <p id="email-error" className="form-error"></p>
+        </div>
 
-        <label htmlFor="password">PASSWORD</label>
-        <input
-          className="input input-password"
-          type="password"
-          name="password"
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        <div className="grid-two-cols">
-          <p id="password-error" className="form-error">Incorrect password</p>
-          {/* TODO */}
-          {/* <a className="form-forgot password-error">Forgot password?</a> */}
+        <div className="input-container">
+          <label htmlFor="password">PASSWORD</label>
+          <input
+            id="password-input"
+            className="input input-password"
+            type="password"
+            name="password"
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+          <div className="grid-two-cols">
+            <p id="password-error" className="form-error"></p>
+            {/* TODO add forgot password functionality*/}
+            {/* <a className="form-forgot password-error">Forgot password?</a> */}
+          </div>
         </div>
 
         <input type="submit" value="LOGIN" className="form-button" />
