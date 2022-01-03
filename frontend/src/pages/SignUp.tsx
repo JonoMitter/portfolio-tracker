@@ -12,6 +12,57 @@ const SignUp = () => {
 
   const [redirect, setRedirect] = useState(false);
 
+  let nameElement = document.getElementById("name-error");
+  let emailElement = document.getElementById("email-error");
+  let passwordElement = document.getElementById("password-error");
+  let passwordConfirmElement = document.getElementById("passwordConfirm-error");
+
+  function validateFirstName() {
+    if (nameElement) {
+      if (name.length < 2) {
+        nameElement.innerHTML = "Firstname must contain at least 2 characters";
+      }
+      else {
+        nameElement.innerHTML = '';
+      }
+    }
+  }
+
+  function validateEmail() {
+    if (emailElement) {
+      if (!email.includes('@')) {
+        emailElement.innerHTML = "Email must contain '@'";
+      }
+      else {
+        emailElement.innerHTML = '';
+      }
+
+    }
+  }
+
+  function validatePassword() {
+    if (passwordElement) {
+      if (password.length < 3) {
+        passwordElement.innerHTML = "Password must be longer than 3 characters";
+      }
+      else {
+        passwordElement.innerHTML = '';
+      }
+
+    }
+  }
+
+  function validatePasswordConfirm() {
+    if (passwordConfirmElement) {
+      if (password !== passwordConfirm) {
+        passwordConfirmElement.innerHTML = "Passwords do not match";
+      }
+      else {
+        passwordConfirmElement.innerHTML = '';
+      }
+    }
+  }
+
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
@@ -46,44 +97,56 @@ const SignUp = () => {
     <section>
       <div className="form-outer">
         <h1 className="form-heading">Sign Up</h1>
+        <h2 className="form-subheading">Please create an account to save your Portfolio</h2>
         <br></br>
 
-        <form className="form" onSubmit={submit}>
+        <form onSubmit={submit}>
           <div className="input-container">
             <label htmlFor="">FIRSTNAME</label>
             <input className="input" name="name" required
-              onChange={e => setName(e.target.value)} />
-            <p className="form-error"></p>
+              onChange={e => setName(e.target.value)}
+              onBlur={e => validateFirstName()}
+            />
+            <p id="name-error" className="form-error"></p>
           </div>
 
           <div className="input-container">
             <label htmlFor="email">EMAIL</label>
             <input type="email" className="input" name="email" required
-              onChange={e => setEmail(e.target.value)} />
-            <p className="form-error"></p>
+              onChange={e => setEmail(e.target.value)}
+              onBlur={e => validateEmail()}
+            />
+            <p id="email-error" className="form-error"></p>
           </div>
 
           <div className="input-container">
             <label htmlFor="password">PASSWORD</label>
             <input type="password" className="input input-password" name="password" required
-              onChange={e => setPassword(e.target.value)} />
-            <p className="form-error"></p>
+              onChange={e => setPassword(e.target.value)}
+              onBlur={e => validatePassword()}
+            />
+            <p id="password-error" className="form-error"></p>
           </div>
 
           <div className="input-container">
             <label htmlFor="passwordConfirm">CONFIRM PASSWORD</label>
             <input type="password" className="input input-password" name="passwordConfirm" required
-              onChange={e => setPasswordConfirm(e.target.value)} />
-            <p className="form-error"></p>
+              onChange={e => setPasswordConfirm(e.target.value)}
+              onBlur={e => validatePasswordConfirm()}
+            />
+            <p id="passwordConfirm-error" className="form-error"></p>
           </div>
 
           <button type="submit" className="form-button signup-button">SIGN UP</button>
         </form>
 
-        <p className="form-text">Already have an account?</p>
-        <Link className="form-link" to="/login">
-          LOGIN
-        </Link>
+        <div className="form-redirect">
+          <hr className="form-divider"></hr>
+          <p className="form-text">Already have an account?</p>
+          <Link className="form-link" to="/login">
+            LOGIN
+          </Link>
+        </div>
       </div>
     </section>
   );
