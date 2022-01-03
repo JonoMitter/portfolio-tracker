@@ -77,7 +77,7 @@ const SignUp = () => {
             <p className="form-error"></p>
           </div>
 
-          <button type="submit" className="form-button">SIGN UP</button>
+          <button type="submit" className="form-button signup-button">SIGN UP</button>
         </form>
 
         <p className="form-text">Already have an account?</p>

@@ -38,9 +38,21 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
   }, [loginErrors]);
 
 
+  function emailInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+
+    setEmail(e.target.value);
+    resetFormInput();
+  }
+
+  function passwordInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+
+    setPassword(e.target.value);
+    resetFormInput();
+  }
+
   //TODO
   //call to remove red input field border and error messages upon input update
-  function resetFormInput(errorField: HTMLElement, formInput: HTMLElement) {
+  function resetFormInput() {
     if (emailError != null && emailError.innerHTML != "") {
       emailError.innerHTML = "";
     }
@@ -100,27 +112,27 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
             className="input"
             type="email"
             name="email"
-            onChange={e => setEmail(e.target.value)}
+            onChange={e => emailInputChange(e)}
             required
           />
           <p id="email-error" className="form-error"></p>
         </div>
 
         <div className="input-container">
-          <label htmlFor="password">PASSWORD</label>
+          <div className="grid-two-cols">
+            <label htmlFor="password">PASSWORD</label>
+            {/* TODO add forgot password functionality*/}
+            {/* <a className="form-forgot">Forgot password?</a> */}
+          </div>
           <input
             id="password-input"
             className="input input-password"
             type="password"
             name="password"
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => passwordInputChange(e)}
             required
           />
-          <div className="grid-two-cols">
-            <p id="password-error" className="form-error"></p>
-            {/* TODO add forgot password functionality*/}
-            {/* <a className="form-forgot password-error">Forgot password?</a> */}
-          </div>
+          <p id="password-error" className="form-error"></p>
         </div>
 
         <input type="submit" value="LOGIN" className="form-button login-button" />
