@@ -51,7 +51,7 @@ li{
 
 .nav-name{
   color: white;
-  font-family:'Times New Roman', Times, serif
+  // font-family:'Times New Roman', Times, serif;
 }
 
 .white-svg{
@@ -70,10 +70,6 @@ li{
   width: 100%;
 }
 
-.login:hover{
-  
-}
-
 .signup{
   cursor: pointer;
   background-color: white;
@@ -81,10 +77,6 @@ li{
   color: black;
   transition: all 0.5s;
   border-radius: 10px;
-}
-
-.signup:hover{
-
 }
 
 .scale-hover:hover{

@@ -5,6 +5,10 @@ import "../styles/Form.scss";
 import GetUserResponse from "../../responses/GetUserResponse";
 import LoginErrorResponse from "../../responses/LoginErrorResponse";
 
+import { ReactComponent as VISIBLE } from "../../assets/visibility_white_24dp.svg";
+import { ReactComponent as VISIBLE_OFF } from "../../assets/visibility_off_white_24dp.svg";
+
+
 const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
 
   const [email, setEmail] = useState('');
@@ -124,22 +128,24 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
             {/* TODO add forgot password functionality*/}
             {/* <a className="form-forgot">Forgot password?</a> */}
           </div>
-          <input
-            id="password-input"
-            className="input input-password"
-            type={passwordShown ? "text" : "password"}
-            name="password"
-            onChange={e => passwordInputChange(e)}
-            required
-          />
-          {/* TODO */}
-          {/* Style the show password button better */}
-          <input type="checkbox" onClick={e => e.currentTarget.checked ? setPasswordShown(true) : setPasswordShown(false)} />Show Password
+          <div className="two-cols-password">
+            <input
+              id="password-input"
+              className="input input-password"
+              type={passwordShown ? "text" : "password"}
+              name="password"
+              onChange={e => passwordInputChange(e)}
+              required
+            />
+            {/* TODO */}
+            {/* Style the show password button better */}
+            <button type="button" className="btn-show-password" onClick={e => passwordShown === false ? setPasswordShown(true) : setPasswordShown(false)}>{passwordShown == false ? <VISIBLE /> : <VISIBLE_OFF />}</button>
+          </div>
           <p id="password-error" className="form-error"></p>
         </div>
 
         <input type="submit" value="LOGIN" className="form-button login-button" />
-      </form>
+      </form >
 
       <div className="form-redirect">
         <hr className="form-divider"></hr>
@@ -148,7 +154,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           SIGN UP NOW
         </Link>
       </div>
-    </div>
+    </div >
   );
 }
 

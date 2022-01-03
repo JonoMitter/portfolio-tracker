@@ -19,7 +19,7 @@ const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse)
       props.setUser(new GetUserResponse())
       console.log("Logged Out (JWT deleted)");
 
-    }).catch(function (error) {
+    }).catch(error => {
       console.log("Error logging out");
 
     })
