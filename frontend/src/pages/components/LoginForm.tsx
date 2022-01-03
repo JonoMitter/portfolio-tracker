@@ -58,16 +58,16 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
   //TODO
   //call to remove red input field border and error messages upon input update
   function resetFormInput() {
-    if (emailError != null && emailError.innerHTML != "") {
+    if (emailError !== null && emailError.innerHTML !== "") {
       emailError.innerHTML = "";
     }
-    if (passwordError != null && passwordError.innerHTML != "") {
+    if (passwordError !== null && passwordError.innerHTML !== "") {
       passwordError.innerHTML = "";
     }
-    if (emailInput != null) {
+    if (emailInput !== null) {
       emailInput.classList.remove("input-error");
     }
-    if (passwordInput != null) {
+    if (passwordInput !== null) {
       passwordInput.classList.remove("input-error");
     }
   }
@@ -128,10 +128,10 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
             {/* TODO add forgot password functionality*/}
             {/* <a className="form-forgot">Forgot password?</a> */}
           </div>
-          <div className="two-cols-password">
+          <div className="input-password-container">
             <input
               id="password-input"
-              className="input input-password"
+              className="input-nofocus input-password"
               type={passwordShown ? "text" : "password"}
               name="password"
               onChange={e => passwordInputChange(e)}
@@ -139,7 +139,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
             />
             {/* TODO */}
             {/* Style the show password button better */}
-            <button type="button" className="btn-show-password" onClick={e => passwordShown === false ? setPasswordShown(true) : setPasswordShown(false)}>{passwordShown == false ? <VISIBLE /> : <VISIBLE_OFF />}</button>
+            <button type="button" className="btn-show-password" onClick={e => passwordShown === false ? setPasswordShown(true) : setPasswordShown(false)}>{passwordShown === false ? <VISIBLE /> : <VISIBLE_OFF />}</button>
           </div>
           <p id="password-error" className="form-error"></p>
         </div>

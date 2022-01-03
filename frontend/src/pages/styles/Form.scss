@@ -60,6 +60,20 @@ label {
   box-shadow: 0 0 8px #63a1ff;
 }
 
+.input-nofocus {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  outline: none;
+}
+
+.input-nofocus:focus{
+  outline: none;
+}
+
 .form-button {
   display: block;
   text-decoration: none;
@@ -83,8 +97,6 @@ label {
   background-color: rgb(0, 206, 51);
 }
 
-// TODO
-// cool button hover animation
 .login-button:hover {
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
@@ -95,8 +107,6 @@ label {
   background-color: rgb(0, 120, 218);
 }
 
-// TODO
-// cool button hover animation
 .signup-button:hover {
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
@@ -148,6 +158,7 @@ label {
   letter-spacing: 0.125em;
   font-size: 1.4em;
   border-radius: 5px 0 0 5px;
+  border: none;
 }
 
 .input-error {
@@ -160,18 +171,27 @@ label {
   border-top: 1px solid #9b9b9b;
 }
 
-.two-cols-password {
+.input-password-container {
   display: flex;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+}
+
+.input-password-container:focus-within{
+  background-color: #63a1ff0a;
+  border: 2px solid #63a1ff;
+  outline: none;
+  box-shadow: 0 0 8px #63a1ff;
 }
 
 .btn-show-password {
   cursor: pointer;
   display: flex;
   align-items: center;
-  border-radius: 0 5px 5px 0;
-  outline: none;
-  border: 2px solid #ccc;
-  border-left: none;
+  border:none;
   width: auto;
   padding: 0.8em;
   background: rgba(204, 204, 204, 0.05);
