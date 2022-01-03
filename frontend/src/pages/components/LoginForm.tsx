@@ -9,6 +9,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordShown, setPasswordShown] = useState(false);
 
   const [loginErrors, setLoginError] = useState(new LoginErrorResponse());
   const [redirect, setRedirect] = useState(false);
@@ -103,8 +104,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
       <h1 className="form-heading">Login</h1>
       <h2 className="form-subheading">Please login to access your Portfolio</h2>
       <br></br>
-      <form className="form" onSubmit={submitForm}>
-
+      <form onSubmit={submitForm}>
         <div className="input-container">
           <label htmlFor="email">EMAIL</label>
           <input
@@ -127,18 +127,22 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           <input
             id="password-input"
             className="input input-password"
-            type="password"
+            type={passwordShown ? "text" : "password"}
             name="password"
             onChange={e => passwordInputChange(e)}
             required
           />
+          {/* TODO */}
+          {/* Style the show password button better */}
+          <input type="checkbox" onClick={e => e.currentTarget.checked ? setPasswordShown(true) : setPasswordShown(false)} />Show Password
           <p id="password-error" className="form-error"></p>
         </div>
 
         <input type="submit" value="LOGIN" className="form-button login-button" />
       </form>
 
-      <div>
+      <div className="form-redirect">
+        <hr className="form-divider"></hr>
         <p className="form-text">Dont have an account?</p>
         <Link className="form-link" to="/signup">
           SIGN UP NOW
