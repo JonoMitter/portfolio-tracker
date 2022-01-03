@@ -14,7 +14,9 @@ ul{
 }
 
 li{
-  display: inline;
+  display: flex;
+  justify-content: center;
+  align-self: center;
 }
 
 .nav-content{
@@ -49,15 +51,27 @@ li{
   border-radius: 2px;
 }
 
+.nav-user{
+  display:flex;
+  padding: 0;
+  // justify-content: baseline;
+  align-self: flex-end;
+}
+
 .nav-name{
   color: white;
-  // font-family:'Times New Roman', Times, serif;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: bold;
+  display:flex;
+  align-self: center;
+  font-size: 1em;
 }
 
 .white-svg{
-  stroke: white;
-  height: 14px;
+  // stroke: white;
+  height: 1.5em;
   width: auto;
+  padding-right: 5px;
 }
 
 .login{
