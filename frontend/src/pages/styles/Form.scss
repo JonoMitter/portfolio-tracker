@@ -162,15 +162,16 @@ label {
 
 .two-cols-password {
   display: flex;
-  
 }
 
-.btn-show-password{
+.btn-show-password {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
   border-radius: 0 5px 5px 0;
   outline: none;
   border: 2px solid #ccc;
   border-left: none;
-  // min-width: 10ch;
   width: auto;
   padding: 0.8em;
   background: rgba(204, 204, 204, 0.05);
