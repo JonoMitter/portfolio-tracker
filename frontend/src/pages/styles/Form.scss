@@ -10,8 +10,8 @@ section{
 }
 
 .form-outer {
-  padding: 60px;
-  width: 45%;
+  padding: 3em 6em;
+  width: 40%;
   margin: auto;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 18px;
@@ -103,7 +103,11 @@ section{
 .form-text {
   text-align: center;
   color: rgb(155, 155, 155);
-  margin-bottom: 0.3em;
+  margin: 1em 0 0.3em 0;
+}
+
+.form-redirect{
+  margin-top: 2em;
 }
 
 .form-link {
@@ -146,4 +150,9 @@ section{
 .input-error {
   border: solid 2px red;
   background-color: rgba(255, 0, 0, 0.05);
+}
+
+.form-divider{
+  border: 0;
+  border-top: 1px solid #9b9b9b;
 }
