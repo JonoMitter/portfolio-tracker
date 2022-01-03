@@ -23,36 +23,67 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
 
   let emailInput = document.getElementById("email-input");
   let passwordInput = document.getElementById("password-input");
+  let passwordInputContainer = document.getElementById("password-input-container");
 
   useEffect(() => {
+    displayErrors();
+  }, [loginErrors]);
+
+  function displayErrors() {
     if (loginErrors.errors.length > 0) {
       for (let i = 0; i < loginErrors.errors.length; i++) {
-        console.log(`${loginErrors.errors[i].field.toLocaleLowerCase()}-error`);
-        console.log(loginErrors.errors[i].message);
+        if (loginErrors.errors[i].field.toLocaleLowerCase() === "email") {
 
-        let errorField = document.getElementById(`${loginErrors.errors[i].field.toLocaleLowerCase()}-error`);
-        if (errorField != null) {
-          errorField.innerHTML = loginErrors.errors[i].message;
+          //write email error message
+          if (emailError != null) {
+            emailError.innerHTML = loginErrors.errors[i].message;
+          }
+
+          //style email input field
+          if (emailInput != null && !emailInput.classList.contains("input-error")) {
+            emailInput.classList.add("input-error");
+          }
         }
-        let formInput = document.getElementById(`${loginErrors.errors[i].field.toLocaleLowerCase()}-input`);
-        if (formInput != null && !formInput.classList.contains("input-error")) {
-          formInput.classList.add("input-error");
+
+        else if (loginErrors.errors[i].field.toLocaleLowerCase() === "password") {
+
+          //write password error message
+          if (passwordError != null) {
+            passwordError.innerHTML = loginErrors.errors[i].message;
+          }
+
+          //style password input field
+          if (passwordInputContainer != null && !passwordInputContainer.classList.contains("input-error")) {
+            passwordInputContainer.classList.add("input-error");
+          }
         }
       }
     }
-  }, [loginErrors]);
-
+  }
 
   function emailInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-
     setEmail(e.target.value);
     resetFormInput();
   }
 
   function passwordInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-
     setPassword(e.target.value);
     resetFormInput();
+  }
+
+  function togglePasswordVisible() {
+    if (passwordShown === false) {
+      setPasswordShown(true);
+      if (passwordInput) {
+        passwordInput.classList.add("regular-input");
+      }
+    }
+    else {
+      setPasswordShown(false)
+      if (passwordInput) {
+        passwordInput.classList.remove("regular-input");
+      }
+    }
   }
 
   //TODO
@@ -67,8 +98,8 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
     if (emailInput !== null) {
       emailInput.classList.remove("input-error");
     }
-    if (passwordInput !== null) {
-      passwordInput.classList.remove("input-error");
+    if (passwordInputContainer !== null) {
+      passwordInputContainer.classList.remove("input-error");
     }
   }
 
@@ -128,7 +159,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
             {/* TODO add forgot password functionality*/}
             {/* <a className="form-forgot">Forgot password?</a> */}
           </div>
-          <div className="input-password-container">
+          <div id="password-input-container" className="password-input-container">
             <input
               id="password-input"
               className="input-nofocus input-password"
@@ -139,7 +170,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
             />
             {/* TODO */}
             {/* Style the show password button better */}
-            <button type="button" className="btn-show-password" onClick={e => passwordShown === false ? setPasswordShown(true) : setPasswordShown(false)}>{passwordShown === false ? <VISIBLE /> : <VISIBLE_OFF />}</button>
+            <button type="button" className="btn-show-password" onClick={e => togglePasswordVisible()}>{passwordShown === false ? <VISIBLE /> : <VISIBLE_OFF />}</button>
           </div>
           <p id="password-error" className="form-error"></p>
         </div>

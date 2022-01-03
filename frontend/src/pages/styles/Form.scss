@@ -49,6 +49,7 @@ label {
   border: 2px solid #ccc;
   border-radius: 5px;
   font-size: 1.2em;
+  letter-spacing: 0.07em;
   background-color: rgba(0, 0, 0, 0);
   color: white;
 }
@@ -70,7 +71,7 @@ label {
   outline: none;
 }
 
-.input-nofocus:focus{
+.input-nofocus:focus {
   outline: none;
 }
 
@@ -156,14 +157,17 @@ label {
 
 .input-password {
   letter-spacing: 0.125em;
-  font-size: 1.4em;
-  border-radius: 5px 0 0 5px;
+  font-size: 1.5em;
   border: none;
 }
 
 .input-error {
-  border: solid 2px red;
-  background-color: rgba(255, 0, 0, 0.05);
+  border: solid 2px red !important;
+  background-color: rgba(255, 0, 0, 0.05) !important;
+}
+
+.input-error:focus, .input-error:focus-within {
+  box-shadow: 0 0 8px red !important;
 }
 
 .form-divider {
@@ -171,7 +175,7 @@ label {
   border-top: 1px solid #9b9b9b;
 }
 
-.input-password-container {
+.password-input-container {
   display: flex;
   box-sizing: border-box;
   border: 2px solid #ccc;
@@ -180,7 +184,7 @@ label {
   color: white;
 }
 
-.input-password-container:focus-within{
+.password-input-container:focus-within {
   background-color: #63a1ff0a;
   border: 2px solid #63a1ff;
   outline: none;
@@ -191,8 +195,13 @@ label {
   cursor: pointer;
   display: flex;
   align-items: center;
-  border:none;
+  border: none;
   width: auto;
   padding: 0.8em;
   background: rgba(204, 204, 204, 0.05);
+}
+
+.regular-input{
+  font-size: 1.2em;
+  letter-spacing: 0.07em;
 }
