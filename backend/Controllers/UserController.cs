@@ -65,7 +65,7 @@ namespace backend.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginDTO loginDTO)
         {
-            User user = userService.getbyEmail(loginDTO.Email);
+            User user = userService.getbyEmail(loginDTO.Email.ToLower());
 
             ValidationErrors errors = new ValidationErrors();
 
