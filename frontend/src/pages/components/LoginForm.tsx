@@ -86,8 +86,6 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
     }
   }
 
-  //TODO
-  //call to remove red input field border and error messages upon input update
   function resetFormInput() {
     if (emailError !== null && emailError.innerHTML !== "") {
       emailError.innerHTML = "";
