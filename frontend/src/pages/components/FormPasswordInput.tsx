@@ -80,22 +80,22 @@ const FormPasswordInput = (props: { label: string, passwordErrorDetails: LoginEr
   return (
     <div className="input-container">
       <div className="grid-two-cols">
-        <label htmlFor="password">{props.label}</label>
+        <label htmlFor={label}>{props.label}</label>
         {/* TODO add 'Forgot password?' functionality*/}
-        {/* <a className="form-forgot">Forgot password?</a> */}
+        {/* <a className="password-forgot">Forgot password?</a> */}
       </div>
       <div id={label + "-input-container"} className="password-input-container">
         <input
-          id={label + "-input"}
+          id={`${label}-input`}
           className="input-nofocus input-password"
           type={passwordShown ? "text" : "password"}
-          name="password"
+          name={label}
           onChange={e => onInputChange(e)}
           required
         />
         <button type="button" className="btn-show-password" onClick={e => togglePasswordVisible()}>{passwordShown === false ? <VISIBLE /> : <VISIBLE_OFF />}</button>
       </div>
-      <p id={label + "-error"} className="form-error"></p>
+      <p id={`${label}-error`} className="form-error"></p>
     </div>
   )
 }
