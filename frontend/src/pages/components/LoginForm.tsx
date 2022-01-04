@@ -4,7 +4,8 @@ import axios from "axios";
 import "../styles/Form.scss";
 import GetUserResponse from "../../responses/GetUserResponse";
 import LoginErrorResponse from "../../responses/LoginErrorResponse";
-import FORM_PASSWORD_INPUT from "./FORM_PASSWORD_INPUT";
+import PASSWORD_INPUT from "./FormPasswordInput";
+import LoginError from "../../responses/LoginError";
 
 
 const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
@@ -13,13 +14,14 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
   const [password, setPassword] = useState('');
 
   const [loginErrors, setLoginError] = useState(new LoginErrorResponse());
+  const [passwordErrorDetails, setPasswordErrorDetails] = useState(new LoginError());
   const [redirect, setRedirect] = useState(false);
 
   let emailError = document.getElementById("email-error");
   let emailInput = document.getElementById("email-input");
 
-  let passwordError = document.getElementById("password-error");
-  let passwordInputContainer = document.getElementById("password-input-container");
+  // let passwordError = document.getElementById("password-error");
+  // let passwordInputContainer = document.getElementById("password-input-container");
   // let passwordInput = document.getElementById("password-input");
 
   useEffect(() => {
@@ -43,16 +45,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
         }
 
         else if (loginErrors.errors[i].field.toLocaleLowerCase() === "password") {
-
-          //write password error message
-          if (passwordError != null) {
-            passwordError.innerHTML = loginErrors.errors[i].message;
-          }
-
-          //style password input field
-          if (passwordInputContainer != null && !passwordInputContainer.classList.contains("input-error")) {
-            passwordInputContainer.classList.add("input-error");
-          }
+          setPasswordErrorDetails(loginErrors.errors[i]);
         }
       }
     }
@@ -67,15 +60,10 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
     if (emailError !== null && emailError.innerHTML !== "") {
       emailError.innerHTML = "";
     }
-    // if (passwordError !== null && passwordError.innerHTML !== "") {
-    //   passwordError.innerHTML = "";
-    // }
     if (emailInput !== null) {
       emailInput.classList.remove("input-error");
     }
-    // if (passwordInputContainer !== null) {
-    //   passwordInputContainer.classList.remove("input-error");
-    // }
+    setPasswordErrorDetails(new LoginError());
   }
 
   function submitForm(e: SyntheticEvent) {
@@ -128,7 +116,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           <p id="email-error" className="form-error"></p>
         </div>
 
-        <FORM_PASSWORD_INPUT id="input-password" label="PASSWORD" setValue={setPassword} />
+        <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} passwordErrorDetails={passwordErrorDetails} />
 
         <input type="submit" value="LOGIN" className="form-button login-button" />
       </form >
@@ -136,9 +124,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
       <div className="form-redirect">
         <hr className="form-divider"></hr>
         <p className="form-text">Dont have an account?</p>
-        <Link className="form-link" to="/signup">
-          SIGN UP NOW
-        </Link>
+        <Link className="form-link" to="/signup">SIGN UP NOW</Link>
       </div>
     </div >
   );

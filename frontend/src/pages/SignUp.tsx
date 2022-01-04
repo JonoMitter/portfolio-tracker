@@ -3,7 +3,8 @@ import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import "./styles/Form.scss";
 
-import FORM_PASSWORD_INPUT from "./components/FORM_PASSWORD_INPUT";
+import PASSWORD_INPUT from "./components/FormPasswordInput";
+import LoginError from "../responses/LoginError";
 
 const SignUp = () => {
 
@@ -11,6 +12,9 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const [passwordErrorDetails, setPasswordErrorDetails] = useState(new LoginError());
+  const [passwordConfirmErrorDetails, setPasswordConfirmErrorDetails] = useState(new LoginError());
 
   const [redirect, setRedirect] = useState(false);
 
@@ -120,8 +124,8 @@ const SignUp = () => {
             <p id="email-error" className="form-error"></p>
           </div>
 
-          <FORM_PASSWORD_INPUT id="password-input" label="PASSWORD" setValue={setPassword} />
-          <FORM_PASSWORD_INPUT id="confirm-password-input" label="CONFIRM PASSWORD" setValue={setPasswordConfirm} />
+          <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} passwordErrorDetails={passwordErrorDetails} />
+          <PASSWORD_INPUT label="CONFIRM PASSWORD" setValue={setPasswordConfirm} passwordErrorDetails={passwordConfirmErrorDetails} />
 
           <button type="submit" className="form-button signup-button">SIGN UP</button>
         </form>
@@ -129,9 +133,7 @@ const SignUp = () => {
         <div className="form-redirect">
           <hr className="form-divider"></hr>
           <p className="form-text">Already have an account?</p>
-          <Link className="form-link" to="/login">
-            LOGIN
-          </Link>
+          <Link className="form-link" to="/login">LOGIN</Link>
         </div>
       </div>
     </section>

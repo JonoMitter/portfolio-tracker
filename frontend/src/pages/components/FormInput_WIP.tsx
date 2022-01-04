@@ -11,7 +11,6 @@ enum FormInputType {
 
 const FormInput = (props: { label: string, inputType: FormInputType }) => {
 
-
   //if inputtype etc
   const [inputValue, setInputValue] = useState('');
 
@@ -24,14 +23,8 @@ const FormInput = (props: { label: string, inputType: FormInputType }) => {
     // if (emailError !== null && emailError.innerHTML !== "") {
     //   emailError.innerHTML = "";
     // }
-    // if (passwordError !== null && passwordError.innerHTML !== "") {
-    //   passwordError.innerHTML = "";
-    // }
     // if (emailInput !== null) {
     //   emailInput.classList.remove("input-error");
-    // }
-    // if (passwordInputContainer !== null) {
-    //   passwordInputContainer.classList.remove("input-error");
     // }
   }
 
