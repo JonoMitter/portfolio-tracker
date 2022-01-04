@@ -20,10 +20,6 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
   let emailError = document.getElementById("email-error");
   let emailInput = document.getElementById("email-input");
 
-  // let passwordError = document.getElementById("password-error");
-  // let passwordInputContainer = document.getElementById("password-input-container");
-  // let passwordInput = document.getElementById("password-input");
-
   useEffect(() => {
     displayErrors();
   }, [loginErrors]);

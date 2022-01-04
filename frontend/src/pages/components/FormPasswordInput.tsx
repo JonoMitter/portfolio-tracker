@@ -20,7 +20,7 @@ const FormPasswordInput = (props: PasswordInputProps) => {
   // remove all whitespace from label prop
   let label = props.label.toLowerCase().replace(/\s+/g, '');
 
-  var elementsSet = false;
+  let elementsSet = false;
 
   let inputElement = document.getElementById(label + "-input");
   let inputContainerElement = document.getElementById(label + "-input-container");
