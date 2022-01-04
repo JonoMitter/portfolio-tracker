@@ -5,20 +5,40 @@ import LoginError from "../../responses/LoginError";
 import { ReactComponent as VISIBLE } from "../../assets/visibility_white_24dp.svg";
 import { ReactComponent as VISIBLE_OFF } from "../../assets/visibility_off_white_24dp.svg";
 
-const FormPasswordInput = (props: { label: string, passwordErrorDetails: LoginError, setValue: (value: string) => void }) => {
+interface PasswordInputProps {
+  label: string;
+  // passwordConfirm?: boolean;
+  forgotPassword?: boolean;
+  passwordErrorDetails: LoginError;
+  setValue: (value: string) => void;
+}
+
+const FormPasswordInput = (props: PasswordInputProps) => {
 
   const [passwordShown, setPasswordShown] = useState(false);
 
-  //remove all spaces from label
+  // remove all whitespace from label prop
   let label = props.label.toLowerCase().replace(/\s+/g, '');
+
+  var elementsSet = false;
 
   let inputElement = document.getElementById(label + "-input");
   let inputContainerElement = document.getElementById(label + "-input-container");
   let errorElement = document.getElementById(label + "-error");
 
   useEffect(() => {
+    setHTMLElements();
     updateErrorMessages();
   }, [props.passwordErrorDetails]);
+
+  function setHTMLElements() {
+    if (!elementsSet) {
+      inputElement = document.getElementById(label + "-input");
+      inputContainerElement = document.getElementById(label + "-input-container");
+      errorElement = document.getElementById(label + "-error");
+      elementsSet = true;
+    }
+  }
 
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     props.setValue(e.target.value);
@@ -79,10 +99,10 @@ const FormPasswordInput = (props: { label: string, passwordErrorDetails: LoginEr
 
   return (
     <div className="input-container">
-      <div className="grid-two-cols">
+      <div>
         <label htmlFor={label}>{props.label}</label>
         {/* TODO add 'Forgot password?' functionality*/}
-        {/* <a className="password-forgot">Forgot password?</a> */}
+        {props.forgotPassword === true ? <a href="/forgotPassword" className="password-forgot">Forgot password?</a> : ""}
       </div>
       <div id={label + "-input-container"} className="password-input-container">
         <input
