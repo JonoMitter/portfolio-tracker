@@ -2,8 +2,8 @@ import React, { SyntheticEvent, useState } from "react";
 import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import "./styles/Form.scss";
-import { ReactComponent as VISIBLE } from "../assets/visibility_white_24dp.svg";
-import { ReactComponent as VISIBLE_OFF } from "../assets/visibility_off_white_24dp.svg";
+
+import FORM_PASSWORD_INPUT from "./components/FORM_PASSWORD_INPUT";
 
 const SignUp = () => {
 
@@ -11,8 +11,6 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-
-  const [passwordShown, setPasswordShown] = useState(false);
 
   const [redirect, setRedirect] = useState(false);
 
@@ -52,7 +50,6 @@ const SignUp = () => {
       else {
         passwordElement.innerHTML = '';
       }
-
     }
   }
 
@@ -123,29 +120,8 @@ const SignUp = () => {
             <p id="email-error" className="form-error"></p>
           </div>
 
-          <div className="input-container">
-            <label htmlFor="password">PASSWORD</label>
-            <div className="password-input-container">
-              <input type="password" className="input-nofocus input-password" name="password" required
-                onChange={e => setPassword(e.target.value)}
-                onBlur={e => validatePassword()}
-              />
-              <button type="button" className="btn-show-password">{passwordShown === false ? <VISIBLE /> : <VISIBLE_OFF />}</button>
-            </div>
-            <p id="password-error" className="form-error"></p>
-          </div>
-
-          <div className="input-container">
-            <label htmlFor="passwordConfirm">CONFIRM PASSWORD</label>
-            <div className="password-input-container">
-              <input type="password" className="input-nofocus input-password" name="passwordConfirm" required
-                onChange={e => setPasswordConfirm(e.target.value)}
-                onBlur={e => validatePasswordConfirm()}
-              />
-              <button type="button" className="btn-show-password">{passwordShown === false ? <VISIBLE /> : <VISIBLE_OFF />}</button>
-            </div>
-            <p id="passwordConfirm-error" className="form-error"></p>
-          </div>
+          <FORM_PASSWORD_INPUT id="password-input" label="PASSWORD" setValue={setPassword} />
+          <FORM_PASSWORD_INPUT id="confirm-password-input" label="CONFIRM PASSWORD" setValue={setPasswordConfirm} />
 
           <button type="submit" className="form-button signup-button">SIGN UP</button>
         </form>

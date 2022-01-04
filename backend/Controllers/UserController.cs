@@ -162,6 +162,7 @@ namespace backend.Controllers
         public ValidationErrors CreateUserErrors(CreateUserDTO user)
         {
             ValidationErrors errors = new ValidationErrors();
+            user.Email = user.Email.ToLower();
 
             if (ExistingUser(user.Email))
             {
