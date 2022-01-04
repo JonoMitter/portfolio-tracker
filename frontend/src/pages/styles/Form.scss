@@ -13,8 +13,9 @@ section {
 }
 
 .form-outer {
-  padding: 3em 6em;
-  width: 40%;
+  padding: 3.1% 6.2%;
+  width: 35%;
+  min-width: 350px;
   margin: auto;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 18px;
@@ -104,7 +105,7 @@ label {
 
 .form-divider {
   border: 0;
-  border-top: 1px solid #9b9b9b;
+  border-top: 1px solid #9b9b9b83;
 }
 
 .form-text {
