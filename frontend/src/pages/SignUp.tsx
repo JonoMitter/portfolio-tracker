@@ -124,8 +124,8 @@ const SignUp = () => {
             <p id="email-error" className="form-error"></p>
           </div>
 
-          <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} passwordErrorDetails={passwordErrorDetails} />
-          <PASSWORD_INPUT label="CONFIRM PASSWORD" setValue={setPasswordConfirm} passwordErrorDetails={passwordConfirmErrorDetails} />
+          <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} errorDetails={passwordErrorDetails} />
+          <PASSWORD_INPUT label="CONFIRM PASSWORD" setValue={setPasswordConfirm} errorDetails={passwordConfirmErrorDetails} />
 
           <button type="submit" className="form-button signup-button">SIGN UP</button>
         </form>

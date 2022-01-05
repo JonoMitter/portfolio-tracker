@@ -9,7 +9,7 @@ interface PasswordInputProps {
   label: string;
   // passwordConfirm?: boolean;
   forgotPassword?: boolean;
-  passwordErrorDetails: LoginError;
+  errorDetails: LoginError;
   setValue: (value: string) => void;
 }
 
@@ -29,7 +29,7 @@ const FormPasswordInput = (props: PasswordInputProps) => {
   useEffect(() => {
     setHTMLElements();
     updateErrorMessages();
-  }, [props.passwordErrorDetails]);
+  }, [props.errorDetails]);
 
   function setHTMLElements() {
     if (!elementsSet) {
@@ -62,7 +62,7 @@ const FormPasswordInput = (props: PasswordInputProps) => {
 
   // checks whether to display or remove errors
   function updateErrorMessages() {
-    if (props.passwordErrorDetails.message !== "") {
+    if (props.errorDetails.message !== "") {
       displayErrors();
     }
     else {
@@ -72,11 +72,11 @@ const FormPasswordInput = (props: PasswordInputProps) => {
 
   function displayErrors() {
     //if there is an error
-    if (props.passwordErrorDetails.field !== "") {
+    if (props.errorDetails.field !== "") {
 
       // display the password error message
       if (errorElement !== null) {
-        errorElement.innerHTML = props.passwordErrorDetails.message;
+        errorElement.innerHTML = props.errorDetails.message;
       }
 
       // style the password input field
