@@ -14,8 +14,8 @@ section {
 
 .form-outer {
   padding: 3.1% 6.2%;
-  width: 35%;
-  min-width: 350px;
+  width: 30%;
+  min-width: 380px;
   margin: auto;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 18px;
@@ -50,7 +50,7 @@ label {
   width: 100%;
   min-height: 56px;
   padding: 12px;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1.2em;
   letter-spacing: 0.07em;
@@ -60,9 +60,9 @@ label {
 
 .input:focus {
   background-color: #63a1ff0a;
-  border: 2px solid #63a1ff;
+  border: 1px solid #63a1ff;
   outline: none;
-  box-shadow: 0 0 8px #63a1ff;
+  box-shadow: 0 0 4px #63a1ff;
 }
 
 .form-error {
@@ -73,12 +73,13 @@ label {
 }
 
 .input-error {
-  border: solid 2px red !important;
+  border: solid 1px red !important;
   background-color: rgba(255, 0, 0, 0.05) !important;
 }
 
 .input-error:focus, .input-error:focus-within {
-  box-shadow: 0 0 8px red !important;
+  box-shadow: 0 0 4px red !important;
+  background-color: rgba(255, 0, 0, 0.09) !important
 }
 
 .form-button {
@@ -167,7 +168,7 @@ label {
 .password-input-container {
   display: flex;
   box-sizing: border-box;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0);
   color: white;
@@ -175,9 +176,9 @@ label {
 
 .password-input-container:focus-within {
   background-color: #63a1ff0a;
-  border: 2px solid #63a1ff;
+  border: 1px solid #63a1ff;
   outline: none;
-  box-shadow: 0 0 8px #63a1ff;
+  box-shadow: 0 0 4px #63a1ff;
 }
 
 .input-password {
