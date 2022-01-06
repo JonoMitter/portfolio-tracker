@@ -4,7 +4,8 @@ import { Link, Redirect } from "react-router-dom";
 import "./styles/Form.scss";
 
 import PASSWORD_INPUT from "./components/FormPasswordInput";
-import LoginError from "../responses/LoginError";
+import LoginError from "../responses/UserError";
+import UserErrorResponse from "../responses/UserErrorResponse";
 
 const SignUp = () => {
 
@@ -12,6 +13,8 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const [signupErrors, setSignupError] = useState(new UserErrorResponse());
 
   const [passwordErrorDetails, setPasswordErrorDetails] = useState(new LoginError());
   const [passwordConfirmErrorDetails, setPasswordConfirmErrorDetails] = useState(new LoginError());
@@ -71,6 +74,7 @@ const SignUp = () => {
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
+    //check if ALL fields are valid instead
     if (password === passwordConfirm) {
       axios({
         method: "post",
@@ -85,12 +89,19 @@ const SignUp = () => {
       }).then((res) => {
         console.log(res.data)
         setRedirect(true);
-      }).catch(() => {
-        console.log("User already exists/error with server")
+      }).catch((error) => {
+        if (error.response.data) {
+          setSignupError(error.response.data);
+          console.log(error.response.data)
+        }
+        else {
+          console.log(`Unknown Error:\n
+            ${error.response}`);
+        }
       })
     } else {
       //TODO alert that password and passwork confirm do not match
-      console.log("passwords do not match")
+      console.log("frontend errors (only password check rn)")
     }
   }
 

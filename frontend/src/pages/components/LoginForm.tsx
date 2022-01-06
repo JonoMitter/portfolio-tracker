@@ -3,9 +3,9 @@ import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/Form.scss";
 import GetUserResponse from "../../responses/GetUserResponse";
-import LoginErrorResponse from "../../responses/LoginErrorResponse";
+import LoginErrorResponse from "../../responses/UserErrorResponse";
 import PASSWORD_INPUT from "./FormPasswordInput";
-import LoginError from "../../responses/LoginError";
+import LoginError from "../../responses/UserError";
 
 
 const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {

@@ -1,4 +1,4 @@
-class LoginError {
+class UserError {
 
     public field: String
     public message: string;
@@ -9,4 +9,4 @@ class LoginError {
     }
 }
 
-export default LoginError;
+export default UserError;

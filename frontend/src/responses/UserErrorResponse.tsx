@@ -1,6 +1,6 @@
-import LoginError from "./LoginError";
+import LoginError from "./UserError";
 
-class LoginErrorResponse {
+class UserErrorResponse {
 
     public message: String
     public errors: LoginError[];
@@ -11,4 +11,4 @@ class LoginErrorResponse {
     }
 }
 
-export default LoginErrorResponse;
+export default UserErrorResponse;
