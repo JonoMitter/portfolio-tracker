@@ -63,14 +63,14 @@ const FormPasswordInput = (props: PasswordInputProps) => {
   // checks whether to display or remove errors
   function updateErrorMessages() {
     if (props.errorDetails.message !== "") {
-      displayErrors();
+      displayBackendErrors();
     }
     else {
       removeErrors();
     }
   }
 
-  function displayErrors() {
+  function displayBackendErrors() {
     //if there is an error
     if (props.errorDetails.field !== "") {
 
