@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Form.scss";
-import LoginError from "../../responses/UserError";
+import UserError from "../../responses/UserError";
 
 import { ReactComponent as VISIBLE } from "../../assets/visibility_white_24dp.svg";
 import { ReactComponent as VISIBLE_OFF } from "../../assets/visibility_off_white_24dp.svg";
 
-interface PasswordInputProps {
+interface Props {
   label: string;
-  // passwordConfirm?: boolean;
   forgotPassword?: boolean;
-  errorDetails: LoginError;
+  errorDetails: UserError;
+  passwordValue?: string;
   setValue: (value: string) => void;
 }
 
-const FormPasswordInput = (props: PasswordInputProps) => {
+const FormPasswordInput = (props: Props) => {
 
   const [passwordShown, setPasswordShown] = useState(false);
+
+  const [validPassword, setValidPassword] = useState(false);
+  const [passwordsMatch, setPasswordsMatch] = useState(false);
 
   // remove all whitespace from label prop
   let label = props.label.toLowerCase().replace(/\s+/g, '');
@@ -43,6 +46,12 @@ const FormPasswordInput = (props: PasswordInputProps) => {
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     props.setValue(e.target.value);
     removeErrors();
+    if (props.passwordValue !== undefined) {
+      validatePasswordConfirm(e);
+    }
+    else {
+      validatePassword(e);
+    }
   }
 
   function togglePasswordVisible() {
@@ -75,25 +84,70 @@ const FormPasswordInput = (props: PasswordInputProps) => {
     if (props.errorDetails.field !== "") {
 
       // display the password error message
-      if (errorElement !== null) {
-        errorElement.innerHTML = props.errorDetails.message;
-      }
+      addErrorMessage(props.errorDetails.message);
 
       // style the password input field
-      if (inputContainerElement != null && !inputContainerElement.classList.contains("input-error")) {
-        inputContainerElement.classList.add("input-error");
+      addErrorStyle();
+    }
+  }
+
+  function addError(message: string) {
+    addErrorMessage(message)
+    addErrorStyle()
+  }
+
+  function removeErrors() {
+    removeErrorMessage()
+    removeErrorStyle()
+  }
+
+  function addErrorMessage(message: string) {
+    if (errorElement !== null) {
+      errorElement.innerHTML = message;
+    }
+  }
+
+  function removeErrorMessage() {
+    if (errorElement !== null) {
+      errorElement.innerHTML = '';
+    }
+  }
+
+  function addErrorStyle() {
+    if (inputContainerElement != null && !inputContainerElement.classList.contains("input-error")) {
+      inputContainerElement.classList.add("input-error");
+    }
+  }
+
+  function removeErrorStyle() {
+    if (inputContainerElement !== null) {
+      inputContainerElement.classList.remove("input-error");
+    }
+  }
+
+  function validatePassword(passwordInput: React.ChangeEvent<HTMLInputElement>) {
+    if (inputElement) {
+      if (passwordInput.target.value.length < 3) {
+        setValidPassword(false);
+        addError("Password must be longer than 3 characters");
+      }
+      else {
+        setValidPassword(true);
+        removeErrors();
       }
     }
   }
 
-  function removeErrors() {
-    // check whether there is an error message being displayed
-    if (errorElement !== null && errorElement.innerHTML !== "") {
-      errorElement.innerHTML = "";
-    }
-    // check whether the password input is being styled as an error
-    if (inputContainerElement !== null) {
-      inputContainerElement.classList.remove("input-error");
+  function validatePasswordConfirm(passwordConfirmInput: React.ChangeEvent<HTMLInputElement>) {
+    if (inputElement) {
+      if (props.passwordValue !== passwordConfirmInput.target.value) {
+        setPasswordsMatch(false);
+        addError("Passwords do not match");
+      }
+      else {
+        setPasswordsMatch(true);
+        removeErrors();
+      }
     }
   }
 

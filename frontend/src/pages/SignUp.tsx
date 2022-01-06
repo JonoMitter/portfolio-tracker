@@ -14,6 +14,11 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
+  const [validFirstname, setValidFirstname] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
+  const [validPassword, setValidPassword] = useState(false);
+  const [passwordsMatch, setPasswordsMatch] = useState(false);
+
   const [signupErrors, setSignupError] = useState(new UserErrorResponse());
 
   const [passwordErrorDetails, setPasswordErrorDetails] = useState(new LoginError());
@@ -26,12 +31,23 @@ const SignUp = () => {
   let passwordElement = document.getElementById("password-error");
   let passwordConfirmElement = document.getElementById("passwordConfirm-error");
 
+  function allValidInputs() {
+    if (validFirstname && validEmail && validPassword && passwordsMatch) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   function validateFirstName() {
     if (nameElement) {
       if (name.length < 2) {
+        setValidFirstname(false);
         nameElement.innerHTML = "Firstname must contain at least 2 characters";
       }
       else {
+        setValidFirstname(true);
         nameElement.innerHTML = '';
       }
     }
@@ -40,42 +56,21 @@ const SignUp = () => {
   function validateEmail() {
     if (emailElement) {
       if (!email.includes('@')) {
+        setValidEmail(false);
         emailElement.innerHTML = "Email must contain '@'";
       }
       else {
+        setValidEmail(true);
         emailElement.innerHTML = '';
       }
 
     }
   }
 
-  function validatePassword() {
-    if (passwordElement) {
-      if (password.length < 3) {
-        passwordElement.innerHTML = "Password must be longer than 3 characters";
-      }
-      else {
-        passwordElement.innerHTML = '';
-      }
-    }
-  }
-
-  function validatePasswordConfirm() {
-    if (passwordConfirmElement) {
-      if (password !== passwordConfirm) {
-        passwordConfirmElement.innerHTML = "Passwords do not match";
-      }
-      else {
-        passwordConfirmElement.innerHTML = '';
-      }
-    }
-  }
-
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    //check if ALL fields are valid instead
-    if (password === passwordConfirm) {
+    if (allValidInputs()) {
       axios({
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -100,8 +95,9 @@ const SignUp = () => {
         }
       })
     } else {
-      //TODO alert that password and passwork confirm do not match
-      console.log("frontend errors (only password check rn)")
+      //TODO
+      //add error box at top?
+      console.log("please fix errors")
     }
   }
 
@@ -136,7 +132,7 @@ const SignUp = () => {
           </div>
 
           <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} errorDetails={passwordErrorDetails} />
-          <PASSWORD_INPUT label="CONFIRM PASSWORD" setValue={setPasswordConfirm} errorDetails={passwordConfirmErrorDetails} />
+          <PASSWORD_INPUT label="CONFIRM PASSWORD" setValue={setPasswordConfirm} errorDetails={passwordConfirmErrorDetails} passwordValue={password} />
 
           <button type="submit" className="form-button signup-button">SIGN UP</button>
         </form>
