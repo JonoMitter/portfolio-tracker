@@ -39,7 +39,7 @@ const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse)
     menu = (
       <ul className="nav-right">
         <li><div className="nav-item nav-user"> <USER_ICON className="white-svg" /> <span className="nav-name">{props.user.firstName}</span></div></li>
-        <li><Link className="nav-item logout-button scale-hover" to='/' onClick={logout}>Logout</Link></li>
+        <li><Link className="nav-item logout-button" to='/' onClick={logout}>Logout</Link></li>
 
         {/* <li><LogoutButton /></li> */}
       </ul>

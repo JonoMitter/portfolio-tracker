@@ -102,15 +102,14 @@ li{
 }
 
 .logout-button{
-  background-color: rgba(218, 64, 151, 0);
+  background: none;
   color: white;
-  border: 1.5px solid white;
+  border: 2px solid white;
   transition: all 0.5s;
   border-radius: 10px;
 }
 
 .logout-button:hover{
-  color: rgb(255, 255, 255);
-  transition: all 0.5s;
-  background-color: rgb(14, 152, 243);
+  background-color: var(--main);
+  border: 2px solid var(--main);
 }
