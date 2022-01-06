@@ -53,7 +53,6 @@ li{
 .nav-user{
   display:flex;
   padding: 0;
-  // justify-content: baseline;
   align-self: flex-end;
 }
 
@@ -67,7 +66,6 @@ li{
 }
 
 .white-svg{
-  // stroke: white;
   height: 1.5em;
   width: auto;
   padding-right: 5px;
@@ -75,7 +73,7 @@ li{
 
 .login{
   cursor: pointer;
-  border: 3px solid white;
+  border: 3px solid var(--main);
   color: white;
   transition: all 0.5s;
   border-radius: 10px;
@@ -84,12 +82,19 @@ li{
 }
 
 .signup{
-  cursor: pointer;
-  background-color: white;
-  border: 3px solid white;
+  cursor: pointer;  
+  background-color: var(--main);
+  border: 3px solid var(--main);
   color: black;
+  color: rgb(255, 255, 255);
   transition: all 0.5s;
   border-radius: 10px;
+}
+
+.signup-button {
+  color: rgb(255, 255, 255);
+  border: 3px solid var(--main);
+  background-color: var(--main);
 }
 
 .scale-hover:hover{
