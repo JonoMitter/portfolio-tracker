@@ -75,7 +75,6 @@ li{
   cursor: pointer;
   border: 3px solid var(--main);
   color: white;
-  transition: all 0.5s;
   border-radius: 10px;
   box-sizing: border-box;
   width: 100%;
@@ -87,7 +86,6 @@ li{
   border: 3px solid var(--main);
   color: black;
   color: rgb(255, 255, 255);
-  transition: all 0.5s;
   border-radius: 10px;
 }
 
@@ -97,8 +95,11 @@ li{
   background-color: var(--main);
 }
 
+.scale-hover{
+  transition: all 0.3s;
+}
 .scale-hover:hover{
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .logout-button{
