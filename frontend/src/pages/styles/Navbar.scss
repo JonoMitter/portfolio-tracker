@@ -1,44 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
 
 nav {
   width: 100%;
-  position:relative;
-  display:inline-block;
+  position: relative;
+  display: inline-block;
 }
 
-ul{
+ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-li{
+li {
   display: flex;
   justify-content: center;
   align-self: center;
 }
 
-.nav-content{
-  padding: 20px 10% 20px 10%;
+.nav-content {
+  padding: 20px 10%;
 }
 
-.navbar-title{
-  color:white;
+.navbar-title {
+  color: white;
   text-decoration: none;
   font-size: 40px;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-weight: 600;
 }
 
-.nav-right{
+.nav-right {
   float: right;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
 }
 
-.nav-item{
-  font-family: 'Staatliches';
+.nav-item {
+  font-family: "Staatliches";
   display: inline-block;
   text-decoration: none;
   text-align: center;
@@ -50,28 +50,28 @@ li{
   border-radius: 2px;
 }
 
-.nav-user{
-  display:flex;
+.nav-user {
+  display: flex;
   padding: 0;
   align-self: flex-end;
 }
 
-.nav-name{
+.nav-name {
   color: white;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-weight: bold;
-  display:flex;
+  display: flex;
   align-self: center;
   font-size: 1em;
 }
 
-.white-svg{
+.white-svg {
   height: 1.5em;
   width: auto;
   padding-right: 5px;
 }
 
-.login{
+.login {
   cursor: pointer;
   border: 3px solid var(--main);
   color: white;
@@ -80,8 +80,8 @@ li{
   width: 100%;
 }
 
-.signup{
-  cursor: pointer;  
+.signup {
+  cursor: pointer;
   background-color: var(--main);
   border: 3px solid var(--main);
   color: black;
@@ -95,14 +95,15 @@ li{
   background-color: var(--main);
 }
 
-.scale-hover{
+.scale-hover {
   transition: all 0.3s;
 }
-.scale-hover:hover{
+
+.scale-hover:hover {
   transform: scale(1.05);
 }
 
-.logout-button{
+.logout-button {
   background: none;
   color: white;
   border: 2px solid white;
@@ -110,7 +111,7 @@ li{
   border-radius: 10px;
 }
 
-.logout-button:hover{
+.logout-button:hover {
   background-color: var(--main);
   border: 2px solid var(--main);
 }
