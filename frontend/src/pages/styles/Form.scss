@@ -4,7 +4,7 @@
  *  General Form Classes
  */
 section {
-  --error-text: rgb(255, 77, 77);
+  --error: rgb(255, 77, 77);
   font-family: "IBM Plex Mono", monospace;
 }
 
@@ -62,19 +62,19 @@ label {
 
 .form-error {
   margin: 0;
-  color: var(--error-text);
+  color: var(--error);
   font-family: "IBM Plex Sans", sans-serif;
   margin-top: 0.1em;
 }
 
 .input-error {
-  border: solid 1px red !important;
-  background-color: rgba(255, 0, 0, 0.05) !important;
+  border: solid 1px var(--error) !important;
+  background-color: rgba(255, 0, 0, 0.03) !important;
 }
 
 .input-error:focus,
 .input-error:focus-within {
-  box-shadow: 0 0 4px red !important;
+  box-shadow: 0 0 4px var(--error) !important;
 }
 
 .form-button {
@@ -179,7 +179,7 @@ label {
   box-sizing: border-box;
   width: 100%;
   padding: 12px 4px 12px 12px;
-  background-color: inherit;
+  background: transparent;
   color: white;
   outline: none;
   min-height: 52px;
@@ -201,5 +201,5 @@ label {
   border: none;
   width: auto;
   padding: 0.8em;
-  background: inherit;
+  background: transparent;
 }
