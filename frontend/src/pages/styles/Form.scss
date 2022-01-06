@@ -19,14 +19,12 @@ section {
 
 .form-heading {
   text-align: center;
-  color: white;
   margin: 0 0 0.2em 0;
   font-size: 2em;
 }
 
 .form-subheading {
   text-align: center;
-  color: white;
   margin: 0;
   font-weight: 400;
   font-size: 1.1em;
@@ -130,7 +128,6 @@ label {
 }
 
 .login-button:hover {
-  color: white;
   background-color: var(--main-darker);
   box-shadow: 0 0 3px var(--main-darker);
 }
