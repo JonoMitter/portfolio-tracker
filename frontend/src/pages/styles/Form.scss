@@ -1,14 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans&display=swap");
 
-// $primary: #11998e;
-// $secondary: #38ef7d;
-// $white: #fff;
-// $gray: #9b9b9b;
-
 /*
  *  General Form Classes
  */
 section {
+  --error-text: rgb(255, 77, 77);
   font-family: "IBM Plex Mono", monospace;
 }
 
@@ -17,7 +13,7 @@ section {
   width: 30%;
   min-width: 380px;
   margin: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(var(--light-rgb), 0.03);
   border-radius: 18px;
 }
 
@@ -41,7 +37,7 @@ section {
 }
 
 label {
-  display:inline-block;
+  display: inline-block;
   margin-bottom: 0.175em;
 }
 
@@ -50,26 +46,27 @@ label {
   width: 100%;
   min-height: 56px;
   padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid var(--light);
+  border-radius: 4px;
   font-size: 1.2em;
   letter-spacing: 0.07em;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: inherit;
   color: white;
 }
 
-.input:focus {
-  background-color: #63a1ff0a;
-  border: 1px solid #63a1ff;
+.input:focus,
+.password-input-container:focus-within {
+  background-color: rgba(var(--light-rgb), 0.02);
+  border: 1px solid var(--main);
   outline: none;
-  box-shadow: 0 0 4px #63a1ff;
+  box-shadow: 0 0 4px var(--main-lighter);
 }
 
 .form-error {
   margin: 0;
-  color: #de1a0e;
-  font-style: italic;
+  color: var(--error-text);
   font-family: "IBM Plex Sans", sans-serif;
+  margin-top: 0.1em;
 }
 
 .input-error {
@@ -77,9 +74,9 @@ label {
   background-color: rgba(255, 0, 0, 0.05) !important;
 }
 
-.input-error:focus, .input-error:focus-within {
+.input-error:focus,
+.input-error:focus-within {
   box-shadow: 0 0 4px red !important;
-  background-color: rgba(255, 0, 0, 0.09) !important
 }
 
 .form-button {
@@ -124,19 +121,18 @@ label {
   font-weight: bold;
 }
 
-
 /* 
  *  Page Specific Button Classes
  */
 .login-button {
   color: rgb(255, 255, 255);
-  background-color: rgb(0, 206, 51);
+  background-color: var(--main);
 }
 
 .login-button:hover {
-  color: rgb(0, 0, 0);
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0 0 5px rgb(255, 255, 255);
+  color: white;
+  background-color: var(--main-darker);
+  box-shadow: 0 0 3px var(--main-darker);
 }
 
 .signup-button {
@@ -147,7 +143,7 @@ label {
 .signup-button:hover {
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
-  box-shadow: 0 0 5px rgb(255, 255, 255);
+  box-shadow: 0 0 3px rgb(255, 255, 255);
 }
 
 /*  
@@ -168,17 +164,8 @@ label {
 .password-input-container {
   display: flex;
   box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0);
-  color: white;
-}
-
-.password-input-container:focus-within {
-  background-color: #63a1ff0a;
-  border: 1px solid #63a1ff;
-  outline: none;
-  box-shadow: 0 0 4px #63a1ff;
+  border: 1px solid var(--light);
+  border-radius: 4px;
 }
 
 .input-password {
@@ -190,9 +177,9 @@ label {
 .input-nofocus {
   box-sizing: border-box;
   width: 100%;
-  min-height: 52px;
-  padding: 12px;
-  background-color: rgba(0, 0, 0, 0);
+  min-height: 54px;
+  padding: 12px 4px 12px 12px;
+  background-color: inherit;
   color: white;
   outline: none;
 }
@@ -201,7 +188,7 @@ label {
   outline: none;
 }
 
-.regular-input{
+.regular-input {
   font-size: 1.2em;
   letter-spacing: 0.07em;
 }
@@ -213,10 +200,5 @@ label {
   border: none;
   width: auto;
   padding: 0.8em;
-  background: rgba(204, 204, 204, 0.05);
-  transition: all 0.25s;
-}
-
-.btn-show-password:hover {
-  background: rgba(204, 204, 204, 0.08);
+  background: inherit;
 }

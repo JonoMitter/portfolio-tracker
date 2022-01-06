@@ -1,9 +1,18 @@
+:root{
+  --light: #F5E3E0;
+  --light-rgb: 245, 227, 224;
+  --main-lighter: #E8B4BC;
+  --main: #D282A6;
+  --main-darker: #6E4555;
+  --dark: #3A3238;
+}
+
 html, body{
   margin: 0;
   height: 100%;
   width: 100%;
   padding: 0;
-  background-color: rgb(33, 33, 33);
+  background-color: var(--dark);
 }
 
 section{
