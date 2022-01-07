@@ -59,7 +59,6 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
     if (emailInput !== null) {
       emailInput.classList.remove("input-error");
     }
-    setPasswordErrorDetails(new LoginError());
   }
 
   function submitForm(e: SyntheticEvent) {
@@ -112,7 +111,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           <p id="email-error" className="form-error"></p>
         </div>
 
-        <PASSWORD_INPUT label="PASSWORD" setPassword={setPassword} errorDetails={passwordErrorDetails} />
+        <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} errorDetails={passwordErrorDetails} />
 
         <input type="submit" value="LOGIN" className="form-button login-button" />
       </form >

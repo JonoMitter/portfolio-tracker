@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import "./styles/Form.scss";
@@ -8,6 +8,7 @@ import LoginError from "../responses/UserError";
 import UserErrorResponse from "../responses/UserErrorResponse";
 
 const SignUp = () => {
+  const [redirect, setRedirect] = useState(false);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,27 +18,37 @@ const SignUp = () => {
   const [validFirstname, setValidFirstname] = useState(false);
   const [validEmail, setValidEmail] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
-  const [passwordsMatch, setPasswordsMatch] = useState(false);
+  const [validPasswordConfirm, setValidPasswordConfirm] = useState(false);
 
+  //backend/server errors
   const [signupErrors, setSignupError] = useState(new UserErrorResponse());
 
-  const [passwordErrorDetails, setPasswordErrorDetails] = useState(new LoginError());
-  const [passwordConfirmErrorDetails, setPasswordConfirmErrorDetails] = useState(new LoginError());
-
-  const [redirect, setRedirect] = useState(false);
+  //frontend/client errors
+  const [passwordErrors, setPasswordErrors] = useState(new LoginError());
+  const [passwordConfirmErrors, setPasswordConfirmErrors] = useState(new LoginError());
 
   let nameElement = document.getElementById("name-error");
   let emailElement = document.getElementById("email-error");
-  let passwordElement = document.getElementById("password-error");
-  let passwordConfirmElement = document.getElementById("passwordConfirm-error");
+
+  useEffect(() => {
+    validatePassword(password);
+    validatePasswordConfirm(passwordConfirm);
+  }, [password]);
+
+  useEffect(() => {
+    validatePasswordConfirm(passwordConfirm);
+  }, [passwordConfirm]);
 
   function allValidInputs() {
-    if (validFirstname && validEmail && validPassword && passwordsMatch) {
-      return true;
+    let valid = false;
+    
+    if (validFirstname && validEmail && validPassword && validPasswordConfirm) {
+      valid = true;
     }
     else {
-      return false;
+      valid = false;
     }
+    return valid;
   }
 
   function validateFirstName() {
@@ -65,6 +76,56 @@ const SignUp = () => {
       }
 
     }
+  }
+
+  function validatePassword(password: string) {
+    if (password.length == 0) {
+      setValidPassword(false);
+
+    } else if (password.length < 3) {
+      setValidPassword(false);
+      addPasswordError("Password must be longer than 3 characters");
+
+    } else {
+      setValidPassword(true);
+      removePasswordErrors();
+    }
+  }
+
+  function addPasswordError(message: string) {
+    let passwordError = new LoginError();
+    passwordError.field = "password";
+    passwordError.message = message;
+    setPasswordErrors(passwordError);
+  }
+
+  function removePasswordErrors() {
+    setPasswordErrors(new LoginError);
+  }
+
+  function validatePasswordConfirm(passwordConfirm: string) {
+    if (passwordConfirm.length == 0) {
+      setValidPasswordConfirm(false);
+    }
+    else if (password !== passwordConfirm) {
+      setValidPasswordConfirm(false);
+      addPasswordConfirmError("Passwords do not match");
+    }
+    else {
+      setValidPasswordConfirm(true);
+      removePasswordConfirmErrors();
+    }
+  }
+
+  function addPasswordConfirmError(message: string) {
+    let passwordError = new LoginError();
+    passwordError.field = "password-confirm";
+    passwordError.message = message;
+    setPasswordConfirmErrors(passwordError);
+  }
+
+  function removePasswordConfirmErrors() {
+    setPasswordConfirmErrors(new LoginError);
   }
 
   const submit = async (e: SyntheticEvent) => {
@@ -131,7 +192,8 @@ const SignUp = () => {
             <p id="email-error" className="form-error"></p>
           </div>
 
-          <PASSWORD_INPUT label="PASSWORD" setPassword={setPassword} setPasswordConfirm={setPasswordConfirm} errorDetails={passwordErrorDetails} setValidPassword={setValidPassword} setPasswordsMatch={setPasswordsMatch} />
+          <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} errorDetails={passwordErrors} />
+          <PASSWORD_INPUT label="CONFIRM PASSWORD" setValue={setPasswordConfirm} errorDetails={passwordConfirmErrors} />
 
           <button type="submit" className="form-button signup-button">SIGN UP</button>
         </form>

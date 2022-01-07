@@ -1,9 +1,9 @@
-import LoginError from "./UserError";
+import UserError from "./UserError";
 
 class UserErrorResponse {
 
     public message: String
-    public errors: LoginError[];
+    public errors: UserError[];
 
     constructor(){
         this.message = "";
