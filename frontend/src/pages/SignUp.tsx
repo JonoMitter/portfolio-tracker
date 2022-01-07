@@ -35,7 +35,7 @@ const SignUp = () => {
 
   useEffect(() => {
     validatePassword(password);
-    if (passwordConfirmChanged && passwordConfirm != '') {
+    if (passwordConfirmChanged && passwordConfirm !== '') {
       validatePasswordConfirm(passwordConfirm);
     }
   }, [password]);
@@ -83,7 +83,7 @@ const SignUp = () => {
   }
 
   function validatePassword(password: string) {
-    if (password.length == 0) {
+    if (password.length === 0) {
       setValidPassword(false);
       if (!passwordChanged) {
         setPasswordChanged(true);
@@ -110,11 +110,11 @@ const SignUp = () => {
   }
 
   function removePasswordErrors() {
-    setPasswordErrors(new LoginError);
+    setPasswordErrors(new LoginError());
   }
 
   function validatePasswordConfirm(passwordConfirm: string) {
-    if (passwordConfirm.length == 0) {
+    if (passwordConfirm.length === 0) {
       setValidPasswordConfirm(false);
       if (!passwordConfirmChanged) {
         setPasswordConfirmChanged(true);
@@ -141,7 +141,7 @@ const SignUp = () => {
   }
 
   function removePasswordConfirmErrors() {
-    setPasswordConfirmErrors(new LoginError);
+    setPasswordConfirmErrors(new LoginError());
   }
 
   const submit = async (e: SyntheticEvent) => {

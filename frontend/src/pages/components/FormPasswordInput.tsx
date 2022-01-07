@@ -41,7 +41,7 @@ const FormPasswordInput = (props: Props) => {
 
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     props.setValue(e.target.value);
-    if (props.errorDetails.message != '') {
+    if (props.errorDetails.message !== '') {
       addError(props.errorDetails.message);
     }
     else {
@@ -85,7 +85,7 @@ const FormPasswordInput = (props: Props) => {
   }
 
   function addErrorMessage(message: string) {
-    if (errorElement !== null && message != '') {
+    if (errorElement !== null && message !== '') {
       errorElement.innerHTML = message;
     }
   }
