@@ -131,8 +131,7 @@ const SignUp = () => {
             <p id="email-error" className="form-error"></p>
           </div>
 
-          <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} errorDetails={passwordErrorDetails} />
-          <PASSWORD_INPUT label="CONFIRM PASSWORD" setValue={setPasswordConfirm} errorDetails={passwordConfirmErrorDetails} passwordValue={password} />
+          <PASSWORD_INPUT label="PASSWORD" setPassword={setPassword} setPasswordConfirm={setPasswordConfirm} errorDetails={passwordErrorDetails} setValidPassword={setValidPassword} setPasswordsMatch={setPasswordsMatch} />
 
           <button type="submit" className="form-button signup-button">SIGN UP</button>
         </form>
