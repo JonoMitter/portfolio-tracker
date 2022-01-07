@@ -35,7 +35,9 @@ const SignUp = () => {
 
   useEffect(() => {
     validatePassword(password);
-    validatePasswordConfirm(passwordConfirm);
+    if (passwordConfirmChanged && passwordConfirm != '') {
+      validatePasswordConfirm(passwordConfirm);
+    }
   }, [password]);
 
   useEffect(() => {
