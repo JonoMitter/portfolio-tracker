@@ -30,6 +30,9 @@ const SignUp = () => {
   let nameElement = document.getElementById("name-error");
   let emailElement = document.getElementById("email-error");
 
+  const [passwordChanged, setPasswordChanged] = useState(false);
+  const [passwordConfirmChanged, setPasswordConfirmChanged] = useState(false);
+
   useEffect(() => {
     validatePassword(password);
     validatePasswordConfirm(passwordConfirm);
@@ -41,7 +44,7 @@ const SignUp = () => {
 
   function allValidInputs() {
     let valid = false;
-    
+
     if (validFirstname && validEmail && validPassword && validPasswordConfirm) {
       valid = true;
     }
@@ -74,19 +77,24 @@ const SignUp = () => {
         setValidEmail(true);
         emailElement.innerHTML = '';
       }
-
     }
   }
 
   function validatePassword(password: string) {
     if (password.length == 0) {
       setValidPassword(false);
-
-    } else if (password.length < 3) {
+      if (!passwordChanged) {
+        setPasswordChanged(true);
+      }
+      else {
+        addPasswordError("Password must be longer than 3 characters");
+      }
+    }
+    else if (password.length < 3) {
       setValidPassword(false);
       addPasswordError("Password must be longer than 3 characters");
-
-    } else {
+    }
+    else {
       setValidPassword(true);
       removePasswordErrors();
     }
@@ -106,6 +114,12 @@ const SignUp = () => {
   function validatePasswordConfirm(passwordConfirm: string) {
     if (passwordConfirm.length == 0) {
       setValidPasswordConfirm(false);
+      if (!passwordConfirmChanged) {
+        setPasswordConfirmChanged(true);
+      }
+      else {
+        addPasswordConfirmError("Passwords do not match");
+      }
     }
     else if (password !== passwordConfirm) {
       setValidPasswordConfirm(false);
