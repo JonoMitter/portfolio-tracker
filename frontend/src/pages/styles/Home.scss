@@ -5,6 +5,7 @@
   --main: #d282a6;
   --main-darker: #6e4555;
   --dark: #3a3238;
+  --background: #272226;
 }
 
 html,
@@ -13,12 +14,8 @@ body {
   height: 100%;
   width: 100%;
   padding: 0;
-  background-color: var(--dark);
+  background-color: var(--background);
   color: white;
-}
-
-section {
-  padding: 20px 10%;
 }
 
 h1.home-title {
