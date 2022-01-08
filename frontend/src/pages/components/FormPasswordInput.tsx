@@ -8,7 +8,8 @@ import { ReactComponent as VISIBLE_OFF } from "../../assets/visibility_off_white
 interface Props {
   label: string;
   forgotPassword?: boolean;
-  errorDetails: UserError;
+  clientErrorDetails?: UserError;
+  serverErrorDetails?: UserError;
   setValue: (value: string) => void;
 }
 
@@ -28,7 +29,7 @@ const FormPasswordInput = (props: Props) => {
   useEffect(() => {
     setHTMLElements();
     updateErrorMessages();
-  }, [props.errorDetails]);
+  }, [props.clientErrorDetails, props.serverErrorDetails]);
 
   function setHTMLElements() {
     if (!elementsSet) {
@@ -41,8 +42,18 @@ const FormPasswordInput = (props: Props) => {
 
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     props.setValue(e.target.value);
-    if (props.errorDetails.message !== '') {
-      addError(props.errorDetails.message);
+    if (props.clientErrorDetails !== undefined && props.clientErrorDetails.message !== '') {
+      addError(props.clientErrorDetails.message);
+      props.clientErrorDetails.message = '';
+    }
+    else if (props.serverErrorDetails !== undefined) {
+      console.log("Password server error block!");
+      removeErrors();
+      if (props.serverErrorDetails.message !== "") {
+        console.log("Password server error message not blank!");
+        addError(props.serverErrorDetails.message);
+        console.log("Error: " + props.serverErrorDetails.message + " added");
+      }
     }
     else {
       removeErrors();
@@ -66,8 +77,18 @@ const FormPasswordInput = (props: Props) => {
 
   // checks whether to display or remove errors
   function updateErrorMessages() {
-    if (props.errorDetails.message !== "") {
-      addError(props.errorDetails.message);
+    if (props.clientErrorDetails !== undefined && props.clientErrorDetails.message !== "") {
+      addError(props.clientErrorDetails.message);
+    }
+    else if (props.serverErrorDetails !== undefined) {
+      console.log("Password server error block!");
+      removeErrors();
+      if (props.serverErrorDetails.message !== "") {
+        console.log("Password server error message not blank!");
+        addError(props.serverErrorDetails.message);
+        props.serverErrorDetails.message = "";
+        console.log("Error: " + props.serverErrorDetails.message + " added");
+      }
     }
     else {
       removeErrors();

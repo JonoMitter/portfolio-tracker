@@ -111,7 +111,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           <p id="email-error" className="form-error"></p>
         </div>
 
-        <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} errorDetails={passwordErrorDetails} />
+        <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} serverErrorDetails={passwordErrorDetails} />
 
         <input type="submit" value="LOGIN" className="form-button login-button" />
       </form >
