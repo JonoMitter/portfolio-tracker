@@ -42,22 +42,7 @@ const FormPasswordInput = (props: Props) => {
 
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     props.setValue(e.target.value);
-    if (props.clientErrorDetails !== undefined && props.clientErrorDetails.message !== '') {
-      addError(props.clientErrorDetails.message);
-      props.clientErrorDetails.message = '';
-    }
-    else if (props.serverErrorDetails !== undefined) {
-      console.log("Password server error block!");
-      removeErrors();
-      if (props.serverErrorDetails.message !== "") {
-        console.log("Password server error message not blank!");
-        addError(props.serverErrorDetails.message);
-        console.log("Error: " + props.serverErrorDetails.message + " added");
-      }
-    }
-    else {
-      removeErrors();
-    }
+    removeErrors();
   }
 
   function togglePasswordVisible() {
