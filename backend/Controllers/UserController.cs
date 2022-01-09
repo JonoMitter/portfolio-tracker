@@ -166,7 +166,7 @@ namespace backend.Controllers
 
             if (ExistingUser(user.Email))
             {
-                errors.Add(new ValidationError("Email", "User with email '" + user.Email + "' already exists"));
+                errors.Add(new ValidationError("Email", "User with this email already exists"));
             }
 
             //check that email meets minimum size requirements "a@a.com"
@@ -193,7 +193,7 @@ namespace backend.Controllers
             //check that password are equal
             if (!user.Password.Equals(user.PasswordConfirm))
             {
-                errors.Add(new ValidationError("Password", "Passwords must match"));
+                errors.Add(new ValidationError("PasswordConfirm", "Passwords must match"));
             }
 
             //[TESTING]
