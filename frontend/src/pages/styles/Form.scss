@@ -1,91 +1,205 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans&display=swap");
 
-// $primary: #11998e;
-// $secondary: #38ef7d;
-// $white: #fff;
-// $gray: #9b9b9b;
-
-.form {
-  margin: auto;
-  width: 50%;
-  background-color: rgb(53, 52, 52);
-  padding: 35px 60px;
+/*
+ *  General Form Classes
+ */
+section {
+  --error: rgb(255, 77, 77);
+  font-family: "IBM Plex Mono", monospace;
 }
 
-h1.form-title {
+.form-outer {
+  padding: 2.7% 6%;
+  width: 30%;
+  min-width: 380px;
+  margin: auto;
+  background-color: rgba(var(--light-rgb), 0.03);
+  border-radius: 18px;
+}
+
+.form-heading {
   text-align: center;
-  color: white;
+  margin: 0 0 0.2em 0;
+  font-size: 2em;
+}
+
+.form-subheading {
+  text-align: center;
   margin: 0;
+  font-weight: 400;
+  font-size: 1.1em;
+}
+
+.input-container {
+  margin: 0 0 0.8em 0;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.175em;
 }
 
 .input {
+  box-sizing: border-box;
   width: 100%;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border-radius: 2px;
-  border: 1px solid #ccc;
-  font-family: inherit;
-  background-color: rgb(43, 42, 42);
+  min-height: 54px;
+  padding: 12px;
+  border: 1px solid var(--light);
+  border-radius: 4px;
+  font-size: 1.2em;
+  letter-spacing: 0.07em;
+  background-color: inherit;
   color: white;
-  margin-top: 20px;
 }
 
-.group {
-  margin-top: 30px;
+.input:focus,
+.password-input-container:focus-within {
+  background-color: rgba(var(--light-rgb), 0.02);
+  border: 1px solid var(--main);
+  outline: none;
+  box-shadow: 0 0 4px var(--main-lighter);
 }
 
-.group2{
-  margin: auto;
-  width: 40%;
+.form-error {
+  margin: 0;
+  color: var(--error);
+  font-family: "IBM Plex Sans", sans-serif;
+  margin-top: 0.1em;
 }
 
-.passforget{
-  float: right;
-  color: rgb(17, 123, 245);
+.input-error {
+  border: solid 1px var(--error) !important;
+  background-color: rgba(255, 0, 0, 0.03) !important;
+}
+
+.input-error:focus,
+.input-error:focus-within {
+  box-shadow: 0 0 4px var(--error) !important;
 }
 
 .form-button {
-  font-family: "Staatliches";
+  box-sizing: border-box;
   display: block;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 1.2em;
+  font-family: "IBM Plex Mono", monospace;
   letter-spacing: 0.1em;
-  width: 102%;
+  width: 100%;
   border: none;
   outline: none;
-  padding: 13px;
-  margin-top: 30px;
-  border-radius: 2px;
+  padding: 10px 20px;
+  margin-top: 1.5em;
+  border-radius: 30px;
   cursor: pointer;
-  color: rgb(0, 0, 0);
-  background-color: rgb(255, 255, 255);
+  min-height: 54px;
+  font-weight: bold;
+  transition: all 0.3s;
 }
 
-.form-button:hover {
-  color: rgb(0, 0, 0);
-  background-color: rgb(226, 226, 226);
+.form-redirect {
+  margin-top: 2em;
 }
 
-.form-text{
+.form-divider {
+  border: 0;
+  border-top: 1px solid #9b9b9b83;
+}
+
+.form-text {
   text-align: center;
   color: rgb(155, 155, 155);
+  margin: 1em 0 0.3em 0;
 }
 
-.form-link{
+.form-link {
   text-decoration: none;
   color: rgb(5, 84, 255);
   display: block;
   text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
 }
 
-.form-outer{
-  padding: 60px;
-  width: 45%;
-  margin:auto;
-  background-color: #353434;
+/* 
+ *  Specific Button Classes
+ */
+
+.login-button {
+  color: rgb(255, 255, 255);
+  background: none;
+  border: 3px solid var(--main);
 }
 
-.form-forgot{
+.login-button:hover {
+  background-color: var(--main);
+  box-shadow: 0 0 5px var(--main);
+}
+
+.signup-button {
+  color: rgb(255, 255, 255);
+  border: 3px solid var(--main);
+  background-color: var(--main);
+}
+
+.signup-button:hover {
+  background-color: var(--main-darker);
+  box-shadow: 0 0 5px var(--main);
+}
+
+/*  
+ *  Password Input Classes
+ */
+
+.grid-two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.password-forgot {
   float: right;
   color: rgb(17, 123, 245);
+  margin: 0;
+  text-align: right;
+}
+
+.password-input-container {
+  display: flex;
+  box-sizing: border-box;
+  border: 1px solid var(--light);
+  border-radius: 4px;
+}
+
+.input-password {
+  letter-spacing: 0.125em;
+  font-size: 1.5em;
+  border: none;
+}
+
+.input-nofocus {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 4px 12px 12px;
+  background: transparent;
+  color: white;
+  outline: none;
+  min-height: 52px;
+}
+
+.input-nofocus:focus {
+  outline: none;
+}
+
+.regular-input {
+  font-size: 1.2em;
+  letter-spacing: 0.07em;
+}
+
+.btn-show-password {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: none;
+  width: auto;
+  padding: 0.8em;
+  background: transparent;
 }

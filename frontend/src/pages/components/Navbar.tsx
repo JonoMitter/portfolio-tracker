@@ -3,7 +3,8 @@ import "../styles/Navbar.scss";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import GetUserResponse from "../../responses/GetUserResponse";
-import { ReactComponent as UserIcon } from "../../assets/user.svg";
+// import { ReactComponent as UserIcon } from "../../assets/user.svg";
+import { ReactComponent as USER_ICON } from "../../assets/person_outline_white_36dp.svg";
 // import LogoutButton from "./LogoutButton";
 
 const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse) => void }) => {
@@ -19,7 +20,7 @@ const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse)
       props.setUser(new GetUserResponse())
       console.log("Logged Out (JWT deleted)");
 
-    }).catch(function (error) {
+    }).catch(error => {
       console.log("Error logging out");
 
     })
@@ -30,20 +31,18 @@ const Navbar = (props: { user: GetUserResponse, setUser: (user: GetUserResponse)
   if (props.user.firstName === "") {
     menu = (
       <ul className="nav-right">
-        <li><Link className="nav-item cyan inline" to='/login'>Login</Link></li>
-        <li><Link className="nav-item nav-item-right pink inline" to='/signup'>Sign up</Link></li>
+        <li><Link className="nav-item login inline scale-hover" to='/login'>Login</Link></li>
+        <li><Link className="nav-item signup inline scale-hover" to='/signup'>Sign up</Link></li>
       </ul>
     )
   } else {
     menu = (
-      <div className="nav-right">
-        <ul >
-          <li><div className="nav-item nav-name"> <UserIcon className="white-svg"/> {props.user.firstName}</div></li>
-          <li><Link className="nav-item nav-item-right logout-button" to='/' onClick={logout}>Logout</Link></li>
+      <ul className="nav-right">
+        <li><div className="nav-item nav-user"> <USER_ICON className="white-svg" /> <span className="nav-name">{props.user.firstName}</span></div></li>
+        <li><Link className="nav-item logout-button" to='/' onClick={logout}>Logout</Link></li>
 
-          {/* <li><LogoutButton /></li> */}
-        </ul>
-      </div>
+        {/* <li><LogoutButton /></li> */}
+      </ul>
     )
   }
 

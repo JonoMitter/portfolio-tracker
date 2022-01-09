@@ -1,101 +1,117 @@
-@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
 
 nav {
   width: 100%;
-  background-color: rgb(33,33,33);
-  position:relative;
-  display:inline-block;
+  position: relative;
+  display: inline-block;
 }
 
-ul{
+ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
-li{
-  display: inline;
+li {
+  display: flex;
+  justify-content: center;
+  align-self: center;
 }
 
-.nav-content{
-  padding: 20px 10% 20px 10%;
+.nav-content {
+  padding: 20px 10%;
 }
 
-.navbar-title{
-  color:white;
+.navbar-title {
+  color: white;
   text-decoration: none;
   font-size: 40px;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-weight: 600;
 }
 
-.nav-right{
+.nav-right {
   float: right;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
 }
 
-.nav-item{
-  font-family: 'Staatliches';
-  margin-right: 10px;
-  margin-top: 10px;
-  display: inline;
-  width: 60px;
-  height: 20px;
+.nav-item {
+  font-family: "Staatliches";
+  display: inline-block;
   text-decoration: none;
   text-align: center;
   color: rgb(0, 0, 0);
   font-size: 18px;
   letter-spacing: 0.1em;
-  padding: 10px 20px;
+  padding: 10px 25px;
   transition: ease 0.4s;
   border-radius: 2px;
 }
 
-.nav-item-right{
-  margin-right: 0;
+.nav-user {
+  display: flex;
+  padding: 0;
+  align-self: flex-end;
 }
 
-.nav-name{
+.nav-name {
   color: white;
-  font-family:'Times New Roman', Times, serif
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: bold;
+  display: flex;
+  align-self: center;
+  font-size: 1em;
 }
 
-.white-svg{
-  stroke: white;
-  height: 14px;
+.white-svg {
+  height: 1.5em;
   width: auto;
+  padding-right: 5px;
 }
 
-.pink{
-  background-color: rgb(218, 64, 151);
-  color: black;
-}
-
-.pink:hover{
+.login {
+  cursor: pointer;
+  border: 3px solid var(--main);
   color: white;
-  transition: all 0.5s;
-  background-color: rgb(37, 216, 210);
-  cursor: pointer;
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-.cyan{
-  background-color: rgb(36, 212, 207);
+.signup {
+  cursor: pointer;
+  background-color: var(--main);
+  border: 3px solid var(--main);
   color: black;
-}
-
-.cyan:hover{
   color: rgb(255, 255, 255);
-  transition: all 0.5s;
-  background-color: rgb(218, 64, 151);
-  cursor: pointer;
+  border-radius: 10px;
 }
 
-.logout-button{
-  background-color: rgba(218, 64, 151, 0);
+.signup-button {
+  color: rgb(255, 255, 255);
+  border: 3px solid var(--main);
+  background-color: var(--main);
+}
+
+.scale-hover {
+  transition: all 0.3s;
+}
+
+.scale-hover:hover {
+  transform: scale(1.05);
+}
+
+.logout-button {
+  background: none;
   color: white;
-  border: 1.5px solid white;
+  border: 2px solid white;
+  transition: all 0.5s;
+  border-radius: 10px;
 }
 
-.logout-button:hover{
-  color: rgb(255, 255, 255);
-  transition: all 0.5s;
-  background-color: rgb(14, 152, 243);
-  cursor: pointer;
+.logout-button:hover {
+  background-color: var(--main);
+  border: 2px solid var(--main);
 }

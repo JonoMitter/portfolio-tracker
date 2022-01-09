@@ -1,16 +1,25 @@
-html, body{
+:root {
+  --light: #f5e3e0;
+  --light-rgb: 245, 227, 224;
+  --main-lighter: #e8b4bc;
+  --main: #d282a6;
+  --main-darker: #6e4555;
+  --dark: #3a3238;
+  --background: #272226;
+}
+
+html,
+body {
   margin: 0;
   height: 100%;
   width: 100%;
   padding: 0;
-  background-color: rgb(33, 33, 33);
+  background-color: var(--background);
+  color: white;
 }
 
 section{
-  padding: 20px 10% 20px 10%;
-  // background-color: rgb(33, 33, 33);
-  // height: 600px;
-  color: white;
+  padding: 1% 10%;
 }
 
 h1.home-title {
