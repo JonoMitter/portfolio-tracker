@@ -1,7 +1,7 @@
 import axios from "axios";
 import "./App.css";
 import { BrowserRouter, Route } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
