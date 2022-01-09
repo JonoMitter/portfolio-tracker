@@ -66,13 +66,10 @@ const FormPasswordInput = (props: Props) => {
       addError(props.clientErrorDetails.message);
     }
     else if (props.serverErrorDetails !== undefined) {
-      console.log("Password server error block!");
       removeErrors();
       if (props.serverErrorDetails.message !== "") {
-        console.log("Password server error message not blank!");
         addError(props.serverErrorDetails.message);
         props.serverErrorDetails.message = "";
-        console.log("Error: " + props.serverErrorDetails.message + " added");
       }
     }
     else {
