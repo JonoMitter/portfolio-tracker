@@ -21,14 +21,17 @@ const SignUp = () => {
   const [validPasswordConfirm, setValidPasswordConfirm] = useState(false);
 
   //backend/server errors
-  const [signupErrors, setSignupError] = useState(new UserErrorResponse());
+  const [backendErrors, setBackendErrors] = useState(new UserErrorResponse());
 
   //frontend/client errors
   const [passwordErrors, setPasswordErrors] = useState(new LoginError());
   const [passwordConfirmErrors, setPasswordConfirmErrors] = useState(new LoginError());
 
-  let nameElement = document.getElementById("name-error");
-  let emailElement = document.getElementById("email-error");
+  let nameInputEl = document.getElementById("name-input");
+  let nameErrorEl = document.getElementById("name-error");
+
+  let emailInputEl = document.getElementById("email-input");
+  let emailErrorEl = document.getElementById("email-error");
 
   const [passwordChanged, setPasswordChanged] = useState(false);
   const [passwordConfirmChanged, setPasswordConfirmChanged] = useState(false);
@@ -44,6 +47,27 @@ const SignUp = () => {
     validatePasswordConfirm(passwordConfirm);
   }, [passwordConfirm]);
 
+  useEffect(() => {
+    displayBackendErrors();
+  }, [backendErrors]);
+
+  function displayBackendErrors() {
+    for (let i = 0; i < backendErrors.errors.length; i++) {
+      if (backendErrors.errors[i].field === "Email" && emailInputEl && emailErrorEl) {
+        setValidEmail(false);
+        addError(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
+      }
+      if (backendErrors.errors[i].field.toLowerCase() === "FirstName" && nameInputEl && nameErrorEl) {
+        setValidFirstname(false);
+        addError(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
+      }
+      if (backendErrors.errors[i].field.toLowerCase() === "PasswordConfirm") {
+        setValidPasswordConfirm(false);
+        addPasswordConfirmError(backendErrors.errors[i].message);
+      }
+    }
+  }
+
   function allValidInputs() {
     let valid = false;
 
@@ -56,29 +80,83 @@ const SignUp = () => {
     return valid;
   }
 
-  function validateFirstName() {
-    if (nameElement) {
+  function validateFirstName(name: string) {
+    if (nameInputEl && nameErrorEl) {
       if (name.length < 2) {
         setValidFirstname(false);
-        nameElement.innerHTML = "Firstname must contain at least 2 characters";
+        addError("Firstname must contain at least 2 characters", nameInputEl, nameErrorEl);
       }
       else {
         setValidFirstname(true);
-        nameElement.innerHTML = '';
+        removeErrors(nameInputEl, nameErrorEl);
       }
     }
   }
 
-  function validateEmail() {
-    if (emailElement) {
+  function onNameChange(name: string) {
+    setName(name);
+    validateFirstName(name);
+  }
+
+  function onEmailChange(email: string) {
+    setEmail(email);
+    if (emailInputEl && emailErrorEl) {
+      removeErrors(emailInputEl, emailErrorEl);
+    }
+  }
+
+  function validateEmail(email: string) {
+    if (emailInputEl && emailErrorEl) {
       if (!email.includes('@')) {
         setValidEmail(false);
-        emailElement.innerHTML = "Email must contain '@'";
+        addError("Email must contain '@'", emailInputEl, emailErrorEl);
+      }
+      else if (!email.includes('.com')) {
+        setValidEmail(false);
+        addError("Email must contain '.com'", emailInputEl, emailErrorEl);
+      }
+      else if (email.length < 7) {
+        setValidEmail(false);
+        addError("Email must contain at least 7 characters", emailInputEl, emailErrorEl);
       }
       else {
         setValidEmail(true);
-        emailElement.innerHTML = '';
+        removeErrors(emailInputEl, emailErrorEl);
       }
+    }
+  }
+
+  function addError(message: string, inputElement: HTMLElement, errorElement: HTMLElement) {
+    addErrorStyle(inputElement);
+    addErrorMessage(errorElement, message);
+  }
+
+  function removeErrors(inputElement: HTMLElement, errorElement: HTMLElement) {
+    removeErrorStyle(inputElement);
+    removeErrorMessage(errorElement);
+  }
+
+  function addErrorMessage(errorElement: HTMLElement, message: string) {
+    if (errorElement !== null && message !== '') {
+      errorElement.innerHTML = message;
+    }
+  }
+
+  function removeErrorMessage(errorElement: HTMLElement) {
+    if (errorElement !== null) {
+      errorElement.innerHTML = '';
+    }
+  }
+
+  function addErrorStyle(inputElement: HTMLElement) {
+    if (inputElement != null && !inputElement.classList.contains("input-error")) {
+      inputElement.classList.add("input-error");
+    }
+  }
+
+  function removeErrorStyle(inputElement: HTMLElement) {
+    if (inputElement !== null) {
+      inputElement.classList.remove("input-error");
     }
   }
 
@@ -163,7 +241,7 @@ const SignUp = () => {
         setRedirect(true);
       }).catch((error) => {
         if (error.response.data) {
-          setSignupError(error.response.data);
+          setBackendErrors(error.response.data);
           console.log(error.response.data)
         }
         else {
@@ -192,18 +270,18 @@ const SignUp = () => {
         <form onSubmit={submit}>
           <div className="input-container">
             <label htmlFor="">FIRSTNAME</label>
-            <input className="input" name="name" required
-              onChange={e => setName(e.target.value)}
-              onBlur={e => validateFirstName()}
+            <input id="name-input" className="input" name="name" required
+              onChange={e => onNameChange(e.target.value)}
+              onBlur={e => onNameChange(e.target.value)}
             />
             <p id="name-error" className="form-error"></p>
           </div>
 
           <div className="input-container">
             <label htmlFor="email">EMAIL</label>
-            <input type="email" className="input" name="email" required
-              onChange={e => setEmail(e.target.value)}
-              onBlur={e => validateEmail()}
+            <input type="email" id="email-input" className="input" name="email" required
+              onChange={e => onEmailChange(e.target.value)}
+              onBlur={e => validateEmail(e.target.value)}
             />
             <p id="email-error" className="form-error"></p>
           </div>
