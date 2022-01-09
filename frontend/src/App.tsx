@@ -36,8 +36,8 @@ function App() {
       setUser(res.data);
       console.log("[RESPONSE] " + res.data);
 
-    }).catch(function (error) {
-      console.log("No user login found");
+    }).catch((error) => {
+      console.log("Error making JWT Request")
     })
   }
 
