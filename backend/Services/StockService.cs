@@ -20,7 +20,7 @@ namespace backend.Services
         }
         public Stock Create(Stock stock)
         {
-            stock.Id = Guid.NewGuid();
+            stock.id = Guid.NewGuid();
             // stock.User = new User
             // {
             //     Id = stock.UserId,
@@ -60,7 +60,7 @@ namespace backend.Services
             return stocks;
         }
 
-        public Stock getById(Guid id) => context.Stock.FirstOrDefault(stock => stock.Id == id);
+        public Stock getById(Guid id) => context.Stock.FirstOrDefault(stock => stock.id == id);
 
         //     public static List<Stock> GetHoldings(Guid user_Id) {
 
@@ -90,22 +90,22 @@ namespace backend.Services
 
         public void Update(Stock stock)
         {
-            Stock dbStock = context.Stock.FirstOrDefault(dbStock => dbStock.Id == stock.Id);
-            if (stock.Code != null)
+            Stock dbStock = context.Stock.FirstOrDefault(dbStock => dbStock.id == stock.id);
+            if (stock.code != null)
             {
-                dbStock.Code = stock.Code;
+                dbStock.code = stock.code;
             }
-            if (stock.Name != null)
+            if (stock.name != null)
             {
-                dbStock.Name = stock.Name;
+                dbStock.name = stock.name;
             }
-            if (stock.Units > 0)
+            if (stock.units > 0)
             {
-                dbStock.Units = stock.Units;
+                dbStock.units = stock.units;
             }
-            if (stock.Purchase_Price > 0)
+            if (stock.purchase_price > 0)
             {
-                dbStock.Units = stock.Units;
+                dbStock.purchase_price = stock.purchase_price;
             }
 
             context.Stock.Update(dbStock);
@@ -114,7 +114,7 @@ namespace backend.Services
 
         public void Delete(Guid stockId)
         {
-            Stock dbStock = context.Stock.FirstOrDefault(dbStock => dbStock.Id == stockId);
+            Stock dbStock = context.Stock.FirstOrDefault(dbStock => dbStock.id == stockId);
             context.Stock.Remove(dbStock);
         }
     }

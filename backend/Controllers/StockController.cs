@@ -55,10 +55,10 @@ namespace backend.Controllers
 
                     //Create stock object based on POST body (StockDTO)
                     Stock stock = new Stock();
-                    stock.Code = stockIn.Code;
-                    stock.Name = stockIn.Name;
-                    stock.Units = stockIn.Units;
-                    stock.Purchase_Price = stockIn.Purchase_Price;
+                    stock.code = stockIn.code;
+                    stock.name = stockIn.name;
+                    stock.units = stockIn.units;
+                    stock.purchase_price = stockIn.purchase_price;
                     stock.UserId = user.Id;
                     // stock.User = user;
 
@@ -73,7 +73,7 @@ namespace backend.Controllers
             }
             else
             {
-                return BadRequest("[Invalid Stock] '" + stockIn.Code + "' - '" + stockIn.Name + "' is not valid");
+                return BadRequest("[Invalid Stock] '" + stockIn.code + "' - '" + stockIn.name + "' is not valid");
             }
         }
 
@@ -132,11 +132,11 @@ namespace backend.Controllers
 
         public Boolean ValidateStock(StockDTO stock)
         {
-            if (stock.Name.Length < 2 || stock.Units.Equals(null) || stock.Purchase_Price.Equals(null))
+            if (stock.name.Length < 2 || stock.units.Equals(null) || stock.purchase_price.Equals(null))
             {
                 return false;
             }
-            if (stock.Code.Length != 3 || stock.Units < 1 || stock.Purchase_Price < 0.01)
+            if (stock.code.Length != 3 || stock.units < 1 || stock.purchase_price < 0.01)
             {
                 return false;
             }
@@ -145,11 +145,11 @@ namespace backend.Controllers
 
         public Boolean ValidateStock(Stock stock)
         {
-            if (stock.Name.Length < 2 || stock.Units.Equals(null) || stock.Purchase_Price.Equals(null))
+            if (stock.name.Length < 2 || stock.units.Equals(null) || stock.purchase_price.Equals(null))
             {
                 return false;
             }
-            if (stock.Code.Length != 3 || stock.Units < 1 || stock.Purchase_Price < 0.01)
+            if (stock.code.Length != 3 || stock.units < 1 || stock.purchase_price < 0.01)
             {
                 return false;
             }

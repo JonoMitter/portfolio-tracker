@@ -1,0 +1,25 @@
+table {
+  // border-color: white;
+  width: 100%;
+}
+
+th {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+th,
+td {
+  padding: 10px;
+}
+
+tr {
+  border: 1px solid white;
+}
+
+tr:nth-child(2n) {
+  background-color: rgba(0, 0, 0, 0.175);
+}
+
+.number{
+  text-align: right;
+}
