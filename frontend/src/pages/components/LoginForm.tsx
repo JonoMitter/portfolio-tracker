@@ -99,7 +99,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
       <br></br>
       <form onSubmit={submitForm}>
         <div className="input-container">
-          <label htmlFor="email">EMAIL</label>
+          <label htmlFor="email">Email</label>
           <input
             id="email-input"
             className="input"
@@ -111,7 +111,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           <p id="email-error" className="form-error"></p>
         </div>
 
-        <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} serverErrorDetails={passwordErrorDetails} />
+        <PASSWORD_INPUT label="Password" setValue={setPassword} serverErrorDetails={passwordErrorDetails} />
 
         <input type="submit" value="LOGIN" className="form-button login-button" />
       </form >

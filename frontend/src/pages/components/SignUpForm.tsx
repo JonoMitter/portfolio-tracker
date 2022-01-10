@@ -268,7 +268,7 @@ const SignUpForm = () => {
 
       <form onSubmit={submit}>
         <div className="input-container">
-          <label htmlFor="">FIRSTNAME</label>
+          <label htmlFor="">First Name</label>
           <input id="name-input" className="input" name="name" required
             onChange={e => onNameChange(e.target.value)}
             onBlur={e => onNameChange(e.target.value)}
@@ -277,7 +277,7 @@ const SignUpForm = () => {
         </div>
 
         <div className="input-container">
-          <label htmlFor="email">EMAIL</label>
+          <label htmlFor="email">Email</label>
           <input type="email" id="email-input" className="input" name="email" required
             onChange={e => onEmailChange(e.target.value)}
             onBlur={e => validateEmail(e.target.value)}
@@ -285,8 +285,8 @@ const SignUpForm = () => {
           <p id="email-error" className="form-error"></p>
         </div>
 
-        <FormPasswordInput label="PASSWORD" setValue={setPassword} clientErrorDetails={passwordErrors} />
-        <FormPasswordInput label="CONFIRM PASSWORD" setValue={setPasswordConfirm} clientErrorDetails={passwordConfirmErrors} />
+        <FormPasswordInput label="Password" setValue={setPassword} clientErrorDetails={passwordErrors} />
+        <FormPasswordInput label="Confirm Password" setValue={setPasswordConfirm} clientErrorDetails={passwordConfirmErrors} />
 
         <button type="submit" className="form-button signup-button">SIGN UP</button>
       </form>
