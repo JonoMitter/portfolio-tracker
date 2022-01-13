@@ -26,7 +26,7 @@ const FormPasswordInput = (props: Props) => {
   let inputContainerElement = document.getElementById(label + "-input-container");
   let errorElement = document.getElementById(label + "-error");
 
-  useEffect(setElementsAndErrors, [props.clientErrorDetails, props.serverErrorDetails]);
+  useEffect(setElementsAndErrors, [props.clientErrorDetails, props.serverErrorDetails, setElementsAndErrors]);
 
   function setElementsAndErrors() {
     setHTMLElements();
