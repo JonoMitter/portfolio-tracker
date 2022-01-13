@@ -39,17 +39,13 @@ const SignUpForm = () => {
   useEffect(() => {
     validatePassword(password);
     if (passwordConfirmChanged && passwordConfirm !== '') {
-      validatePasswordConfirm(passwordConfirm);
+      validatePasswordConfirm();
     }
   }, [password]);
 
-  useEffect(() => {
-    validatePasswordConfirm(passwordConfirm);
-  }, [passwordConfirm]);
+  useEffect(validatePasswordConfirm, [passwordConfirm]);
 
-  useEffect(() => {
-    displayBackendErrors();
-  }, [backendErrors]);
+  useEffect(displayBackendErrors, [backendErrors]);
 
   function displayBackendErrors() {
     for (let i = 0; i < backendErrors.errors.length; i++) {
@@ -191,7 +187,7 @@ const SignUpForm = () => {
     setPasswordErrors(new LoginError());
   }
 
-  function validatePasswordConfirm(passwordConfirm: string) {
+  function validatePasswordConfirm() {
     if (passwordConfirm.length === 0) {
       setValidPasswordConfirm(false);
       if (!passwordConfirmChanged) {
