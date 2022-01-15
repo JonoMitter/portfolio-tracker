@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     getUserData();
-  }, [user.id, user.firstName, user.email]);
+  }, [setUser]);
 
 
   function getUserData() {
@@ -34,7 +34,7 @@ function App() {
 
     }).then(res => {
       setUser(res.data);
-      console.log("[RESPONSE] " + res.data);
+      console.log("[App.tsx API] User Found");
 
     }).catch((error) => {
       console.log("Error making JWT Request")
