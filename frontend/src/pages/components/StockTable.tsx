@@ -22,13 +22,12 @@ const StockTable = () => {
         url: "http://localhost:5000/api/stock",
       }).then(res => {
         setResponse(res.data);
-        console.log("Got Some Data!");
-        console.log("Response Code: " + res.data)
+        console.log("[StockTable] Got a user stock data response!");
       }).catch((error) => {
-        console.log("Error " + error.Data);
+        console.log("[StockTable] Error " + error.Data);
       })
     }
-    console.log("[StockTable getStockData] useEffect Run!");
+    console.log("[StockTable] useEffect getStockData() called");
     getStockData();
     return () => {
       setResponse([new StockData()])
@@ -85,6 +84,8 @@ const StockTable = () => {
     }).then((res) => {
       console.log("Success data" + res.data);
       setNewestStockCode(newStock.code);
+      //TODO
+      //change input values back to ''
     }).catch((error) => {
       if (error.response.data) {
         console.log("Error data" + error.response.data)
