@@ -1,11 +1,9 @@
 import React, { SyntheticEvent, useState, useEffect } from "react";
-import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/Table.scss";
-import StockDataResponse from "../../responses/StockDataResponse";
+// import StockDataResponse from "../../responses/StockDataResponse";
 import StockData from "../../responses/StockData";
 import StockDataRequest from "../../requests/StockDataRequest";
-
 
 const StockTable = () => {
 
@@ -13,24 +11,29 @@ const StockTable = () => {
 
   const [newStock, setNewStock] = useState(new StockDataRequest());
 
-  useEffect(() => {
-    requestStockData();
-  }, [])
+  const [newestStockCode, setNewestStockCode] = useState('');
 
-  function requestStockData() {
-    axios({
-      method: "get",
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-      url: "http://localhost:5000/api/stock",
-    }).then(res => {
-      setResponse(res.data);
-      console.log("Got Some Data!");
-      console.log("Response Code: " + response[0].code)
-    }).catch((error) => {
-      console.log(error);
-    })
-  }
+  useEffect(() => {
+    function getStockData() {
+      axios({
+        method: "get",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+        url: "http://localhost:5000/api/stock",
+      }).then(res => {
+        setResponse(res.data);
+        console.log("Got Some Data!");
+        console.log("Response Code: " + res.data)
+      }).catch((error) => {
+        console.log("Error " + error.Data);
+      })
+    }
+    console.log("[StockTable getStockData] useEffect Run!");
+    getStockData();
+    return () => {
+      setResponse([new StockData()])
+    }
+  }, [newestStockCode, setResponse])
 
   function onChangeNewStock(event: React.ChangeEvent<HTMLInputElement>) {
     let stock = newStock;
@@ -78,11 +81,10 @@ const StockTable = () => {
       //   "name" : newStock.name,
       //   "units" : newStock.units,
       //   "purchase_price" : newStock.purchase_price
-        
       // }
     }).then((res) => {
       console.log("Success data" + res.data);
-      requestStockData();
+      setNewestStockCode(newStock.code);
     }).catch((error) => {
       if (error.response.data) {
         console.log("Error data" + error.response.data)
