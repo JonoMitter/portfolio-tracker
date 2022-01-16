@@ -1,11 +1,11 @@
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import "../styles/Form.scss";
 
 import FormPasswordInput from "./FormPasswordInput";
-import LoginError from "../../responses/UserError";
 import UserErrorResponse from "../../responses/UserErrorResponse";
+import UserError from "../../responses/UserError";
 
 const SignUpForm = () => {
   const [redirect, setRedirect] = useState(false);
@@ -24,45 +24,88 @@ const SignUpForm = () => {
   const [backendErrors, setBackendErrors] = useState(new UserErrorResponse());
 
   //frontend/client errors
-  const [passwordErrors, setPasswordErrors] = useState(new LoginError());
-  const [passwordConfirmErrors, setPasswordConfirmErrors] = useState(new LoginError());
+  const [passwordErrors, setPasswordErrors] = useState(new UserError());
+  const [passwordConfirmErrors, setPasswordConfirmErrors] = useState(new UserError());
 
-  let nameInputEl = document.getElementById("name-input");
-  let nameErrorEl = document.getElementById("name-error");
+  // let nameInputEl = document.getElementById("name-input");
+  // let nameErrorEl = document.getElementById("name-error");
 
-  let emailInputEl = document.getElementById("email-input");
-  let emailErrorEl = document.getElementById("email-error");
-
+  // let emailInputEl = document.getElementById("email-input");
+  // let emailErrorEl = document.getElementById("email-error");
   const [passwordChanged, setPasswordChanged] = useState(false);
   const [passwordConfirmChanged, setPasswordConfirmChanged] = useState(false);
 
+  useEffect(validatePassword, [password, passwordConfirm]);
+
+
+  const addErrorCallback = useCallback( (message: string, inputElement: HTMLElement, errorElement: HTMLElement) => {
+    addErrorStyle(inputElement);
+    addErrorMessage(errorElement, message);
+  }, [])
+  
   useEffect(() => {
-    validatePassword(password);
-    if (passwordConfirmChanged && passwordConfirm !== '') {
-      validatePasswordConfirm();
+    const displayBackendErrors = () => {
+
+      let nameInputEl = document.getElementById("name-input");
+      let nameErrorEl = document.getElementById("name-error");
+
+      let emailInputEl = document.getElementById("email-input");
+      let emailErrorEl = document.getElementById("email-error");
+
+      for (let i = 0; i < backendErrors.errors.length; i++) {
+        if (backendErrors.errors[i].field.toLowerCase() === "email" && emailInputEl && emailErrorEl) {
+          setValidEmail(false);
+          // addError(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
+          addErrorCallback(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
+          backendErrors.errors[i].field = "";
+          backendErrors.errors[i].message = "";
+        }
+        if (backendErrors.errors[i].field.toLowerCase() === "firstname" && nameInputEl && nameErrorEl) {
+          setValidFirstname(false);
+          // addError(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
+          addErrorCallback(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
+          backendErrors.errors[i].field = "";
+          backendErrors.errors[i].message = "";
+        }
+        if (backendErrors.errors[i].field.toLowerCase() === "passwordconfirm") {
+          setValidPasswordConfirm(false);
+          addPasswordConfirmError(backendErrors.errors[i].message);
+          backendErrors.errors[i].field = "";
+          backendErrors.errors[i].message = "";
+        }
+      }
     }
-  }, [password]);
+    displayBackendErrors();
+  }, [backendErrors, addErrorCallback]);
 
-  useEffect(validatePasswordConfirm, [passwordConfirm]);
+  // function displayBackendErrors() {
+  //   let nameInputEl = document.getElementById("name-input");
+  //   let nameErrorEl = document.getElementById("name-error");
 
-  useEffect(displayBackendErrors, [backendErrors]);
+  //   let emailInputEl = document.getElementById("email-input");
+  //   let emailErrorEl = document.getElementById("email-error");
 
-  function displayBackendErrors() {
-    for (let i = 0; i < backendErrors.errors.length; i++) {
-      if (backendErrors.errors[i].field === "Email" && emailInputEl && emailErrorEl) {
-        setValidEmail(false);
-        addError(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
-      }
-      if (backendErrors.errors[i].field.toLowerCase() === "FirstName" && nameInputEl && nameErrorEl) {
-        setValidFirstname(false);
-        addError(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
-      }
-      if (backendErrors.errors[i].field.toLowerCase() === "PasswordConfirm") {
-        setValidPasswordConfirm(false);
-        addPasswordConfirmError(backendErrors.errors[i].message);
-      }
-    }
-  }
+  //   for (let i = 0; i < backendErrors.errors.length; i++) {
+  //     if (backendErrors.errors[i].field.toLowerCase() === "email" && emailInputEl && emailErrorEl) {
+  //       setValidEmail(false);
+  //       addError(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
+  //       backendErrors.errors[i].field = "";
+  //       backendErrors.errors[i].message = "";
+  //     }
+  //     if (backendErrors.errors[i].field.toLowerCase() === "firstname" && nameInputEl && nameErrorEl) {
+  //       setValidFirstname(false);
+  //       addError(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
+  //       backendErrors.errors[i].field = "";
+  //       backendErrors.errors[i].message = "";
+  //     }
+  //     if (backendErrors.errors[i].field.toLowerCase() === "passwordconfirm") {
+  //       setValidPasswordConfirm(false);
+  //       addPasswordConfirmError(backendErrors.errors[i].message);
+  //       backendErrors.errors[i].field = "";
+  //       backendErrors.errors[i].message = "";
+  //     }
+  //   }
+  // }
 
   function allValidInputs() {
     let valid = false;
@@ -77,10 +120,13 @@ const SignUpForm = () => {
   }
 
   function validateFirstName(name: string) {
+    let nameInputEl = document.getElementById("name-input");
+    let nameErrorEl = document.getElementById("name-error");
+
     if (nameInputEl && nameErrorEl) {
       if (name.length < 2) {
         setValidFirstname(false);
-        addError("Firstname must contain at least 2 characters", nameInputEl, nameErrorEl);
+        addError("First Name must contain at least 2 characters", nameInputEl, nameErrorEl);
       }
       else {
         setValidFirstname(true);
@@ -95,6 +141,8 @@ const SignUpForm = () => {
   }
 
   function onEmailChange(email: string) {
+    let emailInputEl = document.getElementById("email-input");
+    let emailErrorEl = document.getElementById("email-error");
     setEmail(email);
     if (emailInputEl && emailErrorEl) {
       removeErrors(emailInputEl, emailErrorEl);
@@ -102,6 +150,9 @@ const SignUpForm = () => {
   }
 
   function validateEmail(email: string) {
+    let emailInputEl = document.getElementById("email-input");
+    let emailErrorEl = document.getElementById("email-error");
+
     if (emailInputEl && emailErrorEl) {
       if (!email.includes('@')) {
         setValidEmail(false);
@@ -156,17 +207,9 @@ const SignUpForm = () => {
     }
   }
 
-  function validatePassword(password: string) {
-    if (password.length === 0) {
-      setValidPassword(false);
-      if (!passwordChanged) {
-        setPasswordChanged(true);
-      }
-      else {
-        addPasswordError("Password must be longer than 3 characters");
-      }
-    }
-    else if (password.length < 3) {
+  function validatePassword() {
+    setPasswordChanged(true);
+    if (password.length < 3 && passwordChanged) {
       setValidPassword(false);
       addPasswordError("Password must be longer than 3 characters");
     }
@@ -174,31 +217,31 @@ const SignUpForm = () => {
       setValidPassword(true);
       removePasswordErrors();
     }
+
+    if (passwordConfirm.length > 0) {
+      setPasswordConfirmChanged(true);
+      validatePasswordConfirm();
+    }
+    else if (passwordConfirmChanged) {
+      validatePasswordConfirm();
+    }
   }
 
   function addPasswordError(message: string) {
-    let passwordError = new LoginError();
+    let passwordError = new UserError();
     passwordError.field = "password";
     passwordError.message = message;
     setPasswordErrors(passwordError);
   }
 
   function removePasswordErrors() {
-    setPasswordErrors(new LoginError());
+    setPasswordErrors(new UserError());
   }
 
   function validatePasswordConfirm() {
-    if (passwordConfirm.length === 0) {
+    if (password !== passwordConfirm || passwordConfirm === "") {
       setValidPasswordConfirm(false);
-      if (!passwordConfirmChanged) {
-        setPasswordConfirmChanged(true);
-      }
-      else {
-        addPasswordConfirmError("Passwords do not match");
-      }
-    }
-    else if (password !== passwordConfirm) {
-      setValidPasswordConfirm(false);
+      console.log("This one 2")
       addPasswordConfirmError("Passwords do not match");
     }
     else {
@@ -208,14 +251,14 @@ const SignUpForm = () => {
   }
 
   function addPasswordConfirmError(message: string) {
-    let passwordError = new LoginError();
+    let passwordError = new UserError();
     passwordError.field = "password-confirm";
     passwordError.message = message;
     setPasswordConfirmErrors(passwordError);
   }
 
   function removePasswordConfirmErrors() {
-    setPasswordConfirmErrors(new LoginError());
+    setPasswordConfirmErrors(new UserError());
   }
 
   const submit = async (e: SyntheticEvent) => {
