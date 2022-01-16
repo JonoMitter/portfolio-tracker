@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useCallback, useEffect, useState } from "react";
+import { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import "../styles/Form.scss";
@@ -27,22 +27,27 @@ const SignUpForm = () => {
   const [passwordErrors, setPasswordErrors] = useState(new UserError());
   const [passwordConfirmErrors, setPasswordConfirmErrors] = useState(new UserError());
 
-  // let nameInputEl = document.getElementById("name-input");
-  // let nameErrorEl = document.getElementById("name-error");
-
-  // let emailInputEl = document.getElementById("email-input");
-  // let emailErrorEl = document.getElementById("email-error");
   const [passwordChanged, setPasswordChanged] = useState(false);
   const [passwordConfirmChanged, setPasswordConfirmChanged] = useState(false);
 
-  useEffect(validatePassword, [password, passwordConfirm]);
+  const validatePasswordConfirm = useCallback(() => {
+    if (password !== passwordConfirm || passwordConfirm === "") {
+      setValidPasswordConfirm(false);
+      addPasswordConfirmError("Passwords do not match");
+    }
+    else {
+      setValidPasswordConfirm(true);
+      removePasswordConfirmErrors();
+    }
+  }, [password, passwordConfirm])
 
+  useEffect(validatePassword, [password, passwordConfirm, passwordChanged, passwordConfirmChanged, validatePasswordConfirm]);
 
-  const addErrorCallback = useCallback( (message: string, inputElement: HTMLElement, errorElement: HTMLElement) => {
+  const addError = useCallback((message: string, inputElement: HTMLElement, errorElement: HTMLElement) => {
     addErrorStyle(inputElement);
     addErrorMessage(errorElement, message);
   }, [])
-  
+
   useEffect(() => {
     const displayBackendErrors = () => {
 
@@ -55,15 +60,13 @@ const SignUpForm = () => {
       for (let i = 0; i < backendErrors.errors.length; i++) {
         if (backendErrors.errors[i].field.toLowerCase() === "email" && emailInputEl && emailErrorEl) {
           setValidEmail(false);
-          // addError(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
-          addErrorCallback(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
+          addError(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
           backendErrors.errors[i].field = "";
           backendErrors.errors[i].message = "";
         }
         if (backendErrors.errors[i].field.toLowerCase() === "firstname" && nameInputEl && nameErrorEl) {
           setValidFirstname(false);
-          // addError(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
-          addErrorCallback(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
+          addError(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
           backendErrors.errors[i].field = "";
           backendErrors.errors[i].message = "";
         }
@@ -76,36 +79,7 @@ const SignUpForm = () => {
       }
     }
     displayBackendErrors();
-  }, [backendErrors, addErrorCallback]);
-
-  // function displayBackendErrors() {
-  //   let nameInputEl = document.getElementById("name-input");
-  //   let nameErrorEl = document.getElementById("name-error");
-
-  //   let emailInputEl = document.getElementById("email-input");
-  //   let emailErrorEl = document.getElementById("email-error");
-
-  //   for (let i = 0; i < backendErrors.errors.length; i++) {
-  //     if (backendErrors.errors[i].field.toLowerCase() === "email" && emailInputEl && emailErrorEl) {
-  //       setValidEmail(false);
-  //       addError(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
-  //       backendErrors.errors[i].field = "";
-  //       backendErrors.errors[i].message = "";
-  //     }
-  //     if (backendErrors.errors[i].field.toLowerCase() === "firstname" && nameInputEl && nameErrorEl) {
-  //       setValidFirstname(false);
-  //       addError(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
-  //       backendErrors.errors[i].field = "";
-  //       backendErrors.errors[i].message = "";
-  //     }
-  //     if (backendErrors.errors[i].field.toLowerCase() === "passwordconfirm") {
-  //       setValidPasswordConfirm(false);
-  //       addPasswordConfirmError(backendErrors.errors[i].message);
-  //       backendErrors.errors[i].field = "";
-  //       backendErrors.errors[i].message = "";
-  //     }
-  //   }
-  // }
+  }, [backendErrors, addError]);
 
   function allValidInputs() {
     let valid = false;
@@ -173,11 +147,6 @@ const SignUpForm = () => {
     }
   }
 
-  function addError(message: string, inputElement: HTMLElement, errorElement: HTMLElement) {
-    addErrorStyle(inputElement);
-    addErrorMessage(errorElement, message);
-  }
-
   function removeErrors(inputElement: HTMLElement, errorElement: HTMLElement) {
     removeErrorStyle(inputElement);
     removeErrorMessage(errorElement);
@@ -208,7 +177,9 @@ const SignUpForm = () => {
   }
 
   function validatePassword() {
-    setPasswordChanged(true);
+    if (password.length > 0) {
+      setPasswordChanged(true);
+    }
     if (password.length < 3 && passwordChanged) {
       setValidPassword(false);
       addPasswordError("Password must be longer than 3 characters");
@@ -238,18 +209,6 @@ const SignUpForm = () => {
     setPasswordErrors(new UserError());
   }
 
-  function validatePasswordConfirm() {
-    if (password !== passwordConfirm || passwordConfirm === "") {
-      setValidPasswordConfirm(false);
-      console.log("This one 2")
-      addPasswordConfirmError("Passwords do not match");
-    }
-    else {
-      setValidPasswordConfirm(true);
-      removePasswordConfirmErrors();
-    }
-  }
-
   function addPasswordConfirmError(message: string) {
     let passwordError = new UserError();
     passwordError.field = "password-confirm";
@@ -276,22 +235,24 @@ const SignUpForm = () => {
           passwordConfirm: passwordConfirm
         }
       }).then((res) => {
-        console.log(res.data)
+        console.log("[SignUpForm] SignUp Successful!");
+        console.log(res.data);
         setRedirect(true);
       }).catch((error) => {
         if (error.response.data) {
           setBackendErrors(error.response.data);
-          console.log(error.response.data)
+          console.log("[SignUpForm] Error w/ Data");
+          console.log(error.response.data);
         }
         else {
-          console.log(`Unknown Error:\n
-            ${error.response}`);
+          console.log("[SignUpForm] Unknown Error")
+          console.log(error.response);
         }
       })
     } else {
       //TODO
       //add error box at top?
-      console.log("please fix errors")
+      console.log("[SignUpForm] please fix errors")
     }
   }
 
