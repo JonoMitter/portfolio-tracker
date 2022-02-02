@@ -55,12 +55,11 @@ namespace backend.Controllers
 
                     //Create stock object based on POST body (StockDTO)
                     Stock stock = new Stock();
-                    stock.code = stockIn.code;
+                    stock.code = stockIn.code.ToUpper();
                     stock.name = stockIn.name;
                     stock.units = stockIn.units;
                     stock.purchase_price = stockIn.purchase_price;
                     stock.UserId = user.Id;
-                    // stock.User = user;
 
                     stockService.Create(stock);
 
