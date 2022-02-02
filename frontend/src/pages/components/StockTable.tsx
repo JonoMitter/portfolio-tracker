@@ -9,11 +9,13 @@ const StockTable = () => {
 
   const [response, setResponse] = useState([new StockData()]);
 
-  const [newStock, setNewStock] = useState(new StockDataRequest());
+  const [addStockData, setAddStockData] = useState(new StockDataRequest());
 
-  const [newestStockCode, setNewestStockCode] = useState('');
-
+  //TODO
+  //call on load only? i.e. [] as dependencies
+  //call a GET stockData api function after each add/edit/remove call in .then() block
   useEffect(() => {
+
     function getStockData() {
       axios({
         method: "get",
@@ -27,72 +29,71 @@ const StockTable = () => {
         console.log("[StockTable] Error " + error.Data);
       })
     }
+
     console.log("[StockTable] useEffect getStockData() called");
     getStockData();
+
     return () => {
       setResponse([new StockData()])
     }
-  }, [newestStockCode, setResponse])
+  }, [addStockData, setResponse])
 
-  function onChangeNewStock(event: React.ChangeEvent<HTMLInputElement>) {
-    let stock = newStock;
+  // function getProp<T, K extends keyof T>(obj: T, key: K) {
+  //   return obj[key];
+  // }
 
-    let inputName = event.target.getAttribute("name");
-    if (inputName === null) {
-      inputName = "";
-    }
-
-    switch (inputName) {
-      case "code":
-        stock.code = event.target.value;
-        // console.log("Stock Code: " + stock.code);
-        break;
-      case "name":
-        stock.name = event.target.value;
-        // console.log("Stock Name: " + stock.name);
-        break;
-      case "purchase_price":
-        stock.purchase_price = event.target.valueAsNumber;
-        // console.log("Stock Price: " + stock.purchase_price);
-        break;
-      case "units":
-        stock.units = event.target.valueAsNumber;
-        // console.log("Stock Units: " + stock.units);
-        break;
-    }
-    setNewStock(stock);
+  function setProp<T, K extends keyof T>(obj: T, key: K, value: T[K]) {
+    obj[key] = value
   }
 
-  function createNewStock(e: SyntheticEvent) {
+  function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+
+    let tempStock: StockDataRequest = addStockData;
+    let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
+    let targetValue: string = event.target.value;
+
+    //dynamically sets tempStock[targetName] = targetValue
+    //i.e. tempStock["code"] = "ABC"
+    setProp(tempStock, targetName, targetValue);
+
+    setAddStockData(tempStock);
+    console.log(addStockData);
+  }
+
+  function createNewHolding(e: SyntheticEvent) {
     e.preventDefault();
-    let stockJSON = JSON.stringify(newStock);
+
+    let stockJSON = JSON.stringify(addStockData);
     console.log(stockJSON);
     //TODO
     //check valid inputs
     axios({
       method: "post",
       headers: { "Content-Type": "application/json" },
-      withCredentials: true,
       url: "http://localhost:5000/api/Stock/create",
+      withCredentials: true,
+      /*
+      *   "code" : newStock.code,
+      *   "name" : newStock.name,
+      *   "units" : newStock.units,
+      *   "purchase_price" : newStock.purchase_price
+      */
       data: stockJSON
-      // {
-      //   "code" : newStock.code,
-      //   "name" : newStock.name,
-      //   "units" : newStock.units,
-      //   "purchase_price" : newStock.purchase_price
-      // }
+
     }).then((res) => {
       console.log("Success data" + res.data);
-      setNewestStockCode(newStock.code);
+      setAddStockData(new StockDataRequest());
       //TODO
       //change input values back to ''
+
     }).catch((error) => {
       if (error.response.data) {
         console.log("Error data" + error.response.data)
       }
       else {
         console.log(`Unknown Error:\n
-          ${error.response}`);
+    ${error.response}`);
       }
     })
   }
@@ -126,24 +127,24 @@ const StockTable = () => {
       </table>
 
       <h4>Add new Stock</h4>
-      <form onSubmit={createNewStock}>
+      <form onSubmit={createNewHolding}>
         <label htmlFor="code">Code</label>
         <br />
-        <input type="text" name="code" onChange={onChangeNewStock} />
-        <br /><br />
+        <input type="text" name="code" onChange={handleFormChange} />
+        <br />
 
         <label htmlFor="name">Name</label><br />
-        <input type="text" name="name" onChange={onChangeNewStock} />
-        <br /><br />
+        <input type="text" name="name" onChange={handleFormChange} />
+        <br />
 
         <label htmlFor="units">Units</label><br />
-        <input type="number" name="units" onChange={onChangeNewStock} />
-        <br /><br />
+        <input type="number" name="units" onChange={handleFormChange} />
+        <br />
 
         <label htmlFor="purchase-price">Avg. Purchase Price</label>
         <br />
-        <input type="number" name="purchase_price" onChange={onChangeNewStock} />
-        <br /><br />
+        <input type="number" name="purchase_price" onChange={handleFormChange} />
+        <br />
 
         <input type="submit" value="CREATE HOLDING"></input>
       </form>

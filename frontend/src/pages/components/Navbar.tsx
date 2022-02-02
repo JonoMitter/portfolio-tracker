@@ -3,7 +3,6 @@ import "../styles/Navbar.scss";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import GetUserResponse from "../../responses/GetUserResponse";
-// import { ReactComponent as UserIcon } from "../../assets/user.svg";
 import { ReactComponent as USER_ICON } from "../../assets/person_outline_white_36dp.svg";
 // import LogoutButton from "./LogoutButton";
 

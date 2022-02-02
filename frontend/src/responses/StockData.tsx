@@ -1,4 +1,4 @@
-class StockDataResponse {
+class StockData {
 
     id: string
     code: string;
@@ -15,4 +15,4 @@ class StockDataResponse {
     }
 }
 
-export default StockDataResponse;
+export default StockData;
