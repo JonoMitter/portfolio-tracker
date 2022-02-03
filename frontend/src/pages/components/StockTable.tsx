@@ -7,7 +7,7 @@ import StockDataRequest from "../../requests/StockDataRequest";
 
 const StockTable = () => {
 
-  const [response, setResponse] = useState([new StockData()]);
+  const [stockDataResponse, setStockDataResponse] = useState([new StockData()]);
 
   const [addStockData, setAddStockData] = useState(new StockDataRequest());
 
@@ -23,7 +23,7 @@ const StockTable = () => {
         withCredentials: true,
         url: "http://localhost:5000/api/stock",
       }).then(res => {
-        setResponse(res.data);
+        setStockDataResponse(res.data);
         console.log("[StockTable] Got a user stock data response!");
       }).catch((error) => {
         console.log("[StockTable] Error " + error.Data);
@@ -34,9 +34,9 @@ const StockTable = () => {
     getStockData();
 
     return () => {
-      setResponse([new StockData()])
+      setStockDataResponse([new StockData()])
     }
-  }, [addStockData, setResponse])
+  }, [addStockData, setStockDataResponse])
 
   // function getProp<T, K extends keyof T>(obj: T, key: K) {
   //   return obj[key];
@@ -113,7 +113,7 @@ const StockTable = () => {
           </tr>
         </thead>
         <tbody>
-          {response.map((stock) =>
+          {stockDataResponse.map((stock) =>
             <tr key={"0" + stock.id}>
               <td key={"1" + stock.id}>{stock.id}</td>
               <td key={"2" + stock.id}>{stock.code}</td>
