@@ -1,15 +1,19 @@
-import React, { SyntheticEvent, useState, useEffect } from "react";
+import React, { SyntheticEvent, useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import "../styles/Table.scss";
 // import StockDataResponse from "../../responses/StockDataResponse";
 import StockData from "../../responses/StockData";
 import StockDataRequest from "../../requests/StockDataRequest";
+import ReadOnlyRow from "./ReadOnlyRow";
+import EditableRow from "./EditableRow";
 
 const StockTable = () => {
 
   const [stockDataResponse, setStockDataResponse] = useState([new StockData()]);
 
   const [addStockData, setAddStockData] = useState(new StockDataRequest());
+
+  const [editStockId, setEditStockId] = useState(null);
 
   //TODO
   //call on load only? i.e. [] as dependencies
@@ -101,30 +105,29 @@ const StockTable = () => {
   return (
     <div>
       <h3>Your Stocks:</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Units</th>
-            <th>Purchase Price</th>
-            <th><i>Actions</i></th>
-          </tr>
-        </thead>
-        <tbody>
-          {stockDataResponse.map((stock) =>
-            <tr key={"0" + stock.id}>
-              <td key={"1" + stock.id}>{stock.id}</td>
-              <td key={"2" + stock.id}>{stock.code}</td>
-              <td key={"3" + stock.id}>{stock.name}</td>
-              <td key={"4" + stock.id} className="number">{stock.units}</td>
-              <td key={"5" + stock.id} className="number">{stock.purchase_price !== null ? stock.purchase_price.toFixed(2) : 0.00}</td>
-              <td key={"6" + stock.id}>EDIT | DELETE</td>
+      <form>
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Units</th>
+              <th>Purchase Price</th>
+              <th><i>Actions</i></th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          {/* TODO somehow need to check if there are multiple entries of one type of stock... */}
+          {/* i.e if two ABC entries, they should be combined into one with the average price displayed, click on row to show all transactions */}
+          <tbody>
+            {stockDataResponse.map((stock) => (
+              <Fragment>
+                {editStockId === stock.id ? <EditableRow stock={stock} /> : <ReadOnlyRow stock={stock} />}
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
+      </form>
 
       <h4>Add new Stock</h4>
       <form onSubmit={createNewHolding}>
