@@ -1,50 +1,63 @@
+import { ChangeEvent } from "react";
+import StockDataRequest from "../../requests/StockDataRequest";
 import StockData from "../../responses/StockData";
 import "../styles/Navbar.scss";
 
-const Editable = (props: { stock: StockData }) => {
+interface Props {
+    editStockData: StockDataRequest,
+    handleEditFormChange(event: ChangeEvent<HTMLInputElement>): void,
+    stock: StockData
+}
 
+const EditableRow = (props: Props) => {
     return (
-        <tr key={"0" + props.stock.id}>
-            <td key={"1" + props.stock.id}>
+        <tr key={"EditableRow0 " + props.stock.id}>
+            <td key={"EditableRow1 " + props.stock.id}>
                 {props.stock.id}
             </td>
-            <td key={"2" + props.stock.id}>
-                <input 
+            <td key={"EditableRow2 " + props.stock.id}>
+                <input
                     type="text"
                     required
-                    name="stock-code"
-                    value={props.stock.code}
+                    name="code"
+                    value={props.editStockData.code}
+                    onChange={props.handleEditFormChange}
                 ></input>
             </td>
-            <td key={"3" + props.stock.id}>
-                <input 
+            <td key={"EditableRow3 " + props.stock.id}>
+                <input
                     type="text"
                     required
-                    name="stock-name"
-                    value={props.stock.name}
+                    name="name"
+                    value={props.editStockData.name}
+                    onChange={props.handleEditFormChange}
                 ></input>
             </td>
-            <td key={"4" + props.stock.id} className="number">
-                <input 
-                    type="number"
-                    required
-                    name="stock-units"
-                    value={props.stock.units}
-                ></input>
-            </td>
-            <td key={"5" + props.stock.id} className="number">
+            <td key={"EditableRow4 " + props.stock.id} className="number">
                 <input
                     type="number"
+                    step="1"
                     required
-                    name="stock-units"
-                    value={props.stock.purchase_price.toFixed(2)}>
-                </input>
+                    name="units"
+                    value={props.editStockData.units}
+                    onChange={props.handleEditFormChange}
+                ></input>
             </td>
-            <td key={"6" + props.stock.id}>
+            <td key={"EditableRow5 " + props.stock.id} className="number">
+                <input
+                    type="number"
+                    step="0.01"
+                    required
+                    name="purchase_price"
+                    value={props.editStockData.purchase_price}
+                    onChange={props.handleEditFormChange}
+                ></input>
+            </td>
+            <td key={"EditableRow6 " + props.stock.id}>
                 <button>SAVE</button> <button>CANCEL</button>
             </td>
         </tr>
     );
 };
 
-export default Editable;
+export default EditableRow;

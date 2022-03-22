@@ -13,7 +13,9 @@ const StockTable = () => {
 
   const [addStockData, setAddStockData] = useState(new StockDataRequest());
 
-  const [editStockId, setEditStockId] = useState(null);
+  const [editStockData, setEditStockData] = useState(new StockDataRequest());
+
+  const [editStockId, setEditStockId] = useState('');
 
   //TODO
   //call on load only? i.e. [] as dependencies
@@ -55,14 +57,27 @@ const StockTable = () => {
 
     let tempStock: StockDataRequest = addStockData;
     let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
-    let targetValue: string = event.target.value;
+    let targetValue = event.target.value;
 
     //dynamically sets tempStock[targetName] = targetValue
     //i.e. tempStock["code"] = "ABC"
     setProp(tempStock, targetName, targetValue);
 
     setAddStockData(tempStock);
-    console.log(addStockData);
+  }
+
+  function handleEditFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+
+    let tempEditStock: StockDataRequest = {...editStockData};
+    let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
+    let targetValue = event.target.value;
+
+    //dynamically sets tempStock[targetName] = targetValue
+    //i.e. tempStock["code"] = "ABC"
+    setProp(tempEditStock, targetName, targetValue);
+
+    setEditStockData(tempEditStock);
   }
 
   function createNewHolding(e: SyntheticEvent) {
@@ -102,6 +117,23 @@ const StockTable = () => {
     })
   }
 
+  const handleEditClick = (event: MouseEvent, stock: StockData) => {
+    event.preventDefault();
+    setEditStockId(stock.id);
+
+    // NEW WAY?
+    // const formValues = {...stock}
+
+    /* OLD WAY?? */
+    const formValues = new StockDataRequest();
+    formValues.code = stock.code;
+    formValues.name = stock.name;
+    formValues.units = stock.units;
+    formValues.purchase_price = stock.purchase_price;
+
+    setEditStockData(formValues);
+  }
+
   return (
     <div>
       <h3>Your Stocks:</h3>
@@ -121,15 +153,19 @@ const StockTable = () => {
           {/* i.e if two ABC entries, they should be combined into one with the average price displayed, click on row to show all transactions */}
           <tbody>
             {stockDataResponse.map((stock) => (
-              <Fragment>
-                {editStockId === stock.id ? <EditableRow stock={stock} /> : <ReadOnlyRow stock={stock} />}
-              </Fragment>
+                <Fragment key={"Row for: " + stock.id}>
+                  {editStockId === stock.id ? (
+                    <EditableRow key={editStockData.code} editStockData={editStockData} handleEditFormChange={handleEditFormChange} stock={stock} />
+                  ) : (
+                    <ReadOnlyRow key={editStockData.code} stock={stock} handleEditClick={handleEditClick} />
+                  )}
+                </Fragment>
             ))}
           </tbody>
         </table>
       </form>
 
-      <h4>Add new Stock</h4>
+      <h4>Add New Stock</h4>
       <form onSubmit={createNewHolding}>
         <label htmlFor="code">Code</label>
         <br />
@@ -141,12 +177,12 @@ const StockTable = () => {
         <br />
 
         <label htmlFor="units">Units</label><br />
-        <input type="number" name="units" onChange={handleFormChange} />
+        <input type="number" step="1" name="units" onChange={handleFormChange} />
         <br />
 
         <label htmlFor="purchase-price">Avg. Purchase Price</label>
         <br />
-        <input type="number" name="purchase_price" onChange={handleFormChange} />
+        <input type="number" step="0.01" name="purchase_price" onChange={handleFormChange} />
         <br />
 
         <input type="submit" value="CREATE HOLDING"></input>
