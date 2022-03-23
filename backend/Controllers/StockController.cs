@@ -2,11 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using backend.Services;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using backend.DTOs;
 using System.IdentityModel.Tokens.Jwt;
 using backend.Exceptions;
+using System.Text.Json;
 
 namespace backend.Controllers
 {
@@ -25,29 +24,10 @@ namespace backend.Controllers
             this.userService = userService;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<List<Stock>>> GetStocks()
-        {
-            List<Stock> list = await Task.Run(() => stockService.GetStocks());
-            return list;
-        }
-
-        // [HttpGet("{id}")]
-        // public Stock GetStock(Guid id)
-        // {
-        //     return StockService.Get(id);
-        // }
-
-        // [HttpGet("{User_Id}")]
-        // public List<Stock> GetStocks(Guid stock_Id)
-        // {
-        //     // return StockService.GetHoldings(User_Id);
-        // }
-
         [HttpPost("create")]
         public IActionResult AssignStockByJWT(StockDTO stockIn)
         {
-            if (ValidateStock(stockIn))
+            if (ValidateStockDTO(stockIn))
             {
                 try
                 {
@@ -93,24 +73,25 @@ namespace backend.Controllers
             }
         }
 
-        //TODO
         [HttpPut("update")]
-
         public IActionResult Update(Stock stock)
         {
+            stock.code = stock.code.ToUpper();
             try
             {
                 if (ValidateStock(stock))
                 {
                     stockService.Update(stock);
-                    return Ok();
+                    return Ok("Stock " + stock.id + " successfully updated");
+                }
+                else{
+                    return BadRequest("Invalid Stock\n'" + JsonSerializer.Serialize<Stock>(stock));
                 }
             }
             catch (Exception e)
             {
                 return BadRequest("[" + e.GetType() + "] " + e.Message);
             }
-            return Ok();
         }
 
         [HttpDelete("{Holding_Id}")]
@@ -125,10 +106,10 @@ namespace backend.Controllers
 
             stockService.Delete(Holding_Id);
 
-            return Ok("Deleted " + Holding_Id);
+            return Ok("Stock " + Holding_Id + " successfully deleted");
         }
 
-        public Boolean ValidateStock(StockDTO stock)
+        public Boolean ValidateStockDTO(StockDTO stock)
         {
             if (stock.name.Length < 2 || stock.units.Equals(null) || stock.purchase_price.Equals(null))
             {
