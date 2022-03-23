@@ -37,9 +37,8 @@ function App() {
         console.log("[App] Error requesting user data")
       })
     };
-
-    console.log("[App] useEffect getUserData() called")
     getUserData();
+    console.log("[App] useEffect getUserData() called")
 
   }, [loggedIn]);
 
