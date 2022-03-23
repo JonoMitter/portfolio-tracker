@@ -1,7 +1,7 @@
 import StockData from "../../responses/StockData";
 import "../styles/Navbar.scss";
 
-const ReadOnlyRow = (props: { stock: StockData, handleEditClick(event: MouseEvent, stock:StockData): void }) => {
+const ReadOnlyRow = (props: { stock: StockData, handleEditClick(event: MouseEvent, stock: StockData): void, handleDeleteClick(event: MouseEvent, stock: StockData): void }) => {
 
     return (
         <tr key={"0" + props.stock.id}>
@@ -10,7 +10,7 @@ const ReadOnlyRow = (props: { stock: StockData, handleEditClick(event: MouseEven
             <td key={"3" + props.stock.id}>{props.stock.name}</td>
             <td key={"4" + props.stock.id} className="number">{props.stock.units}</td>
             <td key={"5" + props.stock.id} className="number">{props.stock.purchase_price !== null ? props.stock.purchase_price.toFixed(2) : 0.00}</td>
-            <td key={"6" + props.stock.id}><button onClick={(event) => props.handleEditClick(event.nativeEvent, props.stock)}>EDIT</button> <button>DELETE</button>{' TODO >'}</td>
+            <td key={"6" + props.stock.id}><button onClick={(event) => props.handleEditClick(event.nativeEvent, props.stock)}>EDIT</button> <button onClick={(event) => props.handleDeleteClick(event.nativeEvent, props.stock)}>DELETE</button>{' TODO >'}</td>
         </tr>
     );
 };

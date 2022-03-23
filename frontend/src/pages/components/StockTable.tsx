@@ -13,7 +13,7 @@ const StockTable = () => {
 
   const [addStockData, setAddStockData] = useState(new StockDataRequest());
 
-  const [editStockData, setEditStockData] = useState(new StockDataRequest());
+  const [editStockData, setEditStockData] = useState(new StockData());
 
   const [editStockId, setEditStockId] = useState('');
 
@@ -69,7 +69,7 @@ const StockTable = () => {
   function handleEditFormChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
 
-    let tempEditStock: StockDataRequest = {...editStockData};
+    let tempEditStock: StockData = {...editStockData};
     let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
     let targetValue = event.target.value;
 
@@ -117,27 +117,92 @@ const StockTable = () => {
     })
   }
 
+  const handleEditFormSubmit = (event: SyntheticEvent) =>{
+    event.preventDefault();
+
+    const editedStock = {...editStockData}
+
+    let stockJSON = JSON.stringify(editedStock);
+
+    console.log(`Edited stockJSON ${stockJSON}`)
+
+    axios({
+      method: "put",
+      headers: { "Content-Type": "application/json" },
+      url: "http://localhost:5000/api/Stock/update",
+      withCredentials: true,
+      /*
+      *   "code" : newStock.code,
+      *   "name" : newStock.name,
+      *   "units" : newStock.units,
+      *   "purchase_price" : newStock.purchase_price
+      */
+      data: stockJSON
+
+    }).then((res) => {
+      // console.log("Success data" + res.data);
+
+      //TODO
+      //change useEffect to include edit and delete
+      //OR
+      //move getStockData api call to a seperate method which is called after edit/delete and updates the state containing all the stock rows
+      setAddStockData(new StockDataRequest());
+      //call get stock api
+    }).catch((error) => {
+      if (error.response.data) {
+        console.log("Error data" + error.response.data)
+      }
+      else {
+        console.log(`Unknown Error:\n
+    ${error.response}`);
+      }
+    })
+
+    setEditStockId('');
+  }
+
   const handleEditClick = (event: MouseEvent, stock: StockData) => {
     event.preventDefault();
+
     setEditStockId(stock.id);
 
-    // NEW WAY?
-    // const formValues = {...stock}
-
-    /* OLD WAY?? */
-    const formValues = new StockDataRequest();
-    formValues.code = stock.code;
-    formValues.name = stock.name;
-    formValues.units = stock.units;
-    formValues.purchase_price = stock.purchase_price;
+    const formValues = {...stock}
 
     setEditStockData(formValues);
+  }
+
+  const handleCancelClick = () => {
+    setEditStockId('');
+  }
+  
+  const handleDeleteClick = (event: MouseEvent, stock: StockData) => {
+    event.preventDefault();
+
+    axios({
+      method: "delete",
+      headers: { "Content-Type": "application/json" },
+      url: `http://localhost:5000/api/Stock/${stock.id}`,
+      withCredentials: true,
+
+    }).then((res) => {
+      console.log("Deleted " + stock.id);
+      setAddStockData(new StockDataRequest());
+
+    }).catch((error) => {
+      if (error.response.data) {
+        console.log("Error data" + error.response.data)
+      }
+      else {
+        console.log(`Unknown Error:\n
+    ${error.response}`);
+      }
+    })
   }
 
   return (
     <div>
       <h3>Your Stocks:</h3>
-      <form>
+      <form onSubmit={handleEditFormSubmit}>
         <table>
           <thead>
             <tr>
@@ -155,9 +220,9 @@ const StockTable = () => {
             {stockDataResponse.map((stock) => (
                 <Fragment key={"Row for: " + stock.id}>
                   {editStockId === stock.id ? (
-                    <EditableRow key={editStockData.code} editStockData={editStockData} handleEditFormChange={handleEditFormChange} stock={stock} />
+                    <EditableRow key={"EditableRow "+ stock.id} editStockData={editStockData} handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClick} stock={stock}/>
                   ) : (
-                    <ReadOnlyRow key={editStockData.code} stock={stock} handleEditClick={handleEditClick} />
+                    <ReadOnlyRow key={"ReadOnlyRow "+ stock.id} stock={stock} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>
                   )}
                 </Fragment>
             ))}

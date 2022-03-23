@@ -6,6 +6,7 @@ import "../styles/Navbar.scss";
 interface Props {
     editStockData: StockDataRequest,
     handleEditFormChange(event: ChangeEvent<HTMLInputElement>): void,
+    handleCancelClick(): void,
     stock: StockData
 }
 
@@ -54,7 +55,7 @@ const EditableRow = (props: Props) => {
                 ></input>
             </td>
             <td key={"EditableRow6 " + props.stock.id}>
-                <button>SAVE</button> <button>CANCEL</button>
+                <button type="submit">SAVE</button> <button type="button" onClick={props.handleCancelClick}>CANCEL</button>
             </td>
         </tr>
     );
