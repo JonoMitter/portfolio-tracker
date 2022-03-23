@@ -5,6 +5,7 @@ import StockData from "../../responses/StockData";
 import StockDataRequest from "../../requests/StockDataRequest";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
+import AddStockForm from "./AddStockForm";
 
 const StockTable = () => {
 
@@ -16,74 +17,76 @@ const StockTable = () => {
 
   const [editStockId, setEditStockId] = useState('');
 
-  //TODO
-  //call on load only? i.e. [] as dependencies
-  //call a GET stockData api function after each add/edit/remove call in .then() block
   useEffect(() => {
 
-    function getStockData() {
-      axios({
-        method: "get",
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-        url: "http://localhost:5000/api/stock",
-      }).then(res => {
-        setStockDataResponse(res.data);
-        console.log("[StockTable] Got a user stock data response!");
-      }).catch((error) => {
-        console.log("[StockTable] Error " + error.Data);
-      })
-    }
-
-    console.log("[StockTable] useEffect getStockData() called");
     getStockData();
 
     return () => {
       setStockDataResponse([new StockData()])
     }
-  }, [addStockData, setStockDataResponse])
+  }, [setStockDataResponse])
 
-  // function getProp<T, K extends keyof T>(obj: T, key: K) {
-  //   return obj[key];
-  // }
-
-  function setProp<T, K extends keyof T>(obj: T, key: K, value: T[K]) {
-    obj[key] = value
+  function getStockData() {
+    axios({
+      method: "get",
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+      url: "http://localhost:5000/api/stock",
+    }).then(res => {
+      setStockDataResponse(res.data);
+      console.log("[StockTable] getStockData() called");
+    }).catch((error) => {
+      console.log("[StockTable] Error " + error.Data);
+    })
   }
 
-  function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+  /*
+   * Dynamically sets object[attribute] = value
+   * i.e. stock["code"] = "ABC" same as stock.code = "ABC"
+   */
+  function setProperty<T, K extends keyof T>(object: T, attribute: K, value: T[K]) {
+    object[attribute] = value
+  }
+
+  function extractStockData(event: React.ChangeEvent<HTMLInputElement>, stockData: StockData) {
     event.preventDefault();
 
-    let tempStock: StockDataRequest = addStockData;
+    let tempStockData: StockData = { ...stockData };
     let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
     let targetValue = event.target.value;
 
-    //dynamically sets tempStock[targetName] = targetValue
-    //i.e. tempStock["code"] = "ABC"
-    setProp(tempStock, targetName, targetValue);
+    setProperty(tempStockData, targetName, targetValue);
 
-    setAddStockData(tempStock);
+    return tempStockData;
+  }
+
+  //TODO
+  //Try merge this function with extractStockData to work for both StockData and StockDataRequest types
+  function extractStockDataRequest(event: React.ChangeEvent<HTMLInputElement>, stockData: StockDataRequest) {
+    event.preventDefault();
+
+    let tempStockData: StockDataRequest = { ...stockData };
+    let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
+    let targetValue = event.target.value;
+
+    setProperty(tempStockData, targetName, targetValue);
+
+    return tempStockData;
+  }
+
+  function handleCreateFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const stockData = extractStockDataRequest(event, addStockData)
+    setAddStockData(stockData);
   }
 
   function handleEditFormChange(event: React.ChangeEvent<HTMLInputElement>) {
-    event.preventDefault();
-
-    let tempEditStock: StockData = { ...editStockData };
-    let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
-    let targetValue = event.target.value;
-
-    //dynamically sets tempStock[targetName] = targetValue
-    //i.e. tempStock["code"] = "ABC"
-    setProp(tempEditStock, targetName, targetValue);
-
-    setEditStockData(tempEditStock);
+    const editedStock = extractStockData(event, editStockData);
+    setEditStockData(editedStock);
   }
 
-  function createNewHolding(e: SyntheticEvent) {
-    e.preventDefault();
+  function handleCreateFormSubmit(event: SyntheticEvent) {
+    event.preventDefault();
 
-    let stockJSON = JSON.stringify(addStockData);
-    console.log(stockJSON);
     //TODO
     //check valid inputs
     axios({
@@ -92,26 +95,25 @@ const StockTable = () => {
       url: "http://localhost:5000/api/Stock/create",
       withCredentials: true,
       /*
-      *   "code" : newStock.code,
-      *   "name" : newStock.name,
-      *   "units" : newStock.units,
-      *   "purchase_price" : newStock.purchase_price
-      */
-      data: stockJSON
+       *   "code" : newStock.code,
+       *   "name" : newStock.name,
+       *   "units" : newStock.units,
+       *   "purchase_price" : newStock.purchase_price
+       */
+      data: JSON.stringify(addStockData)
 
     }).then((res) => {
-      console.log("Success data" + res.data);
+      console.log("[handleCreateFormSubmit()] " + res.data);
       setAddStockData(new StockDataRequest());
-      //TODO
-      //change input values back to ''
+
+      getStockData();
 
     }).catch((error) => {
       if (error.response.data) {
-        console.log("Error data" + error.response.data)
+        console.log(`[handleCreateFormSubmit] Error\n${error.response.data}`)
       }
       else {
-        console.log(`Unknown Error:\n
-    ${error.response}`);
+        console.log(`[handleCreateFormSubmit] Unknown Error\n${error.response}`);
       }
     })
   }
@@ -121,43 +123,34 @@ const StockTable = () => {
 
     const editedStock = { ...editStockData }
 
-    let stockJSON = JSON.stringify(editedStock);
-
-    console.log(`Edited stockJSON ${stockJSON}`)
-
     axios({
       method: "put",
       headers: { "Content-Type": "application/json" },
       url: "http://localhost:5000/api/Stock/update",
       withCredentials: true,
       /*
-      *   "code" : newStock.code,
-      *   "name" : newStock.name,
-      *   "units" : newStock.units,
-      *   "purchase_price" : newStock.purchase_price
+      *   "id"    : editedStock.id,
+      *   "code"  : editedStock.code,
+      *   "name"  : editedStock.name,
+      *   "units" : editedStock.units,
+      *   "purchase_price" : editedStock.purchase_price
       */
-      data: stockJSON
+      data: JSON.stringify(editedStock)
 
     }).then((res) => {
-      // console.log("Success data" + res.data);
+      console.log("[handleEditFormSubmit()] " + res.data)
+      getStockData();
+      setEditStockData(new StockData());
+      setEditStockId('');
 
-      //TODO
-      //change useEffect to include edit and delete
-      //OR
-      //move getStockData api call to a seperate method which is called after edit/delete and updates the state containing all the stock rows
-      setAddStockData(new StockDataRequest());
-      //call get stock api
     }).catch((error) => {
       if (error.response.data) {
-        console.log("Error data" + error.response.data)
+        console.log(`[handleEditFormSubmit] Error: ${error.response.data}`)
       }
       else {
-        console.log(`Unknown Error:\n
-    ${error.response}`);
+        console.log(`[handleEditFormSubmit] Unknown Error: ${error.response}`);
       }
     })
-
-    setEditStockId('');
   }
 
   const handleEditClick = (event: MouseEvent, stock: StockData) => {
@@ -166,7 +159,6 @@ const StockTable = () => {
     setEditStockId(stock.id);
 
     const formValues = { ...stock }
-
     setEditStockData(formValues);
   }
 
@@ -184,16 +176,15 @@ const StockTable = () => {
       withCredentials: true,
 
     }).then((res) => {
-      console.log("Deleted " + stock.id);
-      setAddStockData(new StockDataRequest());
+      console.log(res.data)
+      getStockData();
 
     }).catch((error) => {
       if (error.response.data) {
-        console.log("Error data" + error.response.data)
+        console.log(`[handleDeleteClick] Error\n${error.response.data}`)
       }
       else {
-        console.log(`Unknown Error:\n
-    ${error.response}`);
+        console.log(`[handleDeleteClick] Unknown Error\n${error.response}`);
       }
     })
   }
@@ -217,7 +208,7 @@ const StockTable = () => {
           {/* i.e if two ABC entries, they should be combined into one with the average price displayed, click on row to show all transactions */}
           <tbody>
             {stockDataResponse.map((stock) => (
-              <Fragment key={"Row for: " + stock.id}>
+              <Fragment key={"Row for " + stock.id}>
                 {editStockId === stock.id ? (
                   <EditableRow key={"EditableRow " + stock.id} stock={stock} editStockData={editStockData} handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClick} />
                 ) : (
@@ -230,27 +221,7 @@ const StockTable = () => {
       </form>
 
       <h4>Add New Stock</h4>
-      <form onSubmit={createNewHolding}>
-        <label htmlFor="code">Code</label>
-        <br />
-        <input type="text" name="code" onChange={handleFormChange} />
-        <br />
-
-        <label htmlFor="name">Name</label><br />
-        <input type="text" name="name" onChange={handleFormChange} />
-        <br />
-
-        <label htmlFor="units">Units</label><br />
-        <input type="number" step="1" name="units" onChange={handleFormChange} />
-        <br />
-
-        <label htmlFor="purchase-price">Avg. Purchase Price</label>
-        <br />
-        <input type="number" step="0.01" name="purchase_price" onChange={handleFormChange} />
-        <br />
-
-        <input type="submit" value="CREATE HOLDING"></input>
-      </form>
+      <AddStockForm addStockData={addStockData} handleFormChange={handleCreateFormChange} handleCreateFormSubmit={handleCreateFormSubmit} />
     </div>
   );
 }
