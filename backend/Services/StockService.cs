@@ -115,7 +115,9 @@ namespace backend.Services
         public void Delete(Guid stockId)
         {
             Stock dbStock = context.Stock.FirstOrDefault(dbStock => dbStock.id == stockId);
+            context.Stock.Attach(dbStock);
             context.Stock.Remove(dbStock);
+            context.SaveChanges();
         }
     }
 }

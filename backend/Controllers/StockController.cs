@@ -113,20 +113,19 @@ namespace backend.Controllers
             return Ok();
         }
 
-        //TODO
         [HttpDelete("{Holding_Id}")]
         public IActionResult Delete(Guid Holding_Id)
         {
-            // var tmpStock = StockService.Get(Holding_Id);
+            var tmpStock = stockService.getById(Holding_Id);
 
-            // if (tmpStock is null)
-            // {
-            //     return NotFound();
-            // }
+            if (tmpStock is null)
+            {
+                return NotFound();
+            }
 
-            // StockService.Delete(Holding_Id);
+            stockService.Delete(Holding_Id);
 
-            return Ok();
+            return Ok("Deleted " + Holding_Id);
         }
 
         public Boolean ValidateStock(StockDTO stock)
