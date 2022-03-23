@@ -1,7 +1,6 @@
 import React, { SyntheticEvent, useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import "../styles/Table.scss";
-// import StockDataResponse from "../../responses/StockDataResponse";
 import StockData from "../../responses/StockData";
 import StockDataRequest from "../../requests/StockDataRequest";
 import ReadOnlyRow from "./ReadOnlyRow";
@@ -69,7 +68,7 @@ const StockTable = () => {
   function handleEditFormChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
 
-    let tempEditStock: StockData = {...editStockData};
+    let tempEditStock: StockData = { ...editStockData };
     let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
     let targetValue = event.target.value;
 
@@ -117,10 +116,10 @@ const StockTable = () => {
     })
   }
 
-  const handleEditFormSubmit = (event: SyntheticEvent) =>{
+  const handleEditFormSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
 
-    const editedStock = {...editStockData}
+    const editedStock = { ...editStockData }
 
     let stockJSON = JSON.stringify(editedStock);
 
@@ -166,7 +165,7 @@ const StockTable = () => {
 
     setEditStockId(stock.id);
 
-    const formValues = {...stock}
+    const formValues = { ...stock }
 
     setEditStockData(formValues);
   }
@@ -174,7 +173,7 @@ const StockTable = () => {
   const handleCancelClick = () => {
     setEditStockId('');
   }
-  
+
   const handleDeleteClick = (event: MouseEvent, stock: StockData) => {
     event.preventDefault();
 
@@ -218,13 +217,13 @@ const StockTable = () => {
           {/* i.e if two ABC entries, they should be combined into one with the average price displayed, click on row to show all transactions */}
           <tbody>
             {stockDataResponse.map((stock) => (
-                <Fragment key={"Row for: " + stock.id}>
-                  {editStockId === stock.id ? (
-                    <EditableRow key={"EditableRow "+ stock.id} editStockData={editStockData} handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClick} stock={stock}/>
-                  ) : (
-                    <ReadOnlyRow key={"ReadOnlyRow "+ stock.id} stock={stock} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>
-                  )}
-                </Fragment>
+              <Fragment key={"Row for: " + stock.id}>
+                {editStockId === stock.id ? (
+                  <EditableRow key={"EditableRow " + stock.id} stock={stock} editStockData={editStockData} handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClick} />
+                ) : (
+                  <ReadOnlyRow key={"ReadOnlyRow " + stock.id} stock={stock} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick} />
+                )}
+              </Fragment>
             ))}
           </tbody>
         </table>

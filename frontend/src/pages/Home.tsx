@@ -2,7 +2,12 @@ import "./styles/Home.scss";
 import GetUserResponse from "../responses/GetUserResponse"
 import StockTable from "./components/StockTable";
 
-const Home = (props: { user: GetUserResponse, setUser: (user: GetUserResponse) => void }) => {
+interface Props {
+  user: GetUserResponse,
+  setUser: (user: GetUserResponse) => void
+}
+
+const Home = (props: Props) => {
 
   return (
     <section className="home">
