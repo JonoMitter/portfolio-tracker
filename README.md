@@ -23,20 +23,20 @@ The backend retrieves User and Holding data from a SQLite database using .NET En
 ## How to Run
 ### Running Frontend:
 1. Navigate to project root directory through terminal
-2. Navigate to frontend folder 'cd frontend/'
-3. Run the frontend client 'npm start'
-4. Open your web browser and go to 'http://localhost:3000/'
+2. Navigate to frontend folder > cd frontend/
+3. Run the frontend client > npm start
+4. Open your web browser and go to > http://localhost:3000/
 
 ### Running Backend:
 1. Navigate to project root directory through terminal
-2. Navigate to backend folder 'cd backend/'
-3. Run the backend server 'dotnet run'
+2. Navigate to backend folder > cd backend/
+3. Run the backend server >dotnet run
 
 ## Contributors
-**Jonathon Mitterbacher**
-- https://github.com/JonoMitter
-- https://www.linkedin.com/in/jonomitter/
+- Jonathon Mitterbacher
+	- https://github.com/JonoMitter
+	- https://www.linkedin.com/in/jonomitter/
 
-**Richard Gao**
-- https://github.com/Soupraa
-- https://www.linkedin.com/in/richard-gao-417404208/
+- Richard Gao
+	- https://github.com/Soupraa
+	- https://www.linkedin.com/in/richard-gao-417404208/
