@@ -10,10 +10,10 @@ The client accesses various .NET(C#) backend APIs for user authentication and st
 The backend retrieves User and Holding data from a SQLite database using .NET EntityFramework.
 
 ## Future Features:
-- Cryptocurrency/Cash/Super holding options.
-- Google/Facebook/Discord gogins.
-- Pie charts showing holding distribution across asset class and industry.
-- Line chart showing user wealth over time.
+- Cryptocurrency/Cash/Super holding options
+- Google/Facebook/Discord gogins
+- Pie charts showing holding distribution across asset class and industry
+- Line chart showing user wealth over time
 
 ## Required Technologies
 - dotNET version 5.0.400
@@ -33,10 +33,10 @@ The backend retrieves User and Holding data from a SQLite database using .NET En
 3. run the backend server 'dotnet run'
 
 ## Contributors
-- Jonathon Mitterbacher
+Jonathon Mitterbacher
 	- https://github.com/JonoMitter
 	- https://www.linkedin.com/in/jonomitter/
 
-- Richard Gao
+Richard Gao
 	- https://github.com/Soupraa
 	- https://www.linkedin.com/in/richard-gao-417404208/
