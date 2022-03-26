@@ -126,7 +126,6 @@ const SignUpForm = () => {
   function validateEmail(email: string) {
     let emailInputEl = document.getElementById("email-input");
     let emailErrorEl = document.getElementById("email-error");
-
     if (emailInputEl && emailErrorEl) {
       if (!email.includes('@')) {
         setValidEmail(false);
@@ -188,7 +187,7 @@ const SignUpForm = () => {
       setValidPassword(true);
       removePasswordErrors();
     }
-
+  
     if (passwordConfirm.length > 0) {
       setPasswordConfirmChanged(true);
       validatePasswordConfirm();
