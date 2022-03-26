@@ -5,9 +5,9 @@ A web-based app that allows users to store and view all their stock holdings fro
 
 Users can easily add their stock data consisting of each stock's **code**, **company name**, **number of units** and their **average purchase price**.
 
-The project uses React.JS with TypeScript to display frontend content to the user. 
-The client accesses various .NET(C#) backend APIs for user authentication and stock creation/modification. 
-The backend retrieves user and holding data from a SQLite database using .NET Entity Framework.
+The project uses **React.JS** with **TypeScript** to display frontend content to the user. 
+The client accesses various **.NET(C#)** backend APIs for user authentication and stock creation/modification. 
+The backend retrieves user and holding data from a **SQLite** database using **.NET Entity Framework**.
 
 ## Future Features
 - Cryptocurrency/Cash/Super holding options
