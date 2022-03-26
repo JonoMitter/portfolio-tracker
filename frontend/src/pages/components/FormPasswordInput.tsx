@@ -130,7 +130,7 @@ const FormPasswordInput = (props: Props) => {
             onChange={e => onInputChange(e)}
             required
           />
-          <button type="button" className="btn-show-password" onClick={e => togglePasswordVisible()}>{passwordShown === false ? <VISIBLE_OFF /> : <VISIBLE />}</button>
+          <button type="button" className="btn-show-password" tabIndex={-1} onClick={e => togglePasswordVisible()}>{passwordShown === false ? <VISIBLE_OFF /> : <VISIBLE />}</button>
         </div>
         <p id={`${label}-error`} className="form-error"></p>
       </div>
