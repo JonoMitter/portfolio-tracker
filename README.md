@@ -22,15 +22,17 @@ The backend retrieves User and Holding data from a SQLite database using .NET En
 
 ## How to Run
 ### Frontend Client
-1. Navigate to project root directory through terminal
-2. Navigate to frontend folder `cd frontend`
-3. Run the frontend client `npm start`
-4. Open your web browser and go to `http://localhost:3000`
+1. Open any terminal/command prompt
+2. Navigate to project root directory `cd [projectsFolder]/portfolio-tracker`
+3. Navigate to frontend folder `cd frontend`
+4. Run the frontend client `npm start`
+5. Open your web browser and go to `http://localhost:3000`
 
 ### Backend Server
-1. Navigate to project root directory through terminal
-2. Navigate to backend folder `cd backend`
-3. Run the backend server `dotnet run`
+1. Open any terminal/command prompt
+2. Navigate to project root directory `cd [projectsFolder]/portfolio-tracker`
+3. Navigate to backend folder `cd backend`
+4. Run the backend server `dotnet run`
 
 ## Contributors
 - Jonathon Mitterbacher
