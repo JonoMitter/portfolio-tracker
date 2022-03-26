@@ -1,11 +1,13 @@
 import LoginForm from "./components/LoginForm";
-import GetUserResponse from "../responses/GetUserResponse";
 
-const Login = (props: { setUser: (user: GetUserResponse) => void }) => {
+interface Props {
+  setLoggedIn: (loggedIn: boolean) => void
+}
 
+const Login = (props: Props) => {
   return (
     <section>
-      <LoginForm setUser={props.setUser} />
+      <LoginForm setLoggedIn={props.setLoggedIn} />
     </section>
   );
 }

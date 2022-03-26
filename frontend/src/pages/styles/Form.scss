@@ -1,11 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans&display=swap");
-
 /*
  *  General Form Classes
  */
 section {
   --error: rgb(255, 77, 77);
-  font-family: "IBM Plex Mono", monospace;
+  
 }
 
 .form-outer {
@@ -63,7 +61,6 @@ label {
 .form-error {
   margin: 0;
   color: var(--error);
-  font-family: "IBM Plex Sans", sans-serif;
   margin-top: 0.1em;
 }
 
@@ -82,7 +79,6 @@ label {
   display: block;
   text-decoration: none;
   font-size: 1.2em;
-  font-family: "IBM Plex Mono", monospace;
   letter-spacing: 0.1em;
   width: 100%;
   border: none;

@@ -1,11 +1,11 @@
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import "../styles/Form.scss";
 
 import FormPasswordInput from "./FormPasswordInput";
-import LoginError from "../../responses/UserError";
 import UserErrorResponse from "../../responses/UserErrorResponse";
+import UserError from "../../responses/UserError";
 
 const SignUpForm = () => {
   const [redirect, setRedirect] = useState(false);
@@ -24,49 +24,62 @@ const SignUpForm = () => {
   const [backendErrors, setBackendErrors] = useState(new UserErrorResponse());
 
   //frontend/client errors
-  const [passwordErrors, setPasswordErrors] = useState(new LoginError());
-  const [passwordConfirmErrors, setPasswordConfirmErrors] = useState(new LoginError());
-
-  let nameInputEl = document.getElementById("name-input");
-  let nameErrorEl = document.getElementById("name-error");
-
-  let emailInputEl = document.getElementById("email-input");
-  let emailErrorEl = document.getElementById("email-error");
+  const [passwordErrors, setPasswordErrors] = useState(new UserError());
+  const [passwordConfirmErrors, setPasswordConfirmErrors] = useState(new UserError());
 
   const [passwordChanged, setPasswordChanged] = useState(false);
   const [passwordConfirmChanged, setPasswordConfirmChanged] = useState(false);
 
-  useEffect(() => {
-    validatePassword(password);
-    if (passwordConfirmChanged && passwordConfirm !== '') {
-      validatePasswordConfirm(passwordConfirm);
+  const validatePasswordConfirm = useCallback(() => {
+    if (password !== passwordConfirm || passwordConfirm === "") {
+      setValidPasswordConfirm(false);
+      addPasswordConfirmError("Passwords do not match");
     }
-  }, [password]);
+    else {
+      setValidPasswordConfirm(true);
+      removePasswordConfirmErrors();
+    }
+  }, [password, passwordConfirm])
+
+  useEffect(validatePassword, [password, passwordConfirm, passwordChanged, passwordConfirmChanged, validatePasswordConfirm]);
+
+  const addError = useCallback((message: string, inputElement: HTMLElement, errorElement: HTMLElement) => {
+    addErrorStyle(inputElement);
+    addErrorMessage(errorElement, message);
+  }, [])
 
   useEffect(() => {
-    validatePasswordConfirm(passwordConfirm);
-  }, [passwordConfirm]);
+    const displayBackendErrors = () => {
 
-  useEffect(() => {
+      let nameInputEl = document.getElementById("name-input");
+      let nameErrorEl = document.getElementById("name-error");
+
+      let emailInputEl = document.getElementById("email-input");
+      let emailErrorEl = document.getElementById("email-error");
+
+      for (let i = 0; i < backendErrors.errors.length; i++) {
+        if (backendErrors.errors[i].field.toLowerCase() === "email" && emailInputEl && emailErrorEl) {
+          setValidEmail(false);
+          addError(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
+          backendErrors.errors[i].field = "";
+          backendErrors.errors[i].message = "";
+        }
+        if (backendErrors.errors[i].field.toLowerCase() === "firstname" && nameInputEl && nameErrorEl) {
+          setValidFirstname(false);
+          addError(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
+          backendErrors.errors[i].field = "";
+          backendErrors.errors[i].message = "";
+        }
+        if (backendErrors.errors[i].field.toLowerCase() === "passwordconfirm") {
+          setValidPasswordConfirm(false);
+          addPasswordConfirmError(backendErrors.errors[i].message);
+          backendErrors.errors[i].field = "";
+          backendErrors.errors[i].message = "";
+        }
+      }
+    }
     displayBackendErrors();
-  }, [backendErrors]);
-
-  function displayBackendErrors() {
-    for (let i = 0; i < backendErrors.errors.length; i++) {
-      if (backendErrors.errors[i].field === "Email" && emailInputEl && emailErrorEl) {
-        setValidEmail(false);
-        addError(backendErrors.errors[i].message, emailInputEl, emailErrorEl);
-      }
-      if (backendErrors.errors[i].field.toLowerCase() === "FirstName" && nameInputEl && nameErrorEl) {
-        setValidFirstname(false);
-        addError(backendErrors.errors[i].message, nameInputEl, nameErrorEl);
-      }
-      if (backendErrors.errors[i].field.toLowerCase() === "PasswordConfirm") {
-        setValidPasswordConfirm(false);
-        addPasswordConfirmError(backendErrors.errors[i].message);
-      }
-    }
-  }
+  }, [backendErrors, addError]);
 
   function allValidInputs() {
     let valid = false;
@@ -81,10 +94,13 @@ const SignUpForm = () => {
   }
 
   function validateFirstName(name: string) {
+    let nameInputEl = document.getElementById("name-input");
+    let nameErrorEl = document.getElementById("name-error");
+
     if (nameInputEl && nameErrorEl) {
       if (name.length < 2) {
         setValidFirstname(false);
-        addError("Firstname must contain at least 2 characters", nameInputEl, nameErrorEl);
+        addError("First Name must contain at least 2 characters", nameInputEl, nameErrorEl);
       }
       else {
         setValidFirstname(true);
@@ -99,6 +115,8 @@ const SignUpForm = () => {
   }
 
   function onEmailChange(email: string) {
+    let emailInputEl = document.getElementById("email-input");
+    let emailErrorEl = document.getElementById("email-error");
     setEmail(email);
     if (emailInputEl && emailErrorEl) {
       removeErrors(emailInputEl, emailErrorEl);
@@ -106,6 +124,8 @@ const SignUpForm = () => {
   }
 
   function validateEmail(email: string) {
+    let emailInputEl = document.getElementById("email-input");
+    let emailErrorEl = document.getElementById("email-error");
     if (emailInputEl && emailErrorEl) {
       if (!email.includes('@')) {
         setValidEmail(false);
@@ -124,11 +144,6 @@ const SignUpForm = () => {
         removeErrors(emailInputEl, emailErrorEl);
       }
     }
-  }
-
-  function addError(message: string, inputElement: HTMLElement, errorElement: HTMLElement) {
-    addErrorStyle(inputElement);
-    addErrorMessage(errorElement, message);
   }
 
   function removeErrors(inputElement: HTMLElement, errorElement: HTMLElement) {
@@ -160,17 +175,11 @@ const SignUpForm = () => {
     }
   }
 
-  function validatePassword(password: string) {
-    if (password.length === 0) {
-      setValidPassword(false);
-      if (!passwordChanged) {
-        setPasswordChanged(true);
-      }
-      else {
-        addPasswordError("Password must be longer than 3 characters");
-      }
+  function validatePassword() {
+    if (password.length > 0) {
+      setPasswordChanged(true);
     }
-    else if (password.length < 3) {
+    if (password.length < 3 && passwordChanged) {
       setValidPassword(false);
       addPasswordError("Password must be longer than 3 characters");
     }
@@ -178,48 +187,36 @@ const SignUpForm = () => {
       setValidPassword(true);
       removePasswordErrors();
     }
+  
+    if (passwordConfirm.length > 0) {
+      setPasswordConfirmChanged(true);
+      validatePasswordConfirm();
+    }
+    else if (passwordConfirmChanged) {
+      validatePasswordConfirm();
+    }
   }
 
   function addPasswordError(message: string) {
-    let passwordError = new LoginError();
+    let passwordError = new UserError();
     passwordError.field = "password";
     passwordError.message = message;
     setPasswordErrors(passwordError);
   }
 
   function removePasswordErrors() {
-    setPasswordErrors(new LoginError());
-  }
-
-  function validatePasswordConfirm(passwordConfirm: string) {
-    if (passwordConfirm.length === 0) {
-      setValidPasswordConfirm(false);
-      if (!passwordConfirmChanged) {
-        setPasswordConfirmChanged(true);
-      }
-      else {
-        addPasswordConfirmError("Passwords do not match");
-      }
-    }
-    else if (password !== passwordConfirm) {
-      setValidPasswordConfirm(false);
-      addPasswordConfirmError("Passwords do not match");
-    }
-    else {
-      setValidPasswordConfirm(true);
-      removePasswordConfirmErrors();
-    }
+    setPasswordErrors(new UserError());
   }
 
   function addPasswordConfirmError(message: string) {
-    let passwordError = new LoginError();
+    let passwordError = new UserError();
     passwordError.field = "password-confirm";
     passwordError.message = message;
     setPasswordConfirmErrors(passwordError);
   }
 
   function removePasswordConfirmErrors() {
-    setPasswordConfirmErrors(new LoginError());
+    setPasswordConfirmErrors(new UserError());
   }
 
   const submit = async (e: SyntheticEvent) => {
@@ -237,22 +234,24 @@ const SignUpForm = () => {
           passwordConfirm: passwordConfirm
         }
       }).then((res) => {
-        console.log(res.data)
+        console.log("[SignUpForm] SignUp Successful!");
+        console.log(res.data);
         setRedirect(true);
       }).catch((error) => {
         if (error.response.data) {
           setBackendErrors(error.response.data);
-          console.log(error.response.data)
+          console.log("[SignUpForm] Error w/ Data");
+          console.log(error.response.data);
         }
         else {
-          console.log(`Unknown Error:\n
-            ${error.response}`);
+          console.log("[SignUpForm] Unknown Error")
+          console.log(error.response);
         }
       })
     } else {
       //TODO
       //add error box at top?
-      console.log("please fix errors")
+      console.log("[SignUpForm] please fix errors")
     }
   }
 
@@ -268,7 +267,7 @@ const SignUpForm = () => {
 
       <form onSubmit={submit}>
         <div className="input-container">
-          <label htmlFor="">FIRSTNAME</label>
+          <label htmlFor="">First Name</label>
           <input id="name-input" className="input" name="name" required
             onChange={e => onNameChange(e.target.value)}
             onBlur={e => onNameChange(e.target.value)}
@@ -277,7 +276,7 @@ const SignUpForm = () => {
         </div>
 
         <div className="input-container">
-          <label htmlFor="email">EMAIL</label>
+          <label htmlFor="email">Email</label>
           <input type="email" id="email-input" className="input" name="email" required
             onChange={e => onEmailChange(e.target.value)}
             onBlur={e => validateEmail(e.target.value)}
@@ -285,8 +284,8 @@ const SignUpForm = () => {
           <p id="email-error" className="form-error"></p>
         </div>
 
-        <FormPasswordInput label="PASSWORD" setValue={setPassword} clientErrorDetails={passwordErrors} />
-        <FormPasswordInput label="CONFIRM PASSWORD" setValue={setPasswordConfirm} clientErrorDetails={passwordConfirmErrors} />
+        <FormPasswordInput label="Password" setValue={setPassword} clientErrorDetails={passwordErrors} />
+        <FormPasswordInput label="Confirm Password" setValue={setPasswordConfirm} clientErrorDetails={passwordConfirmErrors} />
 
         <button type="submit" className="form-button signup-button">SIGN UP</button>
       </form>

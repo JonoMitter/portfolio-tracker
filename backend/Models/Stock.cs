@@ -6,11 +6,11 @@ namespace backend.Models
 {
     public class Stock
     {
-        public Guid Id { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public int Units { get; set; }
-        public float Purchase_Price { get; set; }
+        public Guid id { get; set; }
+        public string code { get; set; }
+        public string name { get; set; }
+        public int units { get; set; }
+        public float purchase_price { get; set; }
 
         [JsonIgnore] public Guid UserId { get; set; }
         [JsonIgnore] public User User { get; set; }

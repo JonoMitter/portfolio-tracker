@@ -2,13 +2,15 @@ import React, { SyntheticEvent, useState, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/Form.scss";
-import GetUserResponse from "../../responses/GetUserResponse";
 import LoginErrorResponse from "../../responses/UserErrorResponse";
 import PASSWORD_INPUT from "./FormPasswordInput";
 import LoginError from "../../responses/UserError";
 
+interface Props {
+  setLoggedIn: (loggedIn: boolean) => void
+}
 
-const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
+const LoginForm = (props: Props) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,9 +22,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
   let emailError = document.getElementById("email-error");
   let emailInput = document.getElementById("email-input");
 
-  useEffect(() => {
-    displayErrors();
-  }, [loginErrors]);
+  useEffect(displayErrors, [loginErrors, emailError, emailInput]);
 
   function displayErrors() {
     if (loginErrors.errors.length > 0) {
@@ -74,15 +74,15 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
         password: password
       }
     }).then((res) => {
-      console.log(res.data)
       setRedirect(true);
-      props.setUser(res.data)
+      props.setLoggedIn(true);
+      console.log("[LoginForm] user logged in with email: " + email);
     }).catch((error) => {
       if (error.response.data) {
         setLoginError(error.response.data);
       }
       else {
-        console.log(`Unknown Error:\n
+        console.log(`[LoginForm] Unknown Error:\n
           ${error.response}`);
       }
     })
@@ -99,7 +99,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
       <br></br>
       <form onSubmit={submitForm}>
         <div className="input-container">
-          <label htmlFor="email">EMAIL</label>
+          <label htmlFor="email">Email</label>
           <input
             id="email-input"
             className="input"
@@ -111,7 +111,7 @@ const LoginForm = (props: { setUser: (user: GetUserResponse) => void }) => {
           <p id="email-error" className="form-error"></p>
         </div>
 
-        <PASSWORD_INPUT label="PASSWORD" setValue={setPassword} serverErrorDetails={passwordErrorDetails} />
+        <PASSWORD_INPUT label="Password" setValue={setPassword} serverErrorDetails={passwordErrorDetails} />
 
         <input type="submit" value="LOGIN" className="form-button login-button" />
       </form >

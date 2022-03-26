@@ -7,9 +7,9 @@ namespace backend.DTOs
 {
     public class StockDTO
     {
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public int Units { get; set; }
-        public float Purchase_Price { get; set; }
+        public string code { get; set; }
+        public string name { get; set; }
+        public int units { get; set; }
+        public float purchase_price { get; set; }
     }
 }
