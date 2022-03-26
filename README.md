@@ -7,7 +7,7 @@ Users can easily add their stock data consisting of each stock's **code**, **com
 
 The project uses React.JS with TypeScript to display frontend content to the user. 
 The client accesses various .NET(C#) backend APIs for user authentication and stock creation/modification. 
-The backend retrieves User and Holding data from a SQLite database using .NET EntityFramework.
+The backend retrieves user and holding data from a SQLite database using .NET EntityFramework.
 
 ## Future Features
 - Cryptocurrency/Cash/Super holding options
