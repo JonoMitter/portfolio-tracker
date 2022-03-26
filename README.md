@@ -36,12 +36,9 @@ The backend retrieves user and holding data from a SQLite database using .NET En
 
 ## Contributors
 ### Jonathon Mitterbacher
-[GitHub](https://github.com/JonoMitter)
-
-[LinkedIn](https://www.linkedin.com/in/jonomitter/)
-
+- [GitHub](https://github.com/JonoMitter)
+- [LinkedIn](https://www.linkedin.com/in/jonomitter/)
 
 ### Richard Gao
-[GitHub](https://github.com/Soupraa)
-
-[LinkedIn](https://www.linkedin.com/in/richard-gao-417404208/)
+- [GitHub](https://github.com/Soupraa)
+- [LinkedIn](https://www.linkedin.com/in/richard-gao-417404208/)
