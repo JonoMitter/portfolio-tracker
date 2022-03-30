@@ -17,7 +17,7 @@ The backend retrieves user and holding data from a **SQLite** database using **.
 
 ## Required Technologies
 - .NET version 5.0.400
-- React version 17.0.2
+- React.JS version 17.0.2
 - SQLite VSCode Extension
 
 ## How to Run
