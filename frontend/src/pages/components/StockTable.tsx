@@ -5,7 +5,7 @@ import StockData from "../../responses/StockData";
 import StockDataRequest from "../../requests/StockDataRequest";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
-import AddStockForm from "./AddStockForm";
+import CreateStockForm from "./CreateStockForm";
 
 const StockTable = () => {
 
@@ -89,6 +89,11 @@ const StockTable = () => {
 
     //TODO
     //check valid inputs
+    //!isNaN(addStockData.units);
+    // units > 0
+    //!isNaN(addStockData.purchase_price);
+    // purchase_price > 0
+
     axios({
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -220,8 +225,7 @@ const StockTable = () => {
         </table>
       </form>
 
-      <h4>Add New Stock</h4>
-      <AddStockForm addStockData={addStockData} handleFormChange={handleCreateFormChange} handleCreateFormSubmit={handleCreateFormSubmit} />
+      <CreateStockForm addStockData={addStockData} handleFormChange={handleCreateFormChange} handleCreateFormSubmit={handleCreateFormSubmit} />
     </div>
   );
 }
