@@ -3,7 +3,6 @@
  */
 section {
   --error: rgb(255, 77, 77);
-  
 }
 
 .form-outer {
@@ -116,6 +115,26 @@ label {
   font-weight: bold;
 }
 
+.button-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  // grid-auto-columns: minmax(0, 1fr);
+  // grid-auto-flow: column;
+  column-gap: 5%;
+}
+
+.create-form-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+.create-form-inner {
+  border-radius: 20px;
+  padding: 5% 10%;
+  background-color: rgba(105, 105, 105, 0.144);
+}
+
 /* 
  *  Specific Button Classes
  */
@@ -139,6 +158,28 @@ label {
 
 .signup-button:hover {
   background-color: var(--main-darker);
+  box-shadow: 0 0 5px var(--main);
+}
+
+.button-2 {
+  color: rgb(255, 255, 255);
+  border: 3px solid var(--main);
+  background-color: var(--main);
+}
+
+.button-2:hover {
+  background-color: var(--main-darker);
+  box-shadow: 0 0 5px var(--main);
+}
+
+.button-1 {
+  color: rgb(255, 255, 255);
+  background: none;
+  border: 3px solid var(--main);
+}
+
+.button-1:hover {
+  background-color: var(--main);
   box-shadow: 0 0 5px var(--main);
 }
 
