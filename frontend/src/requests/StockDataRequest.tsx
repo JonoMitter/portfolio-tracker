@@ -8,8 +8,8 @@ class StockDataRequest {
     constructor() {
         this.code = "";
         this.name = "";
-        this.units = 0;
-        this.purchase_price = 0;
+        this.units = NaN;
+        this.purchase_price = NaN;
     }
 }
 

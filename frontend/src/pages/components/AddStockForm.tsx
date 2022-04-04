@@ -21,12 +21,12 @@ const AddStockForm = (props: Props) => {
       <br />
 
       <label htmlFor="units">Units</label><br />
-      <input type="number" step="1" name="units" value={props.addStockData.units} onChange={props.handleFormChange} />
+      <input type="number" step="1" name="units" value={props.addStockData.units || ''} onChange={props.handleFormChange} />
       <br />
 
       <label htmlFor="purchase-price">Avg. Purchase Price</label>
       <br />
-      <input type="number" step="0.01" name="purchase_price" value={props.addStockData.purchase_price} onChange={props.handleFormChange} />
+      <input type="number" step="0.01" name="purchase_price" value={props.addStockData.purchase_price || ''} onChange={props.handleFormChange} />
       <br />
 
       <input type="submit" value="CREATE HOLDING"></input>
