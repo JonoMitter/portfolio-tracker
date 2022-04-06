@@ -47,9 +47,9 @@ namespace backend.Controllers
                     // Console.WriteLine("DatePurchased: " + stock.date_purchased.ToString());
                     stock.UserId = user.Id;
 
-                    stockService.Create(stock);
+                    Stock createdStock = stockService.Create(stock);
 
-                    return CreatedAtAction(nameof(AssignStockByJWT), stockIn);
+                    return CreatedAtAction(nameof(AssignStockByJWT), createdStock);
                 }
                 catch (Exception e)
                 {
