@@ -39,6 +39,7 @@ namespace backend.Controllers
                     stock.name = stockIn.name;
                     stock.units = stockIn.units;
                     stock.purchase_price = stockIn.purchase_price;
+                    stock.date_purchased = stockIn.date_purchased;
                     stock.UserId = user.Id;
 
                     stockService.Create(stock);
@@ -84,7 +85,8 @@ namespace backend.Controllers
                     stockService.Update(stock);
                     return Ok("Stock " + stock.id + " successfully updated");
                 }
-                else{
+                else
+                {
                     return BadRequest("Invalid Stock\n'" + JsonSerializer.Serialize<Stock>(stock));
                 }
             }
@@ -115,7 +117,7 @@ namespace backend.Controllers
             {
                 return false;
             }
-            if (stock.code.Length != 3 || stock.units < 1 || stock.purchase_price < 0.01)
+            if (stock.code.Length != 3 || stock.units <= 0 || stock.purchase_price <= 0)
             {
                 return false;
             }
@@ -128,7 +130,7 @@ namespace backend.Controllers
             {
                 return false;
             }
-            if (stock.code.Length != 3 || stock.units < 1 || stock.purchase_price < 0.01)
+            if (stock.code.Length != 3 || stock.units <= 0 || stock.purchase_price <= 0)
             {
                 return false;
             }
