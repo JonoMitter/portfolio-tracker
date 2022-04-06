@@ -39,7 +39,12 @@ namespace backend.Controllers
                     stock.name = stockIn.name;
                     stock.units = stockIn.units;
                     stock.purchase_price = stockIn.purchase_price;
-                    stock.date_purchased = stockIn.date_purchased;
+
+                    // Console.WriteLine("DatePurchased In: " + stockIn.date_purchased);
+
+                    //get DateTime from String  
+                    stock.date_purchased = DateTime.Parse(stockIn.date_purchased);
+                    // Console.WriteLine("DatePurchased: " + stock.date_purchased.ToString());
                     stock.UserId = user.Id;
 
                     stockService.Create(stock);
@@ -121,6 +126,9 @@ namespace backend.Controllers
             {
                 return false;
             }
+            //TODO
+            //validate valid DateTime for date_purchased
+            
             return true;
         }
 

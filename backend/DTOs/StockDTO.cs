@@ -11,6 +11,6 @@ namespace backend.DTOs
         public string name { get; set; }
         public int units { get; set; }
         public float purchase_price { get; set; }
-        public DateTime date_purchased { get; set; }
+        public string date_purchased { get; set; }
     }
 }

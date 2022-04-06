@@ -12,7 +12,7 @@ namespace backend.Models
         public int units { get; set; }
         public float purchase_price { get; set; }
 
-        [Column(TypeName = "Date")]
+        [Column(TypeName = "DateTime")]
         public DateTime date_purchased { get; set; }
 
         [JsonIgnore] public Guid UserId { get; set; }
