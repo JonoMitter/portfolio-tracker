@@ -11,6 +11,13 @@ interface Props {
 }
 
 const EditableRow = (props: Props) => {
+
+    // var dateOfPurchase = new Date(props.editStockData.date_purchased);
+    // console.log("DateofPurchase DATE: " + dateOfPurchase);
+
+    let dateOfPurchase = props.editStockData.date_purchased.split('T')[0];
+
+    console.log("DateOfPurchase Base: " + props.editStockData.date_purchased)
     return (
         <tr key={"EditableRow0 " + props.stock.id}>
             <td key={"EditableRow1 " + props.stock.id}>
@@ -59,7 +66,7 @@ const EditableRow = (props: Props) => {
                     type="date"
                     required
                     name="date_purchased"
-                    // value={props.editStockData.date_purchased}
+                    value={dateOfPurchase}
                     onChange={props.handleEditFormChange}
                 ></input>
             </td>

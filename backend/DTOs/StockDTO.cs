@@ -7,6 +7,7 @@ namespace backend.DTOs
 {
     public class StockDTO
     {
+        public Guid id { get; set; }
         public string code { get; set; }
         public string name { get; set; }
         public int units { get; set; }

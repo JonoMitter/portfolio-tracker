@@ -80,19 +80,28 @@ namespace backend.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult Update(Stock stock)
+        public IActionResult Update(StockDTO stock)
         {
             stock.code = stock.code.ToUpper();
             try
             {
-                if (ValidateStock(stock))
+                if (ValidateStockDTO(stock))
                 {
-                    stockService.Update(stock);
+                    Stock updatedStock = new Stock();
+                    updatedStock.id = stock.id;
+                    updatedStock.code = stock.code;
+                    updatedStock.name = stock.name;
+                    updatedStock.units = stock.units;
+                    updatedStock.purchase_price = stock.purchase_price;
+                    string[] yearMonthDay = stock.date_purchased.Split('-');
+                    updatedStock.date_purchased = new DateTime(Int32.Parse(yearMonthDay[0]), Int32.Parse(yearMonthDay[1]), Int32.Parse(yearMonthDay[2]));
+
+                    stockService.Update(updatedStock);
                     return Ok("Stock " + stock.id + " successfully updated");
                 }
                 else
                 {
-                    return BadRequest("Invalid Stock\n'" + JsonSerializer.Serialize<Stock>(stock));
+                    return BadRequest("Invalid Stock\n'" + JsonSerializer.Serialize<StockDTO>(stock));
                 }
             }
             catch (Exception e)
@@ -129,19 +138,6 @@ namespace backend.Controllers
             //TODO
             //validate valid DateTime for date_purchased
             
-            return true;
-        }
-
-        public Boolean ValidateStock(Stock stock)
-        {
-            if (stock.name.Length < 2 || stock.units.Equals(null) || stock.purchase_price.Equals(null))
-            {
-                return false;
-            }
-            if (stock.code.Length != 3 || stock.units <= 0 || stock.purchase_price <= 0)
-            {
-                return false;
-            }
             return true;
         }
 
