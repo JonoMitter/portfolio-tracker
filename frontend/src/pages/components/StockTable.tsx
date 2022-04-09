@@ -129,8 +129,6 @@ const StockTable = () => {
 
     const editedStock = { ...editStockData }
 
-    console.log("Json EditedStock: " + JSON.stringify(editedStock));
-
     axios({
       method: "put",
       headers: { "Content-Type": "application/json" },
