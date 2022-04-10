@@ -111,7 +111,6 @@ const StockTable = () => {
     }).then((res) => {
       console.log("[handleCreateFormSubmit()] " + res.data);
       setAddStockData(new StockDataRequest());
-
       getStockData();
 
     }).catch((error) => {

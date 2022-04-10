@@ -41,7 +41,7 @@ const CreateStockForm = (props: Props) => {
 
         <div className="input-container">
           <label htmlFor="date-purchased">Date of Purchase</label>
-          <input type="date" className="input" name="date_purchased" onChange={props.handleFormChange} />
+          <input type="date" className="input" name="date_purchased" value={props.addStockData.date_purchased} onChange={props.handleFormChange} />
           <p className="form-error"></p>
         </div>
 
