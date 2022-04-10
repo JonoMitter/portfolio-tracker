@@ -107,6 +107,9 @@ namespace backend.Services
             {
                 dbStock.purchase_price = stock.purchase_price;
             }
+            //TODO
+            //check valid date
+            dbStock.date_purchased = stock.date_purchased;
 
             context.Stock.Update(dbStock);
             context.SaveChanges();

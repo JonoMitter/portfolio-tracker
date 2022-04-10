@@ -76,6 +76,7 @@ const StockTable = () => {
 
   function handleCreateFormChange(event: React.ChangeEvent<HTMLInputElement>) {
     const stockData = extractStockDataRequest(event, addStockData)
+    console.log(`[CreateForm change] code: ${stockData.code}, name: ${stockData.name}, units: ${stockData.units}, purchase_price: ${stockData.purchase_price}, date_purchased: ${stockData.date_purchased}`)
     setAddStockData(stockData);
   }
 
@@ -206,6 +207,7 @@ const StockTable = () => {
               <th>Name</th>
               <th>Units</th>
               <th>Purchase Price</th>
+              <th>Date Purchased</th>
               <th><i>Actions</i></th>
             </tr>
           </thead>

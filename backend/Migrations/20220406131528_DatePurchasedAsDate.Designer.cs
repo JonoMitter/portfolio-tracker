@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Persistence;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220406131528_DatePurchasedAsDate")]
+    partial class DatePurchasedAsDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +81,7 @@ namespace backend.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("date_purchased")
-                        .HasColumnType("DateTime");
+                        .HasColumnType("Date");
 
                     b.Property<string>("name")
                         .HasColumnType("TEXT");

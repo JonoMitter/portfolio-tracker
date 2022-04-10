@@ -11,6 +11,9 @@ interface Props {
 }
 
 const EditableRow = (props: Props) => {
+
+    let dateOfPurchase = props.editStockData.date_purchased.split('T')[0];
+
     return (
         <tr key={"EditableRow0 " + props.stock.id}>
             <td key={"EditableRow1 " + props.stock.id}>
@@ -54,7 +57,16 @@ const EditableRow = (props: Props) => {
                     onChange={props.handleEditFormChange}
                 ></input>
             </td>
-            <td key={"EditableRow6 " + props.stock.id} className="button-container">
+            <td key={"EditableRow6 " + props.stock.id} className="number">
+                <input
+                    type="date"
+                    required
+                    name="date_purchased"
+                    value={dateOfPurchase}
+                    onChange={props.handleEditFormChange}
+                ></input>
+            </td>
+            <td key={"EditableRow7 " + props.stock.id} className="button-container">
                 <button type="submit" className="button-2">SAVE</button><button type="button" className="button-1" onClick={props.handleCancelClick}>CANCEL</button>
             </td>
         </tr>
