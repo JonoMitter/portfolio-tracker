@@ -112,15 +112,16 @@ namespace backend.Services
 
         private Boolean ValidateStockCode(String code)
         {
-            if (code.Length < 3 || code.Length > 5)
+            if (code.Length >= 3 && code.Length <= 5)
             {
-                Console.WriteLine("Code: FAIL");
-                return false;
+                // Console.WriteLine("Code: PASS");
+                return true;
             }
             else
             {
-                Console.WriteLine("Code: PASS");
-                return true;
+                // Console.WriteLine("Code: FAIL");
+                return false;
+
             }
         }
 
@@ -128,12 +129,12 @@ namespace backend.Services
         {
             if (!name.Equals("") && name.Length > 0)
             {
-                Console.WriteLine("Name: PASS");
+                // Console.WriteLine("Name: PASS");
                 return true;
             }
             else
             {
-                Console.WriteLine("Name: FAIL");
+                // Console.WriteLine("Name: FAIL");
                 return false;
             }
         }
@@ -141,30 +142,31 @@ namespace backend.Services
         private Boolean ValidateStockUnits(int units)
         {
             // cannot have 0 units
-            if (units <= 0)
+            if (units > 0)
             {
-                Console.WriteLine("Units: FAIL");
-                return false;
+                // Console.WriteLine("Units: PASS");
+                return true;
             }
             else
             {
-                Console.WriteLine("Units: PASS");
-                return true;
+
+                // Console.WriteLine("Units: FAIL");
+                return false;
             }
         }
 
         private Boolean ValidateStockPurchasePrice(float purchase_price)
         {
             // can have a purchase price of 0
-            if (purchase_price < 0)
+            if (purchase_price >= 0)
             {
-                Console.WriteLine("Purchase_Price: FAIL");
-                return false;
+                // Console.WriteLine("Purchase_Price: PASS");
+                return true;
             }
             else
             {
-                Console.WriteLine("Purchase_Price: PASS");
-                return true;
+                // Console.WriteLine("Purchase_Price: FAIL");
+                return false;
             }
         }
 
@@ -179,12 +181,12 @@ namespace backend.Services
             var formats = new[] { "yyyy-MM-dd", "yyyy-MM-ddTHH:mm:ss" };
             if (DateTime.TryParseExact(tempDate, formats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out fromDateValue))
             {
-                Console.WriteLine("Date_Purchased: PASS");
+                // Console.WriteLine("Date_Purchased: PASS");
                 return true;
             }
             else
             {
-                Console.WriteLine("Date_Purchased: FAIL");
+                // Console.WriteLine("Date_Purchased: FAIL");
                 return false;
             }
         }
