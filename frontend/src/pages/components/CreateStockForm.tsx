@@ -29,13 +29,13 @@ const CreateStockForm = (props: Props) => {
 
         <div className="input-container">
           <label htmlFor="units">Units</label>
-          <input type="number" className="input" step="1" name="units" value={props.addStockData.units || ''} onChange={props.handleFormChange} />
+          <input type="number" className="input" min="1" step="1" name="units" value={props.addStockData.units || ''} onChange={props.handleFormChange} />
           <p className="form-error"></p>
         </div>
 
         <div className="input-container">
           <label htmlFor="purchase-price">Avg. Purchase Price</label>
-          <input type="number" className="input" step="0.01" name="purchase_price" value={props.addStockData.purchase_price || ''} onChange={props.handleFormChange} />
+          <input type="number" className="input" min="0" step="0.01" name="purchase_price" value={props.addStockData.purchase_price || ''} onChange={props.handleFormChange} />
           <p className="form-error"></p>
         </div>
 

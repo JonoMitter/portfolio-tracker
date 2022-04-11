@@ -40,6 +40,7 @@ const EditableRow = (props: Props) => {
             <td key={"EditableRow4 " + props.stock.id} className="number">
                 <input
                     type="number"
+                    min="1"
                     step="1"
                     required
                     name="units"
@@ -50,6 +51,7 @@ const EditableRow = (props: Props) => {
             <td key={"EditableRow5 " + props.stock.id} className="number">
                 <input
                     type="number"
+                    min="0"
                     step="0.01"
                     required
                     name="purchase_price"
