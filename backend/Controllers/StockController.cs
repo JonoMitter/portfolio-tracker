@@ -25,29 +25,16 @@ namespace backend.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult AssignStockByJWT(StockDTO stockIn)
+        public IActionResult AssignStockByJWT(StockDTO stock)
         {
-            if (ValidateStockDTO(stockIn))
+            if (stockService.ValidateStock(stock))
             {
                 try
                 {
                     User user = GetUserFromJWT();
-
-                    //Create stock object based on POST body (StockDTO)
-                    Stock stock = new Stock();
-                    stock.code = stockIn.code.ToUpper();
-                    stock.name = stockIn.name;
-                    stock.units = stockIn.units;
-                    stock.purchase_price = stockIn.purchase_price;
-
-                    // Console.WriteLine("DatePurchased In: " + stockIn.date_purchased);
-
-                    //get DateTime from String  
-                    stock.date_purchased = DateTime.Parse(stockIn.date_purchased);
-                    // Console.WriteLine("DatePurchased: " + stock.date_purchased.ToString());
-                    stock.UserId = user.Id;
-
-                    Stock createdStock = stockService.Create(stock);
+                    
+                    //Create stock object based on POST body (StockDTO) and the logged in User
+                    Stock createdStock = stockService.CreateFromDTO(stock, user);
 
                     return CreatedAtAction(nameof(AssignStockByJWT), createdStock);
                 }
@@ -58,7 +45,7 @@ namespace backend.Controllers
             }
             else
             {
-                return BadRequest("[Invalid Stock] '" + stockIn.code + "' - '" + stockIn.name + "' is not valid");
+                return BadRequest("[Invalid Stock] '" + stock.code + "' - '" + stock.name + "' is not valid");
             }
         }
 
@@ -69,7 +56,7 @@ namespace backend.Controllers
             {
                 User user = GetUserFromJWT();
 
-                Stock[] stocks = stockService.getStocksDTOForJWT(user.Id);
+                Stock[] stocks = stockService.getStocksForJWT(user.Id);
 
                 return Ok(stocks);
             }
@@ -85,18 +72,9 @@ namespace backend.Controllers
             stock.code = stock.code.ToUpper();
             try
             {
-                if (ValidateStockDTO(stock))
+                if (stockService.ValidateStock(stock))
                 {
-                    Stock updatedStock = new Stock();
-                    updatedStock.id = stock.id;
-                    updatedStock.code = stock.code;
-                    updatedStock.name = stock.name;
-                    updatedStock.units = stock.units;
-                    updatedStock.purchase_price = stock.purchase_price;
-                    string[] yearMonthDay = stock.date_purchased.Split('-');
-                    updatedStock.date_purchased = new DateTime(Int32.Parse(yearMonthDay[0]), Int32.Parse(yearMonthDay[1]), Int32.Parse(yearMonthDay[2]));
-
-                    stockService.Update(updatedStock);
+                    stockService.UpdateFromDTO(stock);
                     return Ok("Stock " + stock.id + " successfully updated");
                 }
                 else
@@ -125,22 +103,6 @@ namespace backend.Controllers
             return Ok("Stock " + Holding_Id + " successfully deleted");
         }
 
-        public Boolean ValidateStockDTO(StockDTO stock)
-        {
-            if (stock.name.Length < 2 || stock.units.Equals(null) || stock.purchase_price.Equals(null))
-            {
-                return false;
-            }
-            if (stock.code.Length != 3 || stock.units <= 0 || stock.purchase_price <= 0)
-            {
-                return false;
-            }
-            //TODO
-            //validate valid DateTime for date_purchased
-            
-            return true;
-        }
-
         public User GetUserFromJWT()
         {
             try
@@ -152,7 +114,6 @@ namespace backend.Controllers
                 Guid id = Guid.Parse(token.Issuer);
                 User user = userService.getbyId(id);
 
-                // check whether valid userId
                 if (user == null)
                 {
                     throw new UserNotFoundException("User stored in cookies with Id: " + id + " could not be found in database");
