@@ -10,10 +10,10 @@ The project uses **React.JS** with **TypeScript** to display frontend content to
 The backend **.NET(C#)** server retrieves user and holding data from a **SQLite** database using **.NET Entity Framework**.
 
 ## Future Features
-- Cryptocurrency/Cash/Super holding options
-- Google/Facebook/Discord logins
-- Pie charts showing holding distribution across asset class and industry
 - Line chart showing user wealth over time
+- Pie charts showing holding distribution across asset class and industry
+- Cryptocurrency, Cash, & Super holding options
+- Google, Facebook, & Discord logins
 
 ## Required Technologies
 - .NET version 5.0.400
