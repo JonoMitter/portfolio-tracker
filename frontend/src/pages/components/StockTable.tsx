@@ -52,7 +52,7 @@ const StockTable = () => {
     event.preventDefault();
 
     let tempStockData: StockData = { ...stockData };
-    let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
+    let targetName = event.target.getAttribute("name") as keyof StockData;
     let targetValue = event.target.value;
 
     setProperty(tempStockData, targetName, targetValue);
@@ -77,6 +77,7 @@ const StockTable = () => {
   function handleCreateFormChange(event: React.ChangeEvent<HTMLInputElement>) {
     const stockData = extractStockDataRequest(event, createStockData)
     console.log(`[CreateForm change] code: ${stockData.code}, name: ${stockData.name}, units: ${stockData.units}, purchase_price: ${stockData.purchase_price}, date_purchased: ${stockData.date_purchased}`)
+    //look for and assign errors here
     setCreateStockData(stockData);
   }
 
@@ -100,12 +101,6 @@ const StockTable = () => {
       headers: { "Content-Type": "application/json" },
       url: "http://localhost:5000/api/Stock/create",
       withCredentials: true,
-      /*
-       *   "code" : newStock.code,
-       *   "name" : newStock.name,
-       *   "units" : newStock.units,
-       *   "purchase_price" : newStock.purchase_price
-       */
       data: JSON.stringify(createStockData)
 
     }).then((res) => {
@@ -115,7 +110,7 @@ const StockTable = () => {
 
     }).catch((error) => {
       if (error.response.data) {
-        console.log(`[handleCreateFormSubmit] Error\n${error.response.data}`)
+        console.log(`[handleCreateFormSubmit] Error\n${error.response.data}`);
       }
       else {
         console.log(`[handleCreateFormSubmit] Unknown Error\n${error.response}`);
