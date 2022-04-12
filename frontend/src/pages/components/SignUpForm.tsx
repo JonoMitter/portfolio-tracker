@@ -4,8 +4,8 @@ import { Link, Redirect } from "react-router-dom";
 import "../styles/Form.scss";
 
 import FormPasswordInput from "./FormPasswordInput";
-import UserErrorResponse from "../../responses/UserErrorResponse";
-import UserError from "../../responses/UserError";
+import UserErrorResponse from "../../responses/FormErrorResponse";
+import UserError from "../../responses/FormError";
 
 const SignUpForm = () => {
   const [redirect, setRedirect] = useState(false);

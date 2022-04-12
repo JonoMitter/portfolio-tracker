@@ -2,9 +2,9 @@ import React, { SyntheticEvent, useState, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/Form.scss";
-import LoginErrorResponse from "../../responses/UserErrorResponse";
+import LoginErrorResponse from "../../responses/FormErrorResponse";
 import PASSWORD_INPUT from "./FormPasswordInput";
-import LoginError from "../../responses/UserError";
+import LoginError from "../../responses/FormError";
 
 interface Props {
   setLoggedIn: (loggedIn: boolean) => void
