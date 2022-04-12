@@ -1,7 +1,7 @@
 import "./styles/Home.scss";
 import GetUserResponse from "../responses/GetUserResponse"
 import StockTable from "./components/StockTable";
-import Dashboard from "./components/Dashboard";
+// import Dashboard from "./components/Dashboard";
 
 interface Props {
   user: GetUserResponse,
