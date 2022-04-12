@@ -11,7 +11,7 @@ const StockTable = () => {
 
   const [stockDataResponse, setStockDataResponse] = useState([new StockData()]);
 
-  const [addStockData, setAddStockData] = useState(new StockDataRequest());
+  const [createStockData, setCreateStockData] = useState(new StockDataRequest());
 
   const [editStockData, setEditStockData] = useState(new StockData());
 
@@ -75,9 +75,9 @@ const StockTable = () => {
   }
 
   function handleCreateFormChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const stockData = extractStockDataRequest(event, addStockData)
+    const stockData = extractStockDataRequest(event, createStockData)
     console.log(`[CreateForm change] code: ${stockData.code}, name: ${stockData.name}, units: ${stockData.units}, purchase_price: ${stockData.purchase_price}, date_purchased: ${stockData.date_purchased}`)
-    setAddStockData(stockData);
+    setCreateStockData(stockData);
   }
 
   function handleEditFormChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -90,9 +90,9 @@ const StockTable = () => {
 
     //TODO
     //check valid inputs
-    //!isNaN(addStockData.units);
+    //!isNaN(createStockData.units);
     // units > 0
-    //!isNaN(addStockData.purchase_price);
+    //!isNaN(createStockData.purchase_price);
     // purchase_price > 0
 
     axios({
@@ -106,11 +106,11 @@ const StockTable = () => {
        *   "units" : newStock.units,
        *   "purchase_price" : newStock.purchase_price
        */
-      data: JSON.stringify(addStockData)
+      data: JSON.stringify(createStockData)
 
     }).then((res) => {
       console.log("[handleCreateFormSubmit()] " + res.data);
-      setAddStockData(new StockDataRequest());
+      setCreateStockData(new StockDataRequest());
       getStockData();
 
     }).catch((error) => {
@@ -196,11 +196,11 @@ const StockTable = () => {
 
   return (
     <div>
-      <h3>Your Stocks:</h3>
+      <h3>Stocks</h3>
       <form onSubmit={handleEditFormSubmit}>
         <table>
           <thead>
-            <tr>
+            {stockDataResponse.length > 0 ? <tr>
               <th>Id</th>
               <th>Code</th>
               <th>Name</th>
@@ -208,7 +208,7 @@ const StockTable = () => {
               <th>Purchase Price</th>
               <th>Date Purchased</th>
               <th><i>Actions</i></th>
-            </tr>
+            </tr> : ""}
           </thead>
           {/* TODO somehow need to check if there are multiple entries of one type of stock... */}
           {/* i.e if two ABC entries, they should be combined into one with the average price displayed, click on row to show all transactions */}
@@ -226,7 +226,7 @@ const StockTable = () => {
         </table>
       </form>
 
-      <CreateStockForm addStockData={addStockData} handleFormChange={handleCreateFormChange} handleCreateFormSubmit={handleCreateFormSubmit} />
+      <CreateStockForm stockData={createStockData} handleFormChange={handleCreateFormChange} handleCreateFormSubmit={handleCreateFormSubmit} />
     </div>
   );
 }
