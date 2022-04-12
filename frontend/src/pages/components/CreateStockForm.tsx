@@ -1,51 +1,73 @@
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import StockDataRequest from "../../requests/StockDataRequest";
+import FormError from "../../responses/FormError";
+import FormErrorResponse from "../../responses/FormErrorResponse";
 import "../styles/Form.scss";
+import FormInput from "./FormInput";
 
 interface Props {
-  addStockData: StockDataRequest,
+  stockData: StockDataRequest,
   handleFormChange(event: React.ChangeEvent<HTMLInputElement>): void,
-  handleCreateFormSubmit(e: SyntheticEvent): void
+  handleCreateFormSubmit(e: SyntheticEvent): void,
+
+  //TODO
+  //send server errors to relevant FormInput
+  serverErrors?: FormErrorResponse
 }
 
 const CreateStockForm = (props: Props) => {
+
+  //frontend/client errors
+  const [codeError, setCodeError] = useState(new FormError());
+  const [nameError, setNameError] = useState(new FormError());
+  const [unitsError, setUnitsError] = useState(new FormError());
+  const [purchasePriceError, setPurchasePriceError] = useState(new FormError());
+  const [datePurchasedError, setDatePurchasedError] = useState(new FormError());
+
+  useEffect(() => {
+    if (props.serverErrors !== undefined) {
+      props.serverErrors.errors.forEach((error) => {
+        switch (error.field) {
+          case "code": {
+            setCodeError(error);
+            break;
+          }
+          case "name": {
+            setNameError(error);
+            break;
+          }
+          case "units": {
+            setUnitsError(error);
+            break;
+          }
+          case "purchase_price": {
+            setPurchasePriceError(error);
+            break;
+          }
+          case "date_purchased": {
+            setDatePurchasedError(error);
+            break;
+          }
+        }
+      })
+    }
+    return () => {
+      //clear all input errors
+    }
+  }, [props.serverErrors])
+
   return (
     <div className="create-form-container">
       <form onSubmit={props.handleCreateFormSubmit} className="create-form-inner">
         <h4 className="form-heading">Add New Stock</h4>
-        <br />
 
-        <div className="input-container">
-          <label htmlFor="code">Code</label>
-          <input type="text" className="input" name="code" value={props.addStockData.code} onChange={props.handleFormChange} />
-          <p className="form-error"></p>
-        </div>
+        < FormInput label="Code" name="code" type="string" value={props.stockData.code} handleInputChange={props.handleFormChange} error={codeError} />
+        < FormInput label="Name" name="name" type="string" value={props.stockData.name} handleInputChange={props.handleFormChange} error={nameError} />
+        < FormInput label="Units" name="units" type="number" value={props.stockData.units || ''} step={1} handleInputChange={props.handleFormChange} error={unitsError} />
+        < FormInput label="Purchase Price" name="purchase_price" type="number" value={props.stockData.purchase_price || ''} step={0.1} handleInputChange={props.handleFormChange} error={purchasePriceError} />
+        < FormInput label="Date of Purchase" name="date_purchased" type="date" value={props.stockData.date_purchased} handleInputChange={props.handleFormChange} error={datePurchasedError} />
 
-        <div className="input-container">
-          <label htmlFor="name">Name</label>
-          <input type="text" className="input" name="name" value={props.addStockData.name} onChange={props.handleFormChange} />
-          <p className="form-error"></p>
-        </div>
-
-        <div className="input-container">
-          <label htmlFor="units">Units</label>
-          <input type="number" className="input" min="1" step="1" name="units" value={props.addStockData.units || ''} onChange={props.handleFormChange} />
-          <p className="form-error"></p>
-        </div>
-
-        <div className="input-container">
-          <label htmlFor="purchase-price">Avg. Purchase Price</label>
-          <input type="number" className="input" min="0" step="0.01" name="purchase_price" value={props.addStockData.purchase_price || ''} onChange={props.handleFormChange} />
-          <p className="form-error"></p>
-        </div>
-
-        <div className="input-container">
-          <label htmlFor="date-purchased">Date of Purchase</label>
-          <input type="date" className="input" name="date_purchased" value={props.addStockData.date_purchased} onChange={props.handleFormChange} />
-          <p className="form-error"></p>
-        </div>
-
-        <input type="submit" className="form-button signup-button" value="CREATE HOLDING"></input>
+        <input type="submit" className="form-button button-2" value="CREATE HOLDING"></input>
       </form >
     </div >
   );
