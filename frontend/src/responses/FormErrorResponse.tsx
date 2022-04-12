@@ -1,6 +1,6 @@
-import UserError from "./UserError";
+import UserError from "./FormError";
 
-class UserErrorResponse {
+class FormErrorResponse {
 
     public message: String
     public errors: UserError[];
@@ -11,4 +11,4 @@ class UserErrorResponse {
     }
 }
 
-export default UserErrorResponse;
+export default FormErrorResponse;

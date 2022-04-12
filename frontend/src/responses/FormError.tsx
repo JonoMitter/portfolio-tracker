@@ -1,4 +1,4 @@
-class UserError {
+class FormError {
 
     public field: String
     public message: string;
@@ -9,4 +9,4 @@ class UserError {
     }
 }
 
-export default UserError;
+export default FormError;
