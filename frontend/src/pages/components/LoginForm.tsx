@@ -113,7 +113,7 @@ const LoginForm = (props: Props) => {
 
         <PASSWORD_INPUT label="Password" setValue={setPassword} serverErrorDetails={passwordErrorDetails} />
 
-        <input type="submit" value="LOGIN" className="form-button login-button" />
+        <input type="submit" value="LOGIN" className="form-button button-1" />
       </form >
 
       <div className="form-redirect">

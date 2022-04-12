@@ -287,7 +287,7 @@ const SignUpForm = () => {
         <FormPasswordInput label="Password" setValue={setPassword} clientErrorDetails={passwordErrors} />
         <FormPasswordInput label="Confirm Password" setValue={setPasswordConfirm} clientErrorDetails={passwordConfirmErrors} />
 
-        <button type="submit" className="form-button signup-button">SIGN UP</button>
+        <button type="submit" className="form-button button-2">SIGN UP</button>
       </form>
 
       <div className="form-redirect">

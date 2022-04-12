@@ -16,7 +16,7 @@ section {
 
 .form-heading {
   text-align: center;
-  margin: 0 0 0.2em 0;
+  margin: 0 0 0.4em 0;
   font-size: 2em;
 }
 
@@ -138,25 +138,14 @@ label {
 /* 
  *  Specific Button Classes
  */
-.login-button {
+ .button-1 {
   color: rgb(255, 255, 255);
   background: none;
   border: 3px solid var(--main);
 }
 
-.login-button:hover {
+.button-1:hover {
   background-color: var(--main);
-  box-shadow: 0 0 5px var(--main);
-}
-
-.signup-button {
-  color: rgb(255, 255, 255);
-  border: 3px solid var(--main);
-  background-color: var(--main);
-}
-
-.signup-button:hover {
-  background-color: var(--main-darker);
   box-shadow: 0 0 5px var(--main);
 }
 
@@ -168,18 +157,8 @@ label {
 
 .button-2:hover {
   background-color: var(--main-darker);
-  box-shadow: 0 0 5px var(--main);
-}
-
-.button-1 {
-  color: rgb(255, 255, 255);
-  background: none;
-  border: 3px solid var(--main);
-}
-
-.button-1:hover {
-  background-color: var(--main);
-  box-shadow: 0 0 5px var(--main);
+  border: 3px solid var(--main-darker);
+  box-shadow: 0 0 5px var(--main-darker);
 }
 
 /*  
