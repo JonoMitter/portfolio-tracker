@@ -9,6 +9,7 @@ interface Props {
     value: string | number,
     step?: number,
     handleInputChange(event: React.ChangeEvent<HTMLInputElement>): void,
+    validate(event: React.ChangeEvent<HTMLInputElement>): void,
     error?: FormError
 }
 
@@ -35,6 +36,11 @@ const FormPasswordInput = (props: Props) => {
         }
     }, [errorEl, inputEl])
 
+    function inputChange(event: React.ChangeEvent<HTMLInputElement>){
+        props.handleInputChange(event);
+        props.validate(event);
+    }
+
     useEffect(() => {
         if (props.error && props.error.message !== "") {
             displayError();
@@ -47,7 +53,7 @@ const FormPasswordInput = (props: Props) => {
     return (
         <div className="input-container">
             <label htmlFor="date-purchased">{props.label}</label>
-            <input id={props.label + "-input"} type={props.type} className="input" name={props.name} value={props.value} step={props.step} onChange={props.handleInputChange} />
+            <input id={props.label + "-input"} type={props.type} className="input" name={props.name} value={props.value} step={props.step} onChange={inputChange} />
             <p id={props.label + "-error"} className="form-error" >{props.error ? props.error.message : ""}</p>
         </div>
     )
