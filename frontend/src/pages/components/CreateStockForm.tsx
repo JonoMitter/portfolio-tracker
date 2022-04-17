@@ -70,9 +70,14 @@ const CreateStockForm = (props: Props) => {
     let input = e.target.value;
 
     if (input.length >= 3 && input.length <= 5) {
+      setCodeError(new FormError());
       setCodeValid(true);
     }
     else {
+      let error = new FormError();
+      error.field = "code";
+      error.message = "Code must be between 3 and 5 characters";
+      setCodeError(error);
       setCodeValid(false);
     }
   }
@@ -81,9 +86,14 @@ const CreateStockForm = (props: Props) => {
     let input = e.target.value;
 
     if (input.length >= 0) {
+      setNameError(new FormError());
       setNameValid(true);
     }
     else {
+      let error = new FormError();
+      error.field = "name";
+      error.message = "Name must be more than 0 characters";
+      setNameError(error);
       setNameValid(false);
     }
   }
@@ -92,9 +102,14 @@ const CreateStockForm = (props: Props) => {
     let input = e.target.valueAsNumber;
 
     if (input > 0) {
+      setUnitsError(new FormError());
       setUnitsValid(true);
     }
     else {
+      let error = new FormError();
+      error.field = "units";
+      error.message = "Units must be more than 0";
+      setUnitsError(error);
       setUnitsValid(false);
     }
   }
@@ -103,9 +118,14 @@ const CreateStockForm = (props: Props) => {
     let input = e.target.valueAsNumber;
 
     if (input >= 0) {
+      setPurchasePriceError(new FormError());
       setPurchasePriceValid(true);
     }
     else {
+      let error = new FormError();
+      error.field = "purchase_price";
+      error.message = "Purchase Price cannot be less than 0";
+      setPurchasePriceError(error);
       setPurchasePriceValid(false);
     }
   }
@@ -114,9 +134,14 @@ const CreateStockForm = (props: Props) => {
     // let input = e.target.valueAsDate
 
     // if (condition) {
+    setPurchasePriceError(new FormError());
     setDatePurchasedValid(true);
     // }
     // else {
+    //   let error = new FormError();
+    //   error.field = "date_purchased";
+    //   error.message = "Date Purchased must be a valid date"
+    //   setDatePurchasedError(error);
     //   setDatePurchasedValid(false);
     // }
   }
@@ -126,11 +151,11 @@ const CreateStockForm = (props: Props) => {
       <form onSubmit={props.handleCreateFormSubmit} className="create-form-inner">
         <h4 className="form-heading">Add New Stock</h4>
 
-        < FormInput label="Code" name="code" type="string" value={props.stockData.code} handleInputChange={props.handleFormChange} error={codeError} validate={validateCode} />
-        < FormInput label="Name" name="name" type="string" value={props.stockData.name} handleInputChange={props.handleFormChange} error={nameError} validate={validateName} />
-        < FormInput label="Units" name="units" type="number" value={props.stockData.units || ''} step={1} handleInputChange={props.handleFormChange} error={unitsError} validate={validateUnits} />
-        < FormInput label="Purchase Price" name="purchase_price" type="number" value={props.stockData.purchase_price || ''} step={0.1} handleInputChange={props.handleFormChange} error={purchasePriceError} validate={validatePurchasePrice} />
-        < FormInput label="Date of Purchase" name="date_purchased" type="date" value={props.stockData.date_purchased} handleInputChange={props.handleFormChange} error={datePurchasedError} validate={validateDateOfPurchase} />
+        < FormInput label="Code" name="code" type="string" value={props.stockData.code} onChange={props.handleFormChange} error={codeError} validate={validateCode} />
+        < FormInput label="Name" name="name" type="string" value={props.stockData.name} onChange={props.handleFormChange} error={nameError} validate={validateName} />
+        < FormInput label="Units" name="units" type="number" value={props.stockData.units || ''} step={1} onChange={props.handleFormChange} error={unitsError} validate={validateUnits} />
+        < FormInput label="Purchase Price" name="purchase_price" type="number" value={props.stockData.purchase_price || ''} step={0.1} onChange={props.handleFormChange} error={purchasePriceError} validate={validatePurchasePrice} />
+        < FormInput label="Date of Purchase" name="date_purchased" type="date" value={props.stockData.date_purchased} onChange={props.handleFormChange} error={datePurchasedError} validate={validateDateOfPurchase} />
 
         <input type="submit" className="form-button button-2" value="CREATE HOLDING"></input>
       </form >

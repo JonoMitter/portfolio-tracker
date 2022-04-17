@@ -5,10 +5,10 @@ import "../styles/Form.scss";
 interface Props {
     label: string,
     type: string,
-    name?: string,
+    name: string,
     value: string | number,
     step?: number,
-    handleInputChange(event: React.ChangeEvent<HTMLInputElement>): void,
+    onChange(event: React.ChangeEvent<HTMLInputElement>): void,
     validate(event: React.ChangeEvent<HTMLInputElement>): void,
     error?: FormError
 }
@@ -37,7 +37,7 @@ const FormPasswordInput = (props: Props) => {
     }, [errorEl, inputEl])
 
     function inputChange(event: React.ChangeEvent<HTMLInputElement>){
-        props.handleInputChange(event);
+        props.onChange(event);
         props.validate(event);
     }
 
