@@ -13,9 +13,8 @@ class StockData {
         this.name = "";
         this.units = 0;
         this.purchase_price = 0;
-        this.date_purchased = "";
+        this.date_purchased = new Date().toISOString().slice(0, 10);
     }
-
 }
 
 export default StockData;

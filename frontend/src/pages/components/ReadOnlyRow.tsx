@@ -19,7 +19,7 @@ const ReadOnlyRow = (props: Props) => {
             <td key={"6" + props.stock.id}>{props.stock.date_purchased.split('T')[0]}</td>
             <td key={"7" + props.stock.id} className="button-container">
                 <button type="button" className="button-1" onClick={(event) => props.handleEditClick(event.nativeEvent, props.stock)}>EDIT</button>
-                <button type="button" className="button-2" onClick={(event) => props.handleDeleteClick(event.nativeEvent, props.stock)}>DELETE</button>
+                <button type="button" className="delete-button" onClick={(event) => props.handleDeleteClick(event.nativeEvent, props.stock)}>DELETE</button>
             </td>
         </tr>
     );

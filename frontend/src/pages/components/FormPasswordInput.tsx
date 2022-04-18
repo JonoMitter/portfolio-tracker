@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Form.scss";
-import UserError from "../../responses/UserError";
+import UserError from "../../responses/FormError";
 
 import { ReactComponent as VISIBLE } from "../../assets/visibility_white_24dp.svg";
 import { ReactComponent as VISIBLE_OFF } from "../../assets/visibility_off_white_24dp.svg";

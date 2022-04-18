@@ -3,6 +3,7 @@
  */
 section {
   --error: rgb(255, 77, 77);
+  --delete: #f85149;
 }
 
 .form-outer {
@@ -16,7 +17,7 @@ section {
 
 .form-heading {
   text-align: center;
-  margin: 0 0 0.2em 0;
+  margin: 0 0 0.4em 0;
   font-size: 2em;
 }
 
@@ -130,33 +131,23 @@ label {
 }
 
 .create-form-inner {
-  border-radius: 20px;
-  padding: 5% 10%;
+  border-radius: 15px;
+  padding: 3.5% 7%;
   background-color: rgba(105, 105, 105, 0.144);
 }
 
 /* 
  *  Specific Button Classes
  */
-.login-button {
+ .button-1 {
   color: rgb(255, 255, 255);
   background: none;
   border: 3px solid var(--main);
+  cursor: pointer;
 }
 
-.login-button:hover {
+.button-1:hover {
   background-color: var(--main);
-  box-shadow: 0 0 5px var(--main);
-}
-
-.signup-button {
-  color: rgb(255, 255, 255);
-  border: 3px solid var(--main);
-  background-color: var(--main);
-}
-
-.signup-button:hover {
-  background-color: var(--main-darker);
   box-shadow: 0 0 5px var(--main);
 }
 
@@ -164,22 +155,27 @@ label {
   color: rgb(255, 255, 255);
   border: 3px solid var(--main);
   background-color: var(--main);
+  cursor: pointer;
 }
 
 .button-2:hover {
   background-color: var(--main-darker);
-  box-shadow: 0 0 5px var(--main);
+  border: 3px solid var(--main-darker);
+  box-shadow: 0 0 5px var(--main-darker);
 }
 
-.button-1 {
-  color: rgb(255, 255, 255);
-  background: none;
-  border: 3px solid var(--main);
+.delete-button {
+  background-color: #21262d;
+  border: 3px solid var(--error);
+  color: var(--error);
+  cursor: pointer;
 }
 
-.button-1:hover {
-  background-color: var(--main);
-  box-shadow: 0 0 5px var(--main);
+.delete-button:hover {
+  background-color: var(--error);
+  border: 3px solid var(--error);
+  color: white;
+  box-shadow: 0 0 5px var(--error);
 }
 
 /*  

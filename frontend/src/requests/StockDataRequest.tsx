@@ -11,7 +11,7 @@ class StockDataRequest {
         this.name = "";
         this.units = NaN;
         this.purchase_price = NaN;
-        this.date_purchased = "";
+        this.date_purchased = new Date().toISOString().slice(0, 10);
     }
 }
 
