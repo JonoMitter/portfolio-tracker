@@ -1,3 +1,4 @@
+import axios from "axios";
 import { SyntheticEvent, useEffect, useState } from "react";
 import StockDataRequest from "../../requests/StockDataRequest";
 import FormError from "../../responses/FormError";
@@ -6,9 +7,7 @@ import "../styles/Form.scss";
 import FormInput from "./FormInput";
 
 interface Props {
-  stockData: StockDataRequest,
-  handleFormChange(event: React.ChangeEvent<HTMLInputElement>): void,
-  handleCreateFormSubmit(event: SyntheticEvent): void,
+  refreshStockData(): void
 
   //TODO
   //send server errors to relevant FormInput
@@ -16,6 +15,7 @@ interface Props {
 }
 
 const CreateStockForm = (props: Props) => {
+  const [stockData, setCreateStockData] = useState(new StockDataRequest());
 
   //frontend/client errors
   const [codeError, setCodeError] = useState(new FormError());
@@ -28,7 +28,7 @@ const CreateStockForm = (props: Props) => {
   const [nameValid, setNameValid] = useState(false);
   const [unitsValid, setUnitsValid] = useState(false);
   const [purchasePriceValid, setPurchasePriceValid] = useState(false);
-  const [datePurchasedValid, setDatePurchasedValid] = useState(false);
+  const [datePurchasedValid, setDatePurchasedValid] = useState(true);
 
   useEffect(() => {
     if (props.serverErrors !== undefined) {
@@ -62,6 +62,82 @@ const CreateStockForm = (props: Props) => {
     }
   }, [props.serverErrors])
 
+  function handleCreateFormSubmit(event: SyntheticEvent) {
+    event.preventDefault();
+
+    if (allValid()) {
+      axios({
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        url: "http://localhost:5000/api/Stock/create",
+        withCredentials: true,
+        data: JSON.stringify(stockData)
+
+      }).then((res) => {
+        setCreateStockData(new StockDataRequest());
+        props.refreshStockData();
+
+      }).catch((error) => {
+        if (error.response.data) {
+          console.log(`[handleCreateFormSubmit] Error\n${error.response.data}`);
+        }
+        else {
+          console.log(`[handleCreateFormSubmit] Unknown Error\n${error.response}`);
+        }
+      })
+    }
+    else {
+      //display error to prevent submit
+      console.log("[CreateStockForm] Unable to submit, at least one value is invalid");
+    }
+  }
+
+  function onChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setCreateStockData(extractStockDataRequest(event, stockData));
+    console.log(`[CreateForm change] code: ${stockData.code}, name: ${stockData.name}, units: ${stockData.units}, purchase_price: ${stockData.purchase_price}, date_purchased: ${stockData.date_purchased}`)
+  }
+
+  function extractStockDataRequest(event: React.ChangeEvent<HTMLInputElement>, stockData: StockDataRequest) {
+    event.preventDefault();
+
+    let tempStockData: StockDataRequest = { ...stockData };
+    let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
+    let targetValue = event.target.value;
+
+    setProperty(tempStockData, targetName, targetValue);
+
+    return tempStockData;
+  }
+
+  function setProperty<T, K extends keyof T>(object: T, attribute: K, value: T[K]) {
+    object[attribute] = value
+  }
+
+  function onCodeChange(event: React.ChangeEvent<HTMLInputElement>) {
+    onChange(event);
+    validateCode(event);
+  }
+
+  function onNameChange(event: React.ChangeEvent<HTMLInputElement>) {
+    onChange(event);
+    validateName(event);
+  }
+
+  function onUnitsChange(event: React.ChangeEvent<HTMLInputElement>) {
+    onChange(event);
+    validateUnits(event);
+  }
+
+  function onPurchasePriceChange(event: React.ChangeEvent<HTMLInputElement>) {
+    onChange(event);
+    validatePurchasePrice(event);
+  }
+
+  function onDateOfPurchaseChange(event: React.ChangeEvent<HTMLInputElement>) {
+    onChange(event);
+    validateDateOfPurchase(event);
+  }
+
   function allValid(): boolean {
     return codeValid && nameValid && unitsValid && purchasePriceValid && datePurchasedValid;
   }
@@ -69,14 +145,14 @@ const CreateStockForm = (props: Props) => {
   function validateCode(e: React.ChangeEvent<HTMLInputElement>): void {
     let input = e.target.value;
 
-    if (input.length >= 3 && input.length <= 5) {
+    if (input.length >= 3 && input.length <= 6) {
       setCodeError(new FormError());
       setCodeValid(true);
     }
     else {
       let error = new FormError();
       error.field = "code";
-      error.message = "Code must be between 3 and 5 characters";
+      error.message = "Code must be between 3 and 6 characters";
       setCodeError(error);
       setCodeValid(false);
     }
@@ -148,14 +224,14 @@ const CreateStockForm = (props: Props) => {
 
   return (
     <div className="create-form-container">
-      <form onSubmit={props.handleCreateFormSubmit} className="create-form-inner">
+      <form onSubmit={handleCreateFormSubmit} className="create-form-inner">
         <h4 className="form-heading">Add New Stock</h4>
 
-        < FormInput label="Code" name="code" type="string" value={props.stockData.code} onChange={props.handleFormChange} error={codeError} validate={validateCode} />
-        < FormInput label="Name" name="name" type="string" value={props.stockData.name} onChange={props.handleFormChange} error={nameError} validate={validateName} />
-        < FormInput label="Units" name="units" type="number" value={props.stockData.units || ''} step={1} onChange={props.handleFormChange} error={unitsError} validate={validateUnits} />
-        < FormInput label="Purchase Price" name="purchase_price" type="number" value={props.stockData.purchase_price || ''} step={0.1} onChange={props.handleFormChange} error={purchasePriceError} validate={validatePurchasePrice} />
-        < FormInput label="Date of Purchase" name="date_purchased" type="date" value={props.stockData.date_purchased} onChange={props.handleFormChange} error={datePurchasedError} validate={validateDateOfPurchase} />
+        < FormInput label="Code" name="code" type="string" value={stockData.code} onChange={onCodeChange} error={codeError} />
+        < FormInput label="Name" name="name" type="string" value={stockData.name} onChange={onNameChange} error={nameError} />
+        < FormInput label="Units" name="units" type="number" value={stockData.units || ''} step={1} onChange={onUnitsChange} error={unitsError} />
+        < FormInput label="Purchase Price" name="purchase_price" type="number" value={stockData.purchase_price || ''} step={0.1} onChange={onPurchasePriceChange} error={purchasePriceError} />
+        < FormInput label="Date of Purchase" name="date_purchased" type="date" value={stockData.date_purchased} onChange={onDateOfPurchaseChange} error={datePurchasedError} />
 
         <input type="submit" className="form-button button-2" value="CREATE HOLDING"></input>
       </form >

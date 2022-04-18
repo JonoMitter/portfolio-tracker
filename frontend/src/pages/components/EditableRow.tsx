@@ -1,11 +1,10 @@
 import { ChangeEvent } from "react";
-import StockDataRequest from "../../requests/StockDataRequest";
 import StockData from "../../responses/StockData";
 import "../styles/Navbar.scss";
 
 interface Props {
     stock: StockData,
-    editStockData: StockDataRequest,
+    editStockData: StockData,
     handleEditFormChange(event: ChangeEvent<HTMLInputElement>): void,
     handleCancelClick(): void
 }
