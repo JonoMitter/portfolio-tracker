@@ -14,8 +14,8 @@ const ReadOnlyRow = (props: Props) => {
             <td key={"1" + props.stock.id}>{props.stock.id}</td>
             <td key={"2" + props.stock.id}>{props.stock.code}</td>
             <td key={"3" + props.stock.id}>{props.stock.name}</td>
-            <td key={"4" + props.stock.id} className="number">{props.stock.units}</td>
-            <td key={"5" + props.stock.id} className="number">{props.stock.purchase_price !== null ? props.stock.purchase_price.toFixed(2) : 0.00}</td>
+            <td key={"4" + props.stock.id} className="number">{props.stock.units !== null ? props.stock.units : 0.00}</td>
+            <td key={"5" + props.stock.id} className="number">{props.stock.purchase_price !== null ? props.stock.purchase_price : 0.00}</td>
             <td key={"6" + props.stock.id}>{props.stock.date_purchased.split('T')[0]}</td>
             <td key={"7" + props.stock.id} className="button-container">
                 <button type="button" className="button-1" onClick={(event) => props.handleEditClick(event.nativeEvent, props.stock)}>EDIT</button>
