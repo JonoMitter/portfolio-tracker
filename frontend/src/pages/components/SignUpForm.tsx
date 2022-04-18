@@ -4,8 +4,8 @@ import { Link, Redirect } from "react-router-dom";
 import "../styles/Form.scss";
 
 import FormPasswordInput from "./FormPasswordInput";
-import UserErrorResponse from "../../responses/UserErrorResponse";
-import UserError from "../../responses/UserError";
+import UserErrorResponse from "../../responses/FormErrorResponse";
+import UserError from "../../responses/FormError";
 
 const SignUpForm = () => {
   const [redirect, setRedirect] = useState(false);
@@ -287,7 +287,7 @@ const SignUpForm = () => {
         <FormPasswordInput label="Password" setValue={setPassword} clientErrorDetails={passwordErrors} />
         <FormPasswordInput label="Confirm Password" setValue={setPasswordConfirm} clientErrorDetails={passwordConfirmErrors} />
 
-        <button type="submit" className="form-button signup-button">SIGN UP</button>
+        <button type="submit" className="form-button button-2">SIGN UP</button>
       </form>
 
       <div className="form-redirect">

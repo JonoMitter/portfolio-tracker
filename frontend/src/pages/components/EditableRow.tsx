@@ -1,11 +1,10 @@
 import { ChangeEvent } from "react";
-import StockDataRequest from "../../requests/StockDataRequest";
 import StockData from "../../responses/StockData";
 import "../styles/Navbar.scss";
 
 interface Props {
     stock: StockData,
-    editStockData: StockDataRequest,
+    editStockData: StockData,
     handleEditFormChange(event: ChangeEvent<HTMLInputElement>): void,
     handleCancelClick(): void
 }
@@ -41,7 +40,7 @@ const EditableRow = (props: Props) => {
                 <input
                     type="number"
                     min="1"
-                    step="1"
+                    step="0.01"
                     required
                     name="units"
                     value={props.editStockData.units}

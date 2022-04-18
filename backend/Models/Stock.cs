@@ -9,7 +9,7 @@ namespace backend.Models
         public Guid id { get; set; }
         public string code { get; set; }
         public string name { get; set; }
-        public int units { get; set; }
+        public float units { get; set; }
         public float purchase_price { get; set; }
 
         [Column(TypeName = "DateTime")]

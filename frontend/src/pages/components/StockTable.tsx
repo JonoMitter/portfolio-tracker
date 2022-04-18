@@ -2,7 +2,6 @@ import React, { SyntheticEvent, useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import "../styles/Table.scss";
 import StockData from "../../responses/StockData";
-import StockDataRequest from "../../requests/StockDataRequest";
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
 import CreateStockForm from "./CreateStockForm";
@@ -11,14 +10,11 @@ const StockTable = () => {
 
   const [stockDataResponse, setStockDataResponse] = useState([new StockData()]);
 
-  const [addStockData, setAddStockData] = useState(new StockDataRequest());
-
   const [editStockData, setEditStockData] = useState(new StockData());
 
   const [editStockId, setEditStockId] = useState('');
 
   useEffect(() => {
-
     getStockData();
 
     return () => {
@@ -26,7 +22,7 @@ const StockTable = () => {
     }
   }, [setStockDataResponse])
 
-  function getStockData() {
+  function getStockData(): void {
     axios({
       method: "get",
       headers: { "Content-Type": "application/json" },
@@ -52,75 +48,17 @@ const StockTable = () => {
     event.preventDefault();
 
     let tempStockData: StockData = { ...stockData };
-    let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
+    let targetName = event.target.getAttribute("name") as keyof StockData;
     let targetValue = event.target.value;
 
     setProperty(tempStockData, targetName, targetValue);
 
     return tempStockData;
-  }
-
-  //TODO
-  //Try merge this function with extractStockData to work for both StockData and StockDataRequest types
-  function extractStockDataRequest(event: React.ChangeEvent<HTMLInputElement>, stockData: StockDataRequest) {
-    event.preventDefault();
-
-    let tempStockData: StockDataRequest = { ...stockData };
-    let targetName = event.target.getAttribute("name") as keyof StockDataRequest;
-    let targetValue = event.target.value;
-
-    setProperty(tempStockData, targetName, targetValue);
-
-    return tempStockData;
-  }
-
-  function handleCreateFormChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const stockData = extractStockDataRequest(event, addStockData)
-    console.log(`[CreateForm change] code: ${stockData.code}, name: ${stockData.name}, units: ${stockData.units}, purchase_price: ${stockData.purchase_price}, date_purchased: ${stockData.date_purchased}`)
-    setAddStockData(stockData);
   }
 
   function handleEditFormChange(event: React.ChangeEvent<HTMLInputElement>) {
     const editedStock = extractStockData(event, editStockData);
     setEditStockData(editedStock);
-  }
-
-  function handleCreateFormSubmit(event: SyntheticEvent) {
-    event.preventDefault();
-
-    //TODO
-    //check valid inputs
-    //!isNaN(addStockData.units);
-    // units > 0
-    //!isNaN(addStockData.purchase_price);
-    // purchase_price > 0
-
-    axios({
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      url: "http://localhost:5000/api/Stock/create",
-      withCredentials: true,
-      /*
-       *   "code" : newStock.code,
-       *   "name" : newStock.name,
-       *   "units" : newStock.units,
-       *   "purchase_price" : newStock.purchase_price
-       */
-      data: JSON.stringify(addStockData)
-
-    }).then((res) => {
-      console.log("[handleCreateFormSubmit()] " + res.data);
-      setAddStockData(new StockDataRequest());
-      getStockData();
-
-    }).catch((error) => {
-      if (error.response.data) {
-        console.log(`[handleCreateFormSubmit] Error\n${error.response.data}`)
-      }
-      else {
-        console.log(`[handleCreateFormSubmit] Unknown Error\n${error.response}`);
-      }
-    })
   }
 
   const handleEditFormSubmit = (event: SyntheticEvent) => {
@@ -196,11 +134,11 @@ const StockTable = () => {
 
   return (
     <div>
-      <h3>Your Stocks:</h3>
+      <h3>Stocks</h3>
       <form onSubmit={handleEditFormSubmit}>
         <table>
           <thead>
-            <tr>
+            {stockDataResponse.length > 0 ? <tr>
               <th>Id</th>
               <th>Code</th>
               <th>Name</th>
@@ -208,7 +146,7 @@ const StockTable = () => {
               <th>Purchase Price</th>
               <th>Date Purchased</th>
               <th><i>Actions</i></th>
-            </tr>
+            </tr> : ""}
           </thead>
           {/* TODO somehow need to check if there are multiple entries of one type of stock... */}
           {/* i.e if two ABC entries, they should be combined into one with the average price displayed, click on row to show all transactions */}
@@ -225,8 +163,8 @@ const StockTable = () => {
           </tbody>
         </table>
       </form>
-
-      <CreateStockForm addStockData={addStockData} handleFormChange={handleCreateFormChange} handleCreateFormSubmit={handleCreateFormSubmit} />
+      
+      <CreateStockForm refreshStockData={getStockData} />
     </div>
   );
 }

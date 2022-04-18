@@ -112,7 +112,7 @@ namespace backend.Services
 
         private Boolean ValidateStockCode(String code)
         {
-            if (code.Length >= 3 && code.Length <= 5)
+            if (code.Length >= 3 && code.Length <= 6)
             {
                 // Console.WriteLine("Code: PASS");
                 return true;
@@ -139,7 +139,7 @@ namespace backend.Services
             }
         }
 
-        private Boolean ValidateStockUnits(int units)
+        private Boolean ValidateStockUnits(float units)
         {
             // cannot have 0 units
             if (units > 0)
