@@ -40,7 +40,7 @@ const EditableRow = (props: Props) => {
                 <input
                     type="number"
                     min="1"
-                    step="1"
+                    step="0.01"
                     required
                     name="units"
                     value={props.editStockData.units}

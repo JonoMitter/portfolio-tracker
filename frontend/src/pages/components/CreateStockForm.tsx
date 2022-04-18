@@ -229,7 +229,7 @@ const CreateStockForm = (props: Props) => {
 
         < FormInput label="Code" name="code" type="string" value={stockData.code} onChange={onCodeChange} error={codeError} />
         < FormInput label="Name" name="name" type="string" value={stockData.name} onChange={onNameChange} error={nameError} />
-        < FormInput label="Units" name="units" type="number" value={stockData.units || ''} step={1} onChange={onUnitsChange} error={unitsError} />
+        < FormInput label="Units" name="units" type="number" value={stockData.units || ''} step={0.1} onChange={onUnitsChange} error={unitsError} />
         < FormInput label="Purchase Price" name="purchase_price" type="number" value={stockData.purchase_price || ''} step={0.1} onChange={onPurchasePriceChange} error={purchasePriceError} />
         < FormInput label="Date of Purchase" name="date_purchased" type="date" value={stockData.date_purchased} onChange={onDateOfPurchaseChange} error={datePurchasedError} />
 
