@@ -3,6 +3,7 @@
  */
 section {
   --error: rgb(255, 77, 77);
+  --delete: #f85149;
 }
 
 .form-outer {
@@ -142,6 +143,7 @@ label {
   color: rgb(255, 255, 255);
   background: none;
   border: 3px solid var(--main);
+  cursor: pointer;
 }
 
 .button-1:hover {
@@ -153,12 +155,27 @@ label {
   color: rgb(255, 255, 255);
   border: 3px solid var(--main);
   background-color: var(--main);
+  cursor: pointer;
 }
 
 .button-2:hover {
   background-color: var(--main-darker);
   border: 3px solid var(--main-darker);
   box-shadow: 0 0 5px var(--main-darker);
+}
+
+.delete-button {
+  background-color: #21262d;
+  border: 3px solid var(--error);
+  color: var(--error);
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: var(--error);
+  border: 3px solid var(--error);
+  color: white;
+  box-shadow: 0 0 5px var(--error);
 }
 
 /*  
